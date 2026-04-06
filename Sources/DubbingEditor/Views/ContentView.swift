@@ -1599,7 +1599,7 @@ struct ContentView: View {
 
             if model.isTimecodeModeEnabled {
                 let pressed = event.modifierFlags.intersection([.command, .option, .control, .shift])
-                if pressed.isEmpty, (event.keyCode == 36 || event.keyCode == 76) {
+                if pressed.isEmpty, !isTextInputFocused(), (event.keyCode == 36 || event.keyCode == 76) {
                     model.moveSelection(step: 1)
                     scrollToSelectedLine()
                     return nil
