@@ -67,19 +67,19 @@ enum ChannelDerivedAudioService {
         var errorDescription: String? {
             switch self {
             case .missingVideoAudioTrack:
-                return String(localized: "error.channel.missing_audio_track")
+                return String(localized: "error.channel.missing_audio_track", bundle: .appBundle)
             case .unsupportedChannelIsolation(let channelCount):
-                return String(format: String(localized: "error.channel.unsupported_isolation"), channelCount)
+                return String(format: String(localized: "error.channel.unsupported_isolation", bundle: .appBundle), channelCount)
             case .cannotCreateAudioReader:
-                return String(localized: "error.channel.cannot_create_reader")
+                return String(localized: "error.channel.cannot_create_reader", bundle: .appBundle)
             case .cannotCreateCacheDirectory:
-                return String(localized: "error.channel.cannot_create_cache_dir")
+                return String(localized: "error.channel.cannot_create_cache_dir", bundle: .appBundle)
             case .cannotCreateOutputFile:
-                return String(localized: "error.channel.cannot_create_output_file")
+                return String(localized: "error.channel.cannot_create_output_file", bundle: .appBundle)
             case .audioReadFailed(let reason):
-                return String(format: String(localized: "error.channel.read_failed"), reason)
+                return String(format: String(localized: "error.channel.read_failed", bundle: .appBundle), reason)
             case .emptyDerivedAudio:
-                return String(localized: "error.channel.empty_derived_audio")
+                return String(localized: "error.channel.empty_derived_audio", bundle: .appBundle)
             }
         }
     }

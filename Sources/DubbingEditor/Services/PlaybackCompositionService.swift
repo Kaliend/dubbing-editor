@@ -29,11 +29,11 @@ enum PlaybackCompositionService {
         var errorDescription: String? {
             switch self {
             case .missingVideoTrack:
-                return String(localized: "error.composition.missing_video_track")
+                return String(localized: "error.composition.missing_video_track", bundle: .appBundle)
             case .missingVideoAudioTrack:
-                return String(localized: "error.composition.missing_video_audio_track")
+                return String(localized: "error.composition.missing_video_audio_track", bundle: .appBundle)
             case .missingExternalAudioTrack:
-                return String(localized: "error.composition.missing_external_audio_track")
+                return String(localized: "error.composition.missing_external_audio_track", bundle: .appBundle)
             }
         }
     }

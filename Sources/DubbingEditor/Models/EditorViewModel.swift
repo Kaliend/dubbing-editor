@@ -545,12 +545,12 @@ final class EditorViewModel: ObservableObject {
                     self.scheduleAutosave()
 
                     let convertedPrefix = result.convertedFromLegacyDoc
-                        ? String(localized: "alert.doc_converted_prefix")
+                        ? String(localized: "alert.doc_converted_prefix", bundle: .appBundle)
                         : ""
                     let skippedInfo = result.skippedRowCount > 0
-                        ? String(format: String(localized: "alert.import_skipped_rows"), result.skippedRowCount)
+                        ? String(format: String(localized: "alert.import_skipped_rows", bundle: .appBundle), result.skippedRowCount)
                         : ""
-                    self.alertMessage = convertedPrefix + String(format: String(localized: "alert.import_done"), result.detectedFormat.displayName, result.lines.count) + skippedInfo
+                    self.alertMessage = convertedPrefix + String(format: String(localized: "alert.import_done", bundle: .appBundle), result.detectedFormat.displayName, result.lines.count) + skippedInfo
                 }
             } catch is CancellationError {
                 await MainActor.run { [weak self] in
@@ -560,7 +560,7 @@ final class EditorViewModel: ObservableObject {
                 await MainActor.run { [weak self] in
                     guard let self else { return }
                     self.isImportingWord = false
-                    self.alertMessage = String(format: String(localized: "alert.import_word_failed"), error.localizedDescription)
+                    self.alertMessage = String(format: String(localized: "alert.import_word_failed", bundle: .appBundle), error.localizedDescription)
                 }
             }
         }
@@ -575,7 +575,7 @@ final class EditorViewModel: ObservableObject {
 
     func importExternalAudio(from url: URL) {
         guard let videoURL else {
-            alertMessage = String(localized: "alert.video_required")
+            alertMessage = String(localized: "alert.video_required", bundle: .appBundle)
             return
         }
 
@@ -585,7 +585,7 @@ final class EditorViewModel: ObservableObject {
             preserveCurrentPlaybackPosition: true,
             queueWaveformRebuild: true,
             fallbackWithoutExternalAudio: false,
-            alertPrefix: String(localized: "alert.external_audio_import_failed")
+            alertPrefix: String(localized: "alert.external_audio_import_failed", bundle: .appBundle)
         )
         currentProjectURL = nil
         markProjectDirty()
@@ -630,7 +630,7 @@ final class EditorViewModel: ObservableObject {
                 }
                 self.pendingAutosaveRecovery = snapshot
             } catch {
-                self.alertMessage = String(format: String(localized: "alert.autosave_load_failed"), error.localizedDescription)
+                self.alertMessage = String(format: String(localized: "alert.autosave_load_failed", bundle: .appBundle), error.localizedDescription)
             }
         }
     }
@@ -687,7 +687,7 @@ final class EditorViewModel: ObservableObject {
             preserveCurrentPlaybackPosition: false,
             queueWaveformRebuild: true,
             fallbackWithoutExternalAudio: false,
-            alertPrefix: String(localized: "alert.video_import_failed")
+            alertPrefix: String(localized: "alert.video_import_failed", bundle: .appBundle)
         )
     }
 
@@ -1059,7 +1059,7 @@ final class EditorViewModel: ObservableObject {
                 throw error
             }
             await MainActor.run { [weak self] in
-                self?.alertMessage = String(localized: "alert.external_audio_fallback")
+                self?.alertMessage = String(localized: "alert.external_audio_fallback", bundle: .appBundle)
             }
             return try await PlaybackCompositionService.buildPlayerItem(
                 videoURL: videoURL,
@@ -1179,7 +1179,7 @@ final class EditorViewModel: ObservableObject {
 
     func rebuildWaveformForCurrentVideo() {
         guard let videoURL else {
-            alertMessage = String(localized: "alert.video_required")
+            alertMessage = String(localized: "alert.video_required", bundle: .appBundle)
             return
         }
         queueWaveformBuild(for: videoURL, externalAudioURL: sourceExternalAudioURL, forceRebuild: true)
@@ -1187,7 +1187,7 @@ final class EditorViewModel: ObservableObject {
 
     func deleteWaveformCacheForCurrentVideo() {
         guard let videoURL else {
-            alertMessage = String(localized: "alert.video_required")
+            alertMessage = String(localized: "alert.video_required", bundle: .appBundle)
             return
         }
 
@@ -1198,7 +1198,7 @@ final class EditorViewModel: ObservableObject {
             }
             refreshWaveformCacheMetadata(for: videoURL, externalAudioURL: sourceExternalAudioURL)
         } catch {
-            alertMessage = String(format: String(localized: "alert.waveform_cache_delete_failed"), error.localizedDescription)
+            alertMessage = String(format: String(localized: "alert.waveform_cache_delete_failed", bundle: .appBundle), error.localizedDescription)
         }
     }
 
@@ -2080,7 +2080,7 @@ final class EditorViewModel: ObservableObject {
 
     func requestExportDocxFlow() {
         guard !lines.isEmpty else {
-            alertMessage = String(localized: "alert.nothing_to_export_no_lines")
+            alertMessage = String(localized: "alert.nothing_to_export_no_lines", bundle: .appBundle)
             return
         }
 
@@ -2089,7 +2089,7 @@ final class EditorViewModel: ObservableObject {
         }
         let draft = WordExportPipelineService().buildDraft(from: lines, options: options, fps: fps)
         guard !draft.rows.isEmpty else {
-            alertMessage = String(localized: "alert.nothing_to_export_empty_lines")
+            alertMessage = String(localized: "alert.nothing_to_export_empty_lines", bundle: .appBundle)
             return
         }
 
@@ -2104,9 +2104,9 @@ final class EditorViewModel: ObservableObject {
 
         do {
             try WordExportService().exportDocx(draft: draft, to: url)
-            alertMessage = String(format: String(localized: "alert.export_docx_done"), draft.profile.displayName, draft.rows.count)
+            alertMessage = String(format: String(localized: "alert.export_docx_done", bundle: .appBundle), draft.profile.displayName, draft.rows.count)
         } catch {
-            alertMessage = String(format: String(localized: "alert.export_docx_failed"), error.localizedDescription)
+            alertMessage = String(format: String(localized: "alert.export_docx_failed", bundle: .appBundle), error.localizedDescription)
         }
     }
 
@@ -2294,7 +2294,7 @@ final class EditorViewModel: ObservableObject {
             try FileManager.default.createDirectory(at: rootURL, withIntermediateDirectories: true, attributes: nil)
             NSWorkspace.shared.open(rootURL)
         } catch {
-            alertMessage = String(format: String(localized: "alert.open_report_folder_failed"), error.localizedDescription)
+            alertMessage = String(format: String(localized: "alert.open_report_folder_failed", bundle: .appBundle), error.localizedDescription)
         }
     }
 
@@ -2305,7 +2305,7 @@ final class EditorViewModel: ObservableObject {
             )
             NSWorkspace.shared.open(dashboardURL)
         } catch {
-            alertMessage = String(format: String(localized: "alert.open_bug_dashboard_failed"), error.localizedDescription)
+            alertMessage = String(format: String(localized: "alert.open_bug_dashboard_failed", bundle: .appBundle), error.localizedDescription)
         }
     }
 
@@ -2361,7 +2361,7 @@ final class EditorViewModel: ObservableObject {
                 await MainActor.run { [weak self] in
                     guard let self else { return }
                     guard self.activeProjectOperationID == operationID else { return }
-                    self.alertMessage = String(format: String(localized: "alert.save_project_failed"), error.localizedDescription)
+                    self.alertMessage = String(format: String(localized: "alert.save_project_failed", bundle: .appBundle), error.localizedDescription)
                 }
             }
         }
@@ -2388,7 +2388,7 @@ final class EditorViewModel: ObservableObject {
                 await MainActor.run { [weak self] in
                     guard let self else { return }
                     guard self.activeProjectOperationID == operationID else { return }
-                    self.alertMessage = String(format: String(localized: "alert.open_project_failed"), error.localizedDescription)
+                    self.alertMessage = String(format: String(localized: "alert.open_project_failed", bundle: .appBundle), error.localizedDescription)
                 }
             }
         }
@@ -2424,7 +2424,7 @@ final class EditorViewModel: ObservableObject {
 
     func promptImportExternalAudio() {
         guard videoURL != nil else {
-            alertMessage = String(localized: "alert.video_required")
+            alertMessage = String(localized: "alert.video_required", bundle: .appBundle)
             return
         }
 
@@ -2459,7 +2459,7 @@ final class EditorViewModel: ObservableObject {
         let canonical = url.standardizedFileURL
         guard FileManager.default.fileExists(atPath: canonical.path) else {
             removeRecentProjectURL(canonical)
-            alertMessage = String(format: String(localized: "alert.project_not_found"), canonical.path)
+            alertMessage = String(format: String(localized: "alert.project_not_found", bundle: .appBundle), canonical.path)
             return
         }
         openProject(from: canonical)
@@ -2492,12 +2492,12 @@ final class EditorViewModel: ObservableObject {
         let body = lines.joined(separator: "\n")
         do {
             guard let data = body.data(using: .utf8) else {
-                alertMessage = String(localized: "alert.csv_prepare_failed")
+                alertMessage = String(localized: "alert.csv_prepare_failed", bundle: .appBundle)
                 return
             }
             try data.write(to: destinationURL, options: .atomic)
         } catch {
-            alertMessage = String(format: String(localized: "alert.csv_export_failed"), error.localizedDescription)
+            alertMessage = String(format: String(localized: "alert.csv_export_failed", bundle: .appBundle), error.localizedDescription)
         }
     }
 
@@ -2530,7 +2530,7 @@ final class EditorViewModel: ObservableObject {
         }
 
         guard let offset = TimecodeService.offsetSeconds(from: rawValue, fps: fps) else {
-            alertMessage = String(localized: "alert.invalid_offset")
+            alertMessage = String(localized: "alert.invalid_offset", bundle: .appBundle)
             return
         }
 
@@ -2560,7 +2560,7 @@ final class EditorViewModel: ObservableObject {
         }
 
         if changedCount == 0 {
-            alertMessage = String(localized: "alert.offset_no_timecodes")
+            alertMessage = String(localized: "alert.offset_no_timecodes", bundle: .appBundle)
         }
     }
 
@@ -2572,7 +2572,7 @@ final class EditorViewModel: ObservableObject {
         }
 
         guard let offset = TimecodeService.offsetSeconds(from: trimmed, fps: fps) else {
-            alertMessage = String(localized: "alert.invalid_video_offset")
+            alertMessage = String(localized: "alert.invalid_video_offset", bundle: .appBundle)
             return
         }
 
@@ -3299,7 +3299,7 @@ final class EditorViewModel: ObservableObject {
             preserveCurrentPlaybackPosition: true,
             queueWaveformRebuild: false,
             fallbackWithoutExternalAudio: true,
-            alertPrefix: String(localized: "alert.channel_switch_failed"),
+            alertPrefix: String(localized: "alert.channel_switch_failed", bundle: .appBundle),
             tracksChannelPreparationState: true,
             onFailure: { [weak self] in
                 guard let self else { return }
@@ -3326,7 +3326,7 @@ final class EditorViewModel: ObservableObject {
             let targetIndex = indexOfLine(withID: targetID),
             let startTimelineSeconds = TimecodeService.seconds(from: lines[targetIndex].startTimecode, fps: fps)
         else {
-            alertMessage = String(localized: "alert.loop_no_active_line")
+            alertMessage = String(localized: "alert.loop_no_active_line", bundle: .appBundle)
             return
         }
         let startPlaybackSeconds = playbackSeconds(fromTimelineSeconds: startTimelineSeconds)
@@ -3361,13 +3361,13 @@ final class EditorViewModel: ObservableObject {
         }
 
         guard highlightedLineID != nil else {
-            alertMessage = String(localized: "alert.loop_no_line_selected")
+            alertMessage = String(localized: "alert.loop_no_line_selected", bundle: .appBundle)
             isLoopEnabled = false
             return
         }
 
         guard let range = currentLoopRange() else {
-            alertMessage = String(localized: "alert.loop_invalid_start_tc")
+            alertMessage = String(localized: "alert.loop_invalid_start_tc", bundle: .appBundle)
             isLoopEnabled = false
             return
         }
@@ -3886,7 +3886,7 @@ final class EditorViewModel: ObservableObject {
                     if FileManager.default.fileExists(atPath: restoredExternalAudioURL.path) {
                         externalAudioURL = restoredExternalAudioURL
                     } else {
-                        alertMessage = String(localized: "alert.external_audio_restored_without_file")
+                        alertMessage = String(localized: "alert.external_audio_restored_without_file", bundle: .appBundle)
                         externalAudioURL = nil
                     }
                 } else {
@@ -3896,13 +3896,14 @@ final class EditorViewModel: ObservableObject {
                 rebuildPlaybackSource(
                     videoURL: restoredVideoURL,
                     externalAudioURL: externalAudioURL,
+                    videoAudioVariant: .stereo,
                     preserveCurrentPlaybackPosition: false,
                     queueWaveformRebuild: true,
                     fallbackWithoutExternalAudio: true,
-                    alertPrefix: String(localized: "alert.project_opened_playback_failed")
+                    alertPrefix: String(localized: "alert.project_opened_playback_failed", bundle: .appBundle)
                 )
             } else {
-                resetPlaybackState(alertMessage: String(localized: "alert.project_opened_video_missing"))
+                resetPlaybackState(alertMessage: String(localized: "alert.project_opened_video_missing", bundle: .appBundle))
             }
         } else {
             resetPlaybackState()
@@ -3958,7 +3959,7 @@ final class EditorViewModel: ObservableObject {
                     if FileManager.default.fileExists(atPath: restoredExternalAudioURL.path) {
                         externalAudioURL = restoredExternalAudioURL
                     } else {
-                        alertMessage = String(localized: "alert.autosave_restored_without_external")
+                        alertMessage = String(localized: "alert.autosave_restored_without_external", bundle: .appBundle)
                         externalAudioURL = nil
                     }
                 } else {
@@ -3968,13 +3969,14 @@ final class EditorViewModel: ObservableObject {
                 rebuildPlaybackSource(
                     videoURL: restoredVideoURL,
                     externalAudioURL: externalAudioURL,
+                    videoAudioVariant: .stereo,
                     preserveCurrentPlaybackPosition: false,
                     queueWaveformRebuild: true,
                     fallbackWithoutExternalAudio: true,
-                    alertPrefix: String(localized: "alert.autosave_restored_playback_failed")
+                    alertPrefix: String(localized: "alert.autosave_restored_playback_failed", bundle: .appBundle)
                 )
             } else {
-                resetPlaybackState(alertMessage: String(localized: "alert.autosave_restored_video_missing"))
+                resetPlaybackState(alertMessage: String(localized: "alert.autosave_restored_video_missing", bundle: .appBundle))
             }
         } else {
             resetPlaybackState()
@@ -4024,7 +4026,7 @@ final class EditorViewModel: ObservableObject {
             lastAutosavedRevision = autosaveRevision
             lastAutosaveDate = snapshot.savedAt
         } catch {
-            alertMessage = String(format: String(localized: "alert.autosave_failed"), error.localizedDescription)
+            alertMessage = String(format: String(localized: "alert.autosave_failed", bundle: .appBundle), error.localizedDescription)
         }
     }
 
