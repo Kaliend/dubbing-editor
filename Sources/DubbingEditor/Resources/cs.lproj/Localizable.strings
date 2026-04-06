@@ -110,7 +110,6 @@
 "alert.video_import_failed" = "Import videa selhal";
 "alert.external_audio_import_failed" = "Import externího audia selhal";
 "alert.channel_switch_failed" = "Přepnutí audio kanálů selhalo";
-"alert.project_opened_video_missing" = "Projekt byl otevřen, ale video soubor už na disku neexistuje.";
 
 /* Import – prefixes a části */
 "alert.doc_converted_prefix" = "Soubor .doc byl převeden na docx. ";

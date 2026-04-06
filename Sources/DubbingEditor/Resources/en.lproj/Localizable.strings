@@ -110,7 +110,6 @@
 "alert.video_import_failed" = "Video import failed";
 "alert.external_audio_import_failed" = "External audio import failed";
 "alert.channel_switch_failed" = "Audio channel switch failed";
-"alert.project_opened_video_missing" = "Project opened, but the video file no longer exists on disk.";
 
 /* Import – prefixes and parts */
 "alert.doc_converted_prefix" = "File .doc was converted to docx. ";
