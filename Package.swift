@@ -3,6 +3,7 @@ import PackageDescription
 
 let package = Package(
     name: "DubbingEditor",
+    defaultLocalization: "cs",
     platforms: [
         .macOS(.v13)
     ],
@@ -15,7 +16,8 @@ let package = Package(
     targets: [
         .executableTarget(
             name: "DubbingEditor",
-            path: "Sources/DubbingEditor"
+            path: "Sources/DubbingEditor",
+            resources: [.process("Resources")]
         ),
         .testTarget(
             name: "DubbingEditorTests",

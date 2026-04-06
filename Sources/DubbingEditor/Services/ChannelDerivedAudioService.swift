@@ -67,19 +67,19 @@ enum ChannelDerivedAudioService {
         var errorDescription: String? {
             switch self {
             case .missingVideoAudioTrack:
-                return "Video neobsahuje zadnou audio stopu pro kanalovou izolaci."
+                return String(localized: "error.channel.missing_audio_track")
             case .unsupportedChannelIsolation(let channelCount):
-                return "Kanalova izolace L/R vyzaduje alespon 2 kanaly. Zdroj ma \(channelCount)."
+                return String(format: String(localized: "error.channel.unsupported_isolation"), channelCount)
             case .cannotCreateAudioReader:
-                return "Nepodarilo se pripravit cteni video audia pro kanalovy stem."
+                return String(localized: "error.channel.cannot_create_reader")
             case .cannotCreateCacheDirectory:
-                return "Nepodarilo se pripravit lokalni cache pro kanalove stems."
+                return String(localized: "error.channel.cannot_create_cache_dir")
             case .cannotCreateOutputFile:
-                return "Nepodarilo se vytvorit vystupni audio soubor pro kanalovy stem."
+                return String(localized: "error.channel.cannot_create_output_file")
             case .audioReadFailed(let reason):
-                return "Generovani kanaloveho stemu selhalo: \(reason)"
+                return String(format: String(localized: "error.channel.read_failed"), reason)
             case .emptyDerivedAudio:
-                return "Vygenerovany kanalovy stem je prazdny."
+                return String(localized: "error.channel.empty_derived_audio")
             }
         }
     }

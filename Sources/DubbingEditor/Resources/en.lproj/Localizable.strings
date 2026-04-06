@@ -1,0 +1,143 @@
+/* UI – main panel */
+"Audio kanaly" = "Audio Channels";
+"Audio Waveform" = "Audio Waveform";
+"Barvy postav" = "Character Colors";
+"Filtr postav" = "Character Filter";
+"Filtrovani postav" = "Character Filter";
+"FPS projektu" = "Project FPS";
+"Kanaly" = "Channels";
+"Krok posunu videa (+/-)" = "Seek Step (+/-)";
+"Light Mode" = "Light Mode";
+"Nastaveni" = "Settings";
+"Nejit a nahradit" = "Find and Replace";
+"Najit a nahradit" = "Find and Replace";
+"Offset textu" = "Text Offset";
+"Postavy" = "Characters";
+"Replay predjezd" = "Replay Pre-roll";
+"Stopy" = "Tracks";
+"TC Chrono chyby" = "TC Chronological Errors";
+"TC pole: vybrana replika" = "TC field: selected line";
+"Velikost textu replik" = "Line Text Size";
+"Video offset" = "Video Offset";
+
+/* Buttons */
+"Aplikovat" = "Apply";
+"Dalsi" = "Next";
+"Ignorovat" = "Ignore";
+"Krátký název" = "Short Name";
+"Nahradit vse" = "Replace All";
+"Nahradit vybranou" = "Replace Selected";
+"Nahlasit bug" = "Report Bug";
+"Nova replika" = "New Line";
+"Obnovit" = "Restore";
+"Posun vpred" = "Forward";
+"Posun zpet" = "Backward";
+"Predchozi" = "Previous";
+"Pretahni repliku" = "Drag Line";
+"Presunout na konec" = "Move to End";
+"Smazat repliky" = "Delete Lines";
+"Vybrat vse" = "Select All";
+"Vytvorit a odeslat mailem" = "Create and Send by Email";
+"Vytvorit report" = "Create Report";
+"Zavrit" = "Close";
+"Zrusit" = "Cancel";
+"Zrusit vse" = "Cancel All";
+"Cilova slozka" = "Output Folder";
+
+/* Status text */
+"Nacitam Word..." = "Loading Word...";
+"Nenalezena zadna chrono chyba Start TC." = "No chronological Start TC errors found.";
+"Neni nactene video" = "No video loaded";
+"Neni nastaven. Nastav ho v Nastaveni > Obecne." = "Not set. Configure it in Settings > General.";
+"Pouzij tlacitko Import Video" = "Use the Import Video button";
+"Pripravuji kanalovy stem pro video audio..." = "Preparing channel stem for video audio...";
+"Pripravuji lokalni kanalovy stem pro L/R mute..." = "Preparing local channel stem for L/R mute...";
+"V projektu zatim nejsou zadne postavy." = "No characters in the project yet.";
+"Waveform se zobrazi po nacteni videa" = "Waveform will appear after loading video";
+"Zadna postava neodpovida hledani." = "No character matches the search.";
+
+/* Descriptions */
+"Dvojklik na zkratku a potom stiskni pozadovanou kombinaci. Esc zrusi cekani." = "Double-click a shortcut, then press the desired key combination. Esc cancels.";
+"Kdyz neni nastavena vlastni barva, pouzije se stabilni vychozi barva odvozena z nazvu postavy." = "When no custom color is set, a stable default color derived from the character name is used.";
+"Replay predjezd (kdyz je zapnuty) pouziva stejnou hodnotu jako Krok posunu videa (+/-). Nastaveni je projektove a uklada se spolu s projektem." = "Replay pre-roll (when enabled) uses the same value as the Seek Step (+/-). This is a per-project setting saved with the project.";
+"Repliky = soucet slov / 8" = "Lines = word count / 8";
+"Report se ulozi lokalne jako samostatny bundle se screenshotem, logy a stavem projektu." = "Report will be saved locally as a bundle with screenshot, logs and project state.";
+"Zamuti levy kanal puvodni video audio stopy." = "Mutes the left channel of the original video audio track.";
+"Zamuti pravy kanal puvodni video audio stopy." = "Mutes the right channel of the original video audio track.";
+"Zapina nebo vypina celou audio stopu z videa." = "Enables or disables the entire video audio track.";
+"Zapina nebo vypina importovanou externi audio stopu." = "Enables or disables the imported external audio track.";
+"Kdyz je ON, v seznamu replik se zobrazi jen repliky bez charakteru." = "When ON, only lines without a character are shown in the line list.";
+"Aplikuje offset jen na prehravani videa." = "Applies offset to video playback only.";
+"Aplikuje offset na vsechny repliky, nebo jen na vybrane pri vice-vyberu." = "Applies offset to all lines, or only to selected lines when multiple are selected.";
+"Pouzije se pro akci 'Vytvorit a odeslat mailem'. Muze obsahovat i vice adres oddelenych carkou." = "Used for the 'Create and Send by Email' action. May contain multiple addresses separated by commas.";
+"Smaze vybrane repliky (Delete/Backspace)" = "Deletes selected lines (Delete/Backspace)";
+"Posune textove timecody o zadanou hodnotu. Kdyz je vybrano vice replik, aplikuje se jen na vybrane." = "Shifts text timecodes by the given value. When multiple lines are selected, applies only to the selection.";
+"Posune video vuci timecodum. Hodnota + znamena, ze video pujde pozdeji." = "Shifts video against timecodes. A positive value means video will play later.";
+
+/* Alert – dialog title */
+"Chyba" = "Error";
+"Bug report" = "Bug Report";
+
+/* Alerts – programmatic messages */
+"alert.video_required" = "Load a video first.";
+"alert.waveform_after_video" = "Waveform will appear after loading video.";
+"alert.autosave_load_failed" = "Failed to load autosave data: %@";
+"alert.external_audio_restored_without_file" = "Project opened, but the external audio file no longer exists on disk.";
+"alert.autosave_restored_without_external" = "Autosave restored, but the external audio file no longer exists on disk.";
+"alert.external_audio_fallback" = "External audio could not be restored. Project will open with video only.";
+"alert.waveform_cache_delete_failed" = "Failed to delete waveform cache: %@";
+"alert.nothing_to_export_no_lines" = "Nothing to export. Document contains no lines.";
+"alert.nothing_to_export_empty_lines" = "Nothing to export. All lines are empty.";
+"alert.export_docx_done" = "DOCX export complete. Profile: %@. Lines: %d.";
+"alert.export_docx_failed" = "DOCX export failed: %@";
+"alert.save_project_failed" = "Failed to save project: %@";
+"alert.open_project_failed" = "Failed to open project: %@";
+"alert.project_not_found" = "Project no longer exists: %@";
+"alert.csv_prepare_failed" = "Failed to prepare CSV export data.";
+"alert.csv_export_failed" = "CSV export failed: %@";
+"alert.invalid_offset" = "Invalid offset. Use seconds (e.g. -1.25) or timecode (e.g. +00:00:01:12).";
+"alert.offset_no_timecodes" = "Offset applied, but no valid timecodes were found.";
+"alert.invalid_video_offset" = "Invalid video offset. Use seconds (e.g. -1.25) or timecode (e.g. +00:00:01:12).";
+"alert.loop_no_active_line" = "Active line has no valid start timecode.";
+"alert.loop_no_line_selected" = "Double-click a line first to enable loop.";
+"alert.loop_invalid_start_tc" = "Selected line has no valid start timecode for loop.";
+"alert.autosave_failed" = "Autosave failed: %@";
+"alert.open_report_folder_failed" = "Failed to open report folder: %@";
+"alert.open_bug_dashboard_failed" = "Failed to open bug dashboard: %@";
+"alert.import_word_failed" = "Word import failed: %@";
+"alert.import_done" = "Import complete. Format: %@. Lines loaded: %d.";
+"alert.import_done_with_skipped" = "Import complete. Format: %@. Lines loaded: %d. %@";
+"alert.video_import_failed" = "Video import failed";
+"alert.external_audio_import_failed" = "External audio import failed";
+"alert.channel_switch_failed" = "Audio channel switch failed";
+"alert.project_opened_video_missing" = "Project opened, but the video file no longer exists on disk.";
+
+/* Import – prefixes and parts */
+"alert.doc_converted_prefix" = "File .doc was converted to docx. ";
+"alert.import_skipped_rows" = " Empty rows skipped: %d.";
+"alert.project_opened_playback_failed" = "Project opened, but playback could not be prepared";
+"alert.project_opened_video_missing" = "Project opened, but the video file no longer exists on disk.";
+"alert.autosave_restored_playback_failed" = "Autosave restored, but playback could not be prepared";
+"alert.autosave_restored_video_missing" = "Autosave restored, but the original video was not found on disk.";
+
+/* Errors – EditorError */
+"error.word_read" = "Failed to read the Word file.";
+"error.word_missing_xml" = "The Word file is missing word/document.xml.";
+"error.word_parse" = "Failed to process the Word document content.";
+"error.word_no_lines" = "No dialogue lines were found in the document.";
+"error.word_build_docx" = "Failed to create the output DOCX.";
+"error.no_audio_track" = "The video has no audio track; waveform cannot be displayed.";
+
+/* Errors – PlaybackCompositionService */
+"error.composition.missing_video_track" = "The selected file contains no video track.";
+"error.composition.missing_video_audio_track" = "The selected source contains no usable video audio track.";
+"error.composition.missing_external_audio_track" = "The selected external audio file contains no audio track.";
+
+/* Errors – ChannelDerivedAudioService */
+"error.channel.missing_audio_track" = "The video contains no audio track for channel isolation.";
+"error.channel.unsupported_isolation" = "L/R channel isolation requires at least 2 channels. Source has %d.";
+"error.channel.cannot_create_reader" = "Failed to prepare reading of video audio for channel stem.";
+"error.channel.cannot_create_cache_dir" = "Failed to prepare local cache for channel stems.";
+"error.channel.cannot_create_output_file" = "Failed to create output audio file for channel stem.";
+"error.channel.read_failed" = "Channel stem generation failed: %@";
+"error.channel.empty_derived_audio" = "Generated channel stem is empty.";

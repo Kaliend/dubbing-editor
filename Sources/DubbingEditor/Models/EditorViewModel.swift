@@ -545,12 +545,12 @@ final class EditorViewModel: ObservableObject {
                     self.scheduleAutosave()
 
                     let convertedPrefix = result.convertedFromLegacyDoc
-                        ? "Soubor .doc byl preveden na docx. "
+                        ? String(localized: "alert.doc_converted_prefix")
                         : ""
                     let skippedInfo = result.skippedRowCount > 0
-                        ? " Preskoceno prazdnych radku: \(result.skippedRowCount)."
+                        ? String(format: String(localized: "alert.import_skipped_rows"), result.skippedRowCount)
                         : ""
-                    self.alertMessage = "\(convertedPrefix)Import hotov. Format: \(result.detectedFormat.displayName). Nacteno replik: \(result.lines.count).\(skippedInfo)"
+                    self.alertMessage = convertedPrefix + String(format: String(localized: "alert.import_done"), result.detectedFormat.displayName, result.lines.count) + skippedInfo
                 }
             } catch is CancellationError {
                 await MainActor.run { [weak self] in
@@ -560,7 +560,7 @@ final class EditorViewModel: ObservableObject {
                 await MainActor.run { [weak self] in
                     guard let self else { return }
                     self.isImportingWord = false
-                    self.alertMessage = "Import Word selhal: \(error.localizedDescription)"
+                    self.alertMessage = String(format: String(localized: "alert.import_word_failed"), error.localizedDescription)
                 }
             }
         }
@@ -575,7 +575,7 @@ final class EditorViewModel: ObservableObject {
 
     func importExternalAudio(from url: URL) {
         guard let videoURL else {
-            alertMessage = "Nejprve nacti video."
+            alertMessage = String(localized: "alert.video_required")
             return
         }
 
@@ -585,7 +585,7 @@ final class EditorViewModel: ObservableObject {
             preserveCurrentPlaybackPosition: true,
             queueWaveformRebuild: true,
             fallbackWithoutExternalAudio: false,
-            alertPrefix: "Import externiho audia selhal"
+            alertPrefix: String(localized: "alert.external_audio_import_failed")
         )
         currentProjectURL = nil
         markProjectDirty()
@@ -630,7 +630,7 @@ final class EditorViewModel: ObservableObject {
                 }
                 self.pendingAutosaveRecovery = snapshot
             } catch {
-                self.alertMessage = "Nepodarilo se nacist autosave data: \(error.localizedDescription)"
+                self.alertMessage = String(format: String(localized: "alert.autosave_load_failed"), error.localizedDescription)
             }
         }
     }
@@ -687,7 +687,7 @@ final class EditorViewModel: ObservableObject {
             preserveCurrentPlaybackPosition: false,
             queueWaveformRebuild: true,
             fallbackWithoutExternalAudio: false,
-            alertPrefix: "Import videa selhal"
+            alertPrefix: String(localized: "alert.video_import_failed")
         )
     }
 
@@ -1059,7 +1059,7 @@ final class EditorViewModel: ObservableObject {
                 throw error
             }
             await MainActor.run { [weak self] in
-                self?.alertMessage = "Externi audio se nepodarilo obnovit, projekt se otevre jen s videem."
+                self?.alertMessage = String(localized: "alert.external_audio_fallback")
             }
             return try await PlaybackCompositionService.buildPlayerItem(
                 videoURL: videoURL,
@@ -1179,7 +1179,7 @@ final class EditorViewModel: ObservableObject {
 
     func rebuildWaveformForCurrentVideo() {
         guard let videoURL else {
-            alertMessage = "Nejprve nacti video."
+            alertMessage = String(localized: "alert.video_required")
             return
         }
         queueWaveformBuild(for: videoURL, externalAudioURL: sourceExternalAudioURL, forceRebuild: true)
@@ -1187,7 +1187,7 @@ final class EditorViewModel: ObservableObject {
 
     func deleteWaveformCacheForCurrentVideo() {
         guard let videoURL else {
-            alertMessage = "Nejprve nacti video."
+            alertMessage = String(localized: "alert.video_required")
             return
         }
 
@@ -1198,7 +1198,7 @@ final class EditorViewModel: ObservableObject {
             }
             refreshWaveformCacheMetadata(for: videoURL, externalAudioURL: sourceExternalAudioURL)
         } catch {
-            alertMessage = "Nepodarilo se smazat waveform cache: \(error.localizedDescription)"
+            alertMessage = String(format: String(localized: "alert.waveform_cache_delete_failed"), error.localizedDescription)
         }
     }
 
@@ -2080,7 +2080,7 @@ final class EditorViewModel: ObservableObject {
 
     func requestExportDocxFlow() {
         guard !lines.isEmpty else {
-            alertMessage = "Neni co exportovat. Dokument neobsahuje repliky."
+            alertMessage = String(localized: "alert.nothing_to_export_no_lines")
             return
         }
 
@@ -2089,7 +2089,7 @@ final class EditorViewModel: ObservableObject {
         }
         let draft = WordExportPipelineService().buildDraft(from: lines, options: options, fps: fps)
         guard !draft.rows.isEmpty else {
-            alertMessage = "Neni co exportovat. Vsechny radky jsou prazdne."
+            alertMessage = String(localized: "alert.nothing_to_export_empty_lines")
             return
         }
 
@@ -2104,9 +2104,9 @@ final class EditorViewModel: ObservableObject {
 
         do {
             try WordExportService().exportDocx(draft: draft, to: url)
-            alertMessage = "Export DOCX hotov. Profil: \(draft.profile.displayName). Radku: \(draft.rows.count)."
+            alertMessage = String(format: String(localized: "alert.export_docx_done"), draft.profile.displayName, draft.rows.count)
         } catch {
-            alertMessage = "Export DOCX selhal: \(error.localizedDescription)"
+            alertMessage = String(format: String(localized: "alert.export_docx_failed"), error.localizedDescription)
         }
     }
 
@@ -2294,7 +2294,7 @@ final class EditorViewModel: ObservableObject {
             try FileManager.default.createDirectory(at: rootURL, withIntermediateDirectories: true, attributes: nil)
             NSWorkspace.shared.open(rootURL)
         } catch {
-            alertMessage = "Nepodarilo se otevrit slozku reportu: \(error.localizedDescription)"
+            alertMessage = String(format: String(localized: "alert.open_report_folder_failed"), error.localizedDescription)
         }
     }
 
@@ -2305,7 +2305,7 @@ final class EditorViewModel: ObservableObject {
             )
             NSWorkspace.shared.open(dashboardURL)
         } catch {
-            alertMessage = "Nepodarilo se otevrit bug dashboard: \(error.localizedDescription)"
+            alertMessage = String(format: String(localized: "alert.open_bug_dashboard_failed"), error.localizedDescription)
         }
     }
 
@@ -2361,7 +2361,7 @@ final class EditorViewModel: ObservableObject {
                 await MainActor.run { [weak self] in
                     guard let self else { return }
                     guard self.activeProjectOperationID == operationID else { return }
-                    self.alertMessage = "Nepodarilo se ulozit projekt: \(error.localizedDescription)"
+                    self.alertMessage = String(format: String(localized: "alert.save_project_failed"), error.localizedDescription)
                 }
             }
         }
@@ -2388,7 +2388,7 @@ final class EditorViewModel: ObservableObject {
                 await MainActor.run { [weak self] in
                     guard let self else { return }
                     guard self.activeProjectOperationID == operationID else { return }
-                    self.alertMessage = "Nepodarilo se otevrit projekt: \(error.localizedDescription)"
+                    self.alertMessage = String(format: String(localized: "alert.open_project_failed"), error.localizedDescription)
                 }
             }
         }
@@ -2424,7 +2424,7 @@ final class EditorViewModel: ObservableObject {
 
     func promptImportExternalAudio() {
         guard videoURL != nil else {
-            alertMessage = "Nejprve nacti video."
+            alertMessage = String(localized: "alert.video_required")
             return
         }
 
@@ -2459,7 +2459,7 @@ final class EditorViewModel: ObservableObject {
         let canonical = url.standardizedFileURL
         guard FileManager.default.fileExists(atPath: canonical.path) else {
             removeRecentProjectURL(canonical)
-            alertMessage = "Projekt uz neexistuje: \(canonical.path)"
+            alertMessage = String(format: String(localized: "alert.project_not_found"), canonical.path)
             return
         }
         openProject(from: canonical)
@@ -2492,12 +2492,12 @@ final class EditorViewModel: ObservableObject {
         let body = lines.joined(separator: "\n")
         do {
             guard let data = body.data(using: .utf8) else {
-                alertMessage = "Nepodarilo se pripravit data pro CSV export."
+                alertMessage = String(localized: "alert.csv_prepare_failed")
                 return
             }
             try data.write(to: destinationURL, options: .atomic)
         } catch {
-            alertMessage = "Nepodarilo se exportovat CSV: \(error.localizedDescription)"
+            alertMessage = String(format: String(localized: "alert.csv_export_failed"), error.localizedDescription)
         }
     }
 
@@ -2530,7 +2530,7 @@ final class EditorViewModel: ObservableObject {
         }
 
         guard let offset = TimecodeService.offsetSeconds(from: rawValue, fps: fps) else {
-            alertMessage = "Neplatny offset. Pouzij sekundy (napr. -1.25) nebo timecode (napr. +00:00:01:12)."
+            alertMessage = String(localized: "alert.invalid_offset")
             return
         }
 
@@ -2560,7 +2560,7 @@ final class EditorViewModel: ObservableObject {
         }
 
         if changedCount == 0 {
-            alertMessage = "Offset byl aplikovan, ale nenasly se zadne validni timecody."
+            alertMessage = String(localized: "alert.offset_no_timecodes")
         }
     }
 
@@ -2572,7 +2572,7 @@ final class EditorViewModel: ObservableObject {
         }
 
         guard let offset = TimecodeService.offsetSeconds(from: trimmed, fps: fps) else {
-            alertMessage = "Neplatny video offset. Pouzij sekundy (napr. -1.25) nebo timecode (napr. +00:00:01:12)."
+            alertMessage = String(localized: "alert.invalid_video_offset")
             return
         }
 
@@ -3299,7 +3299,7 @@ final class EditorViewModel: ObservableObject {
             preserveCurrentPlaybackPosition: true,
             queueWaveformRebuild: false,
             fallbackWithoutExternalAudio: true,
-            alertPrefix: "Prepnuti audio kanalu selhalo",
+            alertPrefix: String(localized: "alert.channel_switch_failed"),
             tracksChannelPreparationState: true,
             onFailure: { [weak self] in
                 guard let self else { return }
@@ -3326,7 +3326,7 @@ final class EditorViewModel: ObservableObject {
             let targetIndex = indexOfLine(withID: targetID),
             let startTimelineSeconds = TimecodeService.seconds(from: lines[targetIndex].startTimecode, fps: fps)
         else {
-            alertMessage = "Aktivni replika nema validni start timecode."
+            alertMessage = String(localized: "alert.loop_no_active_line")
             return
         }
         let startPlaybackSeconds = playbackSeconds(fromTimelineSeconds: startTimelineSeconds)
@@ -3361,13 +3361,13 @@ final class EditorViewModel: ObservableObject {
         }
 
         guard highlightedLineID != nil else {
-            alertMessage = "Nejprve dvojklikem zvyrazni repliku pro loop."
+            alertMessage = String(localized: "alert.loop_no_line_selected")
             isLoopEnabled = false
             return
         }
 
         guard let range = currentLoopRange() else {
-            alertMessage = "Vybrana replika nema validni start timecode pro loop."
+            alertMessage = String(localized: "alert.loop_invalid_start_tc")
             isLoopEnabled = false
             return
         }
@@ -3886,7 +3886,7 @@ final class EditorViewModel: ObservableObject {
                     if FileManager.default.fileExists(atPath: restoredExternalAudioURL.path) {
                         externalAudioURL = restoredExternalAudioURL
                     } else {
-                        alertMessage = "Projekt byl otevren, ale externi audio soubor uz na disku neexistuje."
+                        alertMessage = String(localized: "alert.external_audio_restored_without_file")
                         externalAudioURL = nil
                     }
                 } else {
@@ -3899,10 +3899,10 @@ final class EditorViewModel: ObservableObject {
                     preserveCurrentPlaybackPosition: false,
                     queueWaveformRebuild: true,
                     fallbackWithoutExternalAudio: true,
-                    alertPrefix: "Projekt byl otevren, ale playback se nepodarilo pripravit"
+                    alertPrefix: String(localized: "alert.project_opened_playback_failed")
                 )
             } else {
-                resetPlaybackState(alertMessage: "Projekt byl otevren, ale video soubor uz na disku neexistuje.")
+                resetPlaybackState(alertMessage: String(localized: "alert.project_opened_video_missing"))
             }
         } else {
             resetPlaybackState()
@@ -3958,7 +3958,7 @@ final class EditorViewModel: ObservableObject {
                     if FileManager.default.fileExists(atPath: restoredExternalAudioURL.path) {
                         externalAudioURL = restoredExternalAudioURL
                     } else {
-                        alertMessage = "Autosave se obnovilo, ale externi audio soubor uz na disku neexistuje."
+                        alertMessage = String(localized: "alert.autosave_restored_without_external")
                         externalAudioURL = nil
                     }
                 } else {
@@ -3971,10 +3971,10 @@ final class EditorViewModel: ObservableObject {
                     preserveCurrentPlaybackPosition: false,
                     queueWaveformRebuild: true,
                     fallbackWithoutExternalAudio: true,
-                    alertPrefix: "Autosave se obnovilo, ale playback se nepodarilo pripravit"
+                    alertPrefix: String(localized: "alert.autosave_restored_playback_failed")
                 )
             } else {
-                resetPlaybackState(alertMessage: "Autosave se obnovilo, ale puvodni video na disku nebylo nalezeno.")
+                resetPlaybackState(alertMessage: String(localized: "alert.autosave_restored_video_missing"))
             }
         } else {
             resetPlaybackState()
@@ -4024,7 +4024,7 @@ final class EditorViewModel: ObservableObject {
             lastAutosavedRevision = autosaveRevision
             lastAutosaveDate = snapshot.savedAt
         } catch {
-            alertMessage = "Autosave selhalo: \(error.localizedDescription)"
+            alertMessage = String(format: String(localized: "alert.autosave_failed"), error.localizedDescription)
         }
     }
 

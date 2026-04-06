@@ -29,11 +29,11 @@ enum PlaybackCompositionService {
         var errorDescription: String? {
             switch self {
             case .missingVideoTrack:
-                return "Vybrany soubor neobsahuje video stopu."
+                return String(localized: "error.composition.missing_video_track")
             case .missingVideoAudioTrack:
-                return "Vybrany zdroj neobsahuje pouzitelnou video audio stopu."
+                return String(localized: "error.composition.missing_video_audio_track")
             case .missingExternalAudioTrack:
-                return "Vybrany externi audio soubor neobsahuje zvukovou stopu."
+                return String(localized: "error.composition.missing_external_audio_track")
             }
         }
     }

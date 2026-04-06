@@ -11,17 +11,17 @@ enum EditorError: LocalizedError {
     var errorDescription: String? {
         switch self {
         case .unableToReadWordFile:
-            return "Nepodařilo se načíst Word soubor."
+            return String(localized: "error.word_read")
         case .missingWordDocumentXML:
-            return "Ve Word souboru chybí word/document.xml."
+            return String(localized: "error.word_missing_xml")
         case .unableToParseWordXML:
-            return "Nepodařilo se zpracovat obsah Word dokumentu."
+            return String(localized: "error.word_parse")
         case .noDialogueLinesFound:
-            return "V dokumentu nebyly nalezeny žádné repliky."
+            return String(localized: "error.word_no_lines")
         case .unableToBuildDocx:
-            return "Nepodařilo se vytvořit výstupní DOCX."
+            return String(localized: "error.word_build_docx")
         case .noAudioTrack:
-            return "Video neobsahuje audio stopu, waveform nelze zobrazit."
+            return String(localized: "error.no_audio_track")
         }
     }
 }
