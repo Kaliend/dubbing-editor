@@ -1,0 +1,13 @@
+{
+  "": {
+    "dependencies": "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditorPackageTests.build/DubbingEditorPackageTests.d",
+    "object": "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditorPackageTests.build/DubbingEditorPackageTests.o",
+    "swift-dependencies": "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditorPackageTests.build/master.swiftdeps"
+  },
+  "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditorPackageTests.derived/runner.swift": {
+    "object": "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditorPackageTests.build/runner.swift.o",
+    "swiftmodule": "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditorPackageTests.build/runner~partial.swiftmodule",
+    "swift-dependencies": "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditorPackageTests.build/runner.swiftdeps",
+    "diagnostics": "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditorPackageTests.build/runner.dia"
+  }
+}

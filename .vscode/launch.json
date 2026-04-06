@@ -1,0 +1,24 @@
+{
+    "configurations": [
+        {
+            "type": "swift",
+            "request": "launch",
+            "args": [],
+            "cwd": "${workspaceFolder:Uprava}",
+            "name": "Debug DubbingEditor",
+            "target": "DubbingEditor",
+            "configuration": "debug",
+            "preLaunchTask": "swift: Build Debug DubbingEditor"
+        },
+        {
+            "type": "swift",
+            "request": "launch",
+            "args": [],
+            "cwd": "${workspaceFolder:Uprava}",
+            "name": "Release DubbingEditor",
+            "target": "DubbingEditor",
+            "configuration": "release",
+            "preLaunchTask": "swift: Build Release DubbingEditor"
+        }
+    ]
+}
