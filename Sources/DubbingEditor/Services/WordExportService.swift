@@ -30,8 +30,6 @@ struct WordExportService {
     private static let iyunoTemplatePathDefaultsKey = "word_export_iyuno_template_path"
     private static let iyunoLockedTemplatePathDefaultsKey = "word_export_iyuno_locked_template_path"
     private static let iyunoLockedTemplateSourcePathDefaultsKey = "word_export_iyuno_locked_template_source_path"
-    private static let defaultClassicTemplatePath = "/Users/philipkiulpekidis/Dropbox/Dabing/BabiDabi/Veronika/VeronikaS03/Klasicky-format.docx"
-    private static let defaultIyunoTemplatePath = "/Users/philipkiulpekidis/Dropbox/Dabing/SDi/MIA/IYUNO-table-docx.docx"
 
     private enum IyunoTableLayout {
         // Widths copied from IYUNO template proportions (95.3 / 63.8 / 56.7 / 269.4 px).
@@ -277,11 +275,6 @@ struct WordExportService {
                 return customURL
             }
         }
-
-        let defaultURL = URL(fileURLWithPath: Self.defaultClassicTemplatePath)
-        if FileManager.default.fileExists(atPath: defaultURL.path) {
-            return defaultURL
-        }
         return nil
     }
 
@@ -295,11 +288,6 @@ struct WordExportService {
             if FileManager.default.fileExists(atPath: customURL.path) {
                 return customURL
             }
-        }
-
-        let defaultURL = URL(fileURLWithPath: Self.defaultIyunoTemplatePath)
-        if FileManager.default.fileExists(atPath: defaultURL.path) {
-            return defaultURL
         }
         return nil
     }
