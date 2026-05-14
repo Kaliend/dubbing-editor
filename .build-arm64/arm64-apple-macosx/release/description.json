@@ -7,7 +7,48 @@
     }
   ],
   "copyCommands" : {
-
+    "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditor_DubbingEditor.bundle/Info.plist" : {
+      "inputs" : [
+        {
+          "kind" : "file",
+          "name" : "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditor.build/Info.plist"
+        }
+      ],
+      "outputs" : [
+        {
+          "kind" : "file",
+          "name" : "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditor_DubbingEditor.bundle/Info.plist"
+        }
+      ]
+    },
+    "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditor_DubbingEditor.bundle/cs.lproj/Localizable.strings" : {
+      "inputs" : [
+        {
+          "kind" : "file",
+          "name" : "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Sources/DubbingEditor/Resources/cs.lproj/Localizable.strings"
+        }
+      ],
+      "outputs" : [
+        {
+          "kind" : "file",
+          "name" : "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditor_DubbingEditor.bundle/cs.lproj/Localizable.strings"
+        }
+      ]
+    },
+    "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditor_DubbingEditor.bundle/en.lproj/Localizable.strings" : {
+      "inputs" : [
+        {
+          "kind" : "file",
+          "name" : "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Sources/DubbingEditor/Resources/en.lproj/Localizable.strings"
+        }
+      ],
+      "outputs" : [
+        {
+          "kind" : "file",
+          "name" : "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditor_DubbingEditor.bundle/en.lproj/Localizable.strings"
+        }
+      ]
+    }
   },
   "explicitTargetDependencyImportCheckingMode" : {
     "none" : {
@@ -22,17 +63,33 @@
   ],
   "swiftCommands" : {
     "C.DubbingEditor-arm64-apple-macosx13.0-release.module" : {
-      "executable" : "/Library/Developer/CommandLineTools/usr/bin/swiftc",
+      "executable" : "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc",
       "fileList" : "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditor.build/sources",
       "importPath" : "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/Modules",
       "inputs" : [
+        {
+          "kind" : "file",
+          "name" : "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Sources/DubbingEditor/Debug/SpeakerAutocompleteDebugLog.swift"
+        },
         {
           "kind" : "file",
           "name" : "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Sources/DubbingEditor/DubbingEditorApp.swift"
         },
         {
           "kind" : "file",
+          "name" : "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Sources/DubbingEditor/Extensions/Bundle+App.swift"
+        },
+        {
+          "kind" : "file",
           "name" : "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Sources/DubbingEditor/Models/AppNotifications.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Sources/DubbingEditor/Models/BugReport.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Sources/DubbingEditor/Models/DetachedVideoWindowPresenter.swift"
         },
         {
           "kind" : "file",
@@ -41,6 +98,10 @@
         {
           "kind" : "file",
           "name" : "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Sources/DubbingEditor/Models/EditorError.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Sources/DubbingEditor/Models/EditorProjectionCoordinator.swift"
         },
         {
           "kind" : "file",
@@ -56,7 +117,43 @@
         },
         {
           "kind" : "file",
+          "name" : "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Sources/DubbingEditor/Services/BugReportEmailService.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Sources/DubbingEditor/Services/BugReportService.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Sources/DubbingEditor/Services/ChannelDerivedAudioService.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Sources/DubbingEditor/Services/NetflixExcelService.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Sources/DubbingEditor/Services/PlaybackCompositionService.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Sources/DubbingEditor/Services/PlaybackWaveformProjectionService.swift"
+        },
+        {
+          "kind" : "file",
           "name" : "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Sources/DubbingEditor/Services/ProjectService.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Sources/DubbingEditor/Services/ProjectWorkSession.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Sources/DubbingEditor/Services/ProjectWorkTracker.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Sources/DubbingEditor/Services/SpeakerAppearanceService.swift"
         },
         {
           "kind" : "file",
@@ -69,6 +166,10 @@
         {
           "kind" : "file",
           "name" : "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Sources/DubbingEditor/Services/WaveformService.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Sources/DubbingEditor/Services/WindowSnapshotService.swift"
         },
         {
           "kind" : "file",
@@ -88,7 +189,15 @@
         },
         {
           "kind" : "file",
+          "name" : "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Sources/DubbingEditor/Views/BugReportSheetView.swift"
+        },
+        {
+          "kind" : "file",
           "name" : "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Sources/DubbingEditor/Views/ContentView.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Sources/DubbingEditor/Views/DialogueRowDraftController.swift"
         },
         {
           "kind" : "file",
@@ -108,11 +217,27 @@
         },
         {
           "kind" : "file",
+          "name" : "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Sources/DubbingEditor/Views/SpeakerColorsPanelView.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Sources/DubbingEditor/Views/SpeakerSuggestionOverlay.swift"
+        },
+        {
+          "kind" : "file",
           "name" : "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Sources/DubbingEditor/Views/WaveformView.swift"
         },
         {
           "kind" : "file",
-          "name" : "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/swift-version--1AB21518FC5DEDBE.txt"
+          "name" : "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditor.build/DerivedSources/resource_bundle_accessor.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/swift-version--58304C5D6DBC2206.txt"
+        },
+        {
+          "kind" : "virtual",
+          "name" : "<DubbingEditor-arm64-apple-macosx13.0-release.module-resources>"
         },
         {
           "kind" : "file",
@@ -123,27 +248,47 @@
       "moduleName" : "DubbingEditor",
       "moduleOutputPath" : "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/Modules/DubbingEditor.swiftmodule",
       "objects" : [
+        "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditor.build/SpeakerAutocompleteDebugLog.swift.o",
         "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditor.build/DubbingEditorApp.swift.o",
+        "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditor.build/Bundle+App.swift.o",
         "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditor.build/AppNotifications.swift.o",
+        "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditor.build/BugReport.swift.o",
+        "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditor.build/DetachedVideoWindowPresenter.swift.o",
         "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditor.build/DialogueLine.swift.o",
         "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditor.build/EditorError.swift.o",
+        "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditor.build/EditorProjectionCoordinator.swift.o",
         "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditor.build/EditorViewModel.swift.o",
         "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditor.build/SettingsWindowPresenter.swift.o",
         "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditor.build/AutosaveService.swift.o",
+        "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditor.build/BugReportEmailService.swift.o",
+        "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditor.build/BugReportService.swift.o",
+        "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditor.build/ChannelDerivedAudioService.swift.o",
+        "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditor.build/NetflixExcelService.swift.o",
+        "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditor.build/PlaybackCompositionService.swift.o",
+        "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditor.build/PlaybackWaveformProjectionService.swift.o",
         "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditor.build/ProjectService.swift.o",
+        "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditor.build/ProjectWorkSession.swift.o",
+        "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditor.build/ProjectWorkTracker.swift.o",
+        "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditor.build/SpeakerAppearanceService.swift.o",
         "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditor.build/StereoChannelMuteService.swift.o",
         "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditor.build/TimecodeService.swift.o",
         "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditor.build/WaveformService.swift.o",
+        "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditor.build/WindowSnapshotService.swift.o",
         "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditor.build/WordExportPipelineService.swift.o",
         "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditor.build/WordExportService.swift.o",
         "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditor.build/WordImportService.swift.o",
         "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditor.build/AppSettingsView.swift.o",
+        "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditor.build/BugReportSheetView.swift.o",
         "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditor.build/ContentView.swift.o",
+        "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditor.build/DialogueRowDraftController.swift.o",
         "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditor.build/DialogueRowView.swift.o",
         "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditor.build/PlaybackPanelView.swift.o",
         "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditor.build/PlayerContainerView.swift.o",
         "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditor.build/ShortcutPresentation.swift.o",
-        "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditor.build/WaveformView.swift.o"
+        "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditor.build/SpeakerColorsPanelView.swift.o",
+        "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditor.build/SpeakerSuggestionOverlay.swift.o",
+        "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditor.build/WaveformView.swift.o",
+        "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditor.build/resource_bundle_accessor.swift.o"
       ],
       "otherArguments" : [
         "-target",
@@ -155,7 +300,7 @@
         "-O",
         "-j12",
         "-DSWIFT_PACKAGE",
-        "-DSWIFT_MODULE_RESOURCE_BUNDLE_UNAVAILABLE",
+        "-DSWIFT_MODULE_RESOURCE_BUNDLE_AVAILABLE",
         "-module-cache-path",
         "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/ModuleCache",
         "-parseable-output",
@@ -165,19 +310,25 @@
         "DubbingEditor_main",
         "-swift-version",
         "5",
-        "-I",
-        "/Library/Developer/CommandLineTools/Library/Developer/Frameworks",
-        "-L",
-        "/Library/Developer/CommandLineTools/Library/Developer/Frameworks",
         "-plugin-path",
-        "/Library/Developer/CommandLineTools/usr/lib/swift/host/plugins/testing",
+        "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/host/plugins/testing",
         "-sdk",
-        "/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.4.sdk",
+        "-F",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+        "-I",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+        "-L",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
         "-g",
         "-Xcc",
         "-isysroot",
         "-Xcc",
-        "/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.4.sdk",
+        "-Xcc",
+        "-F",
+        "-Xcc",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
         "-Xcc",
         "-fPIC",
         "-Xcc",
@@ -189,11 +340,27 @@
       "outputs" : [
         {
           "kind" : "file",
+          "name" : "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditor.build/SpeakerAutocompleteDebugLog.swift.o"
+        },
+        {
+          "kind" : "file",
           "name" : "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditor.build/DubbingEditorApp.swift.o"
         },
         {
           "kind" : "file",
+          "name" : "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditor.build/Bundle+App.swift.o"
+        },
+        {
+          "kind" : "file",
           "name" : "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditor.build/AppNotifications.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditor.build/BugReport.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditor.build/DetachedVideoWindowPresenter.swift.o"
         },
         {
           "kind" : "file",
@@ -202,6 +369,10 @@
         {
           "kind" : "file",
           "name" : "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditor.build/EditorError.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditor.build/EditorProjectionCoordinator.swift.o"
         },
         {
           "kind" : "file",
@@ -217,7 +388,43 @@
         },
         {
           "kind" : "file",
+          "name" : "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditor.build/BugReportEmailService.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditor.build/BugReportService.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditor.build/ChannelDerivedAudioService.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditor.build/NetflixExcelService.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditor.build/PlaybackCompositionService.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditor.build/PlaybackWaveformProjectionService.swift.o"
+        },
+        {
+          "kind" : "file",
           "name" : "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditor.build/ProjectService.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditor.build/ProjectWorkSession.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditor.build/ProjectWorkTracker.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditor.build/SpeakerAppearanceService.swift.o"
         },
         {
           "kind" : "file",
@@ -230,6 +437,10 @@
         {
           "kind" : "file",
           "name" : "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditor.build/WaveformService.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditor.build/WindowSnapshotService.swift.o"
         },
         {
           "kind" : "file",
@@ -249,7 +460,15 @@
         },
         {
           "kind" : "file",
+          "name" : "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditor.build/BugReportSheetView.swift.o"
+        },
+        {
+          "kind" : "file",
           "name" : "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditor.build/ContentView.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditor.build/DialogueRowDraftController.swift.o"
         },
         {
           "kind" : "file",
@@ -269,7 +488,19 @@
         },
         {
           "kind" : "file",
+          "name" : "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditor.build/SpeakerColorsPanelView.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditor.build/SpeakerSuggestionOverlay.swift.o"
+        },
+        {
+          "kind" : "file",
           "name" : "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditor.build/WaveformView.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditor.build/resource_bundle_accessor.swift.o"
         },
         {
           "kind" : "file",
@@ -278,33 +509,53 @@
       ],
       "prepareForIndexing" : false,
       "sources" : [
+        "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Sources/DubbingEditor/Debug/SpeakerAutocompleteDebugLog.swift",
         "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Sources/DubbingEditor/DubbingEditorApp.swift",
+        "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Sources/DubbingEditor/Extensions/Bundle+App.swift",
         "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Sources/DubbingEditor/Models/AppNotifications.swift",
+        "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Sources/DubbingEditor/Models/BugReport.swift",
+        "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Sources/DubbingEditor/Models/DetachedVideoWindowPresenter.swift",
         "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Sources/DubbingEditor/Models/DialogueLine.swift",
         "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Sources/DubbingEditor/Models/EditorError.swift",
+        "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Sources/DubbingEditor/Models/EditorProjectionCoordinator.swift",
         "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Sources/DubbingEditor/Models/EditorViewModel.swift",
         "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Sources/DubbingEditor/Models/SettingsWindowPresenter.swift",
         "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Sources/DubbingEditor/Services/AutosaveService.swift",
+        "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Sources/DubbingEditor/Services/BugReportEmailService.swift",
+        "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Sources/DubbingEditor/Services/BugReportService.swift",
+        "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Sources/DubbingEditor/Services/ChannelDerivedAudioService.swift",
+        "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Sources/DubbingEditor/Services/NetflixExcelService.swift",
+        "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Sources/DubbingEditor/Services/PlaybackCompositionService.swift",
+        "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Sources/DubbingEditor/Services/PlaybackWaveformProjectionService.swift",
         "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Sources/DubbingEditor/Services/ProjectService.swift",
+        "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Sources/DubbingEditor/Services/ProjectWorkSession.swift",
+        "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Sources/DubbingEditor/Services/ProjectWorkTracker.swift",
+        "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Sources/DubbingEditor/Services/SpeakerAppearanceService.swift",
         "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Sources/DubbingEditor/Services/StereoChannelMuteService.swift",
         "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Sources/DubbingEditor/Services/TimecodeService.swift",
         "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Sources/DubbingEditor/Services/WaveformService.swift",
+        "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Sources/DubbingEditor/Services/WindowSnapshotService.swift",
         "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Sources/DubbingEditor/Services/WordExportPipelineService.swift",
         "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Sources/DubbingEditor/Services/WordExportService.swift",
         "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Sources/DubbingEditor/Services/WordImportService.swift",
         "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Sources/DubbingEditor/Views/AppSettingsView.swift",
+        "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Sources/DubbingEditor/Views/BugReportSheetView.swift",
         "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Sources/DubbingEditor/Views/ContentView.swift",
+        "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Sources/DubbingEditor/Views/DialogueRowDraftController.swift",
         "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Sources/DubbingEditor/Views/DialogueRowView.swift",
         "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Sources/DubbingEditor/Views/PlaybackPanelView.swift",
         "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Sources/DubbingEditor/Views/PlayerContainerView.swift",
         "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Sources/DubbingEditor/Views/ShortcutPresentation.swift",
-        "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Sources/DubbingEditor/Views/WaveformView.swift"
+        "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Sources/DubbingEditor/Views/SpeakerColorsPanelView.swift",
+        "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Sources/DubbingEditor/Views/SpeakerSuggestionOverlay.swift",
+        "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Sources/DubbingEditor/Views/WaveformView.swift",
+        "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditor.build/DerivedSources/resource_bundle_accessor.swift"
       ],
       "tempsPath" : "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditor.build",
       "wholeModuleOptimization" : true
     },
     "C.DubbingEditorPackageTests-arm64-apple-macosx13.0-release.module" : {
-      "executable" : "/Library/Developer/CommandLineTools/usr/bin/swiftc",
+      "executable" : "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc",
       "fileList" : "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditorPackageTests.build/sources",
       "importPath" : "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/Modules",
       "inputs" : [
@@ -314,7 +565,7 @@
         },
         {
           "kind" : "file",
-          "name" : "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/swift-version--1AB21518FC5DEDBE.txt"
+          "name" : "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/swift-version--58304C5D6DBC2206.txt"
         },
         {
           "kind" : "file",
@@ -352,19 +603,25 @@
         "-emit-objc-header",
         "-emit-objc-header-path",
         "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditorPackageTests.build/include/DubbingEditorPackageTests-Swift.h",
-        "-I",
-        "/Library/Developer/CommandLineTools/Library/Developer/Frameworks",
-        "-L",
-        "/Library/Developer/CommandLineTools/Library/Developer/Frameworks",
         "-plugin-path",
-        "/Library/Developer/CommandLineTools/usr/lib/swift/host/plugins/testing",
+        "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/host/plugins/testing",
         "-sdk",
-        "/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.4.sdk",
+        "-F",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+        "-I",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+        "-L",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
         "-g",
         "-Xcc",
         "-isysroot",
         "-Xcc",
-        "/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.4.sdk",
+        "-Xcc",
+        "-F",
+        "-Xcc",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
         "-Xcc",
         "-fPIC",
         "-Xcc",
@@ -391,13 +648,33 @@
       "wholeModuleOptimization" : true
     },
     "C.DubbingEditorTests-arm64-apple-macosx13.0-release.module" : {
-      "executable" : "/Library/Developer/CommandLineTools/usr/bin/swiftc",
+      "executable" : "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc",
       "fileList" : "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditorTests.build/sources",
       "importPath" : "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/Modules",
       "inputs" : [
         {
           "kind" : "file",
+          "name" : "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Tests/DubbingEditorTests/BugReportServiceTests.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Tests/DubbingEditorTests/BundleAppTests.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Tests/DubbingEditorTests/ChannelDerivedAudioServiceTests.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Tests/DubbingEditorTests/DialogueRowDraftControllerTests.swift"
+        },
+        {
+          "kind" : "file",
           "name" : "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Tests/DubbingEditorTests/EditorPerformanceTests.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Tests/DubbingEditorTests/EditorProjectionCoordinatorTests.swift"
         },
         {
           "kind" : "file",
@@ -405,7 +682,31 @@
         },
         {
           "kind" : "file",
+          "name" : "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Tests/DubbingEditorTests/NetflixExcelServiceTests.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Tests/DubbingEditorTests/PlaybackCompositionServiceTests.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Tests/DubbingEditorTests/PlaybackWaveformProjectionServiceTests.swift"
+        },
+        {
+          "kind" : "file",
           "name" : "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Tests/DubbingEditorTests/ProjectServiceTests.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Tests/DubbingEditorTests/ProjectWorkTrackerTests.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Tests/DubbingEditorTests/SpeakerAppearanceServiceTests.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Tests/DubbingEditorTests/SpeakerSuggestionOverlayTests.swift"
         },
         {
           "kind" : "file",
@@ -425,7 +726,7 @@
         },
         {
           "kind" : "file",
-          "name" : "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/swift-version--1AB21518FC5DEDBE.txt"
+          "name" : "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/swift-version--58304C5D6DBC2206.txt"
         },
         {
           "kind" : "file",
@@ -440,9 +741,20 @@
       "moduleName" : "DubbingEditorTests",
       "moduleOutputPath" : "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/Modules/DubbingEditorTests.swiftmodule",
       "objects" : [
+        "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditorTests.build/BugReportServiceTests.swift.o",
+        "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditorTests.build/BundleAppTests.swift.o",
+        "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditorTests.build/ChannelDerivedAudioServiceTests.swift.o",
+        "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditorTests.build/DialogueRowDraftControllerTests.swift.o",
         "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditorTests.build/EditorPerformanceTests.swift.o",
+        "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditorTests.build/EditorProjectionCoordinatorTests.swift.o",
         "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditorTests.build/EditorViewModelTests.swift.o",
+        "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditorTests.build/NetflixExcelServiceTests.swift.o",
+        "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditorTests.build/PlaybackCompositionServiceTests.swift.o",
+        "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditorTests.build/PlaybackWaveformProjectionServiceTests.swift.o",
         "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditorTests.build/ProjectServiceTests.swift.o",
+        "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditorTests.build/ProjectWorkTrackerTests.swift.o",
+        "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditorTests.build/SpeakerAppearanceServiceTests.swift.o",
+        "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditorTests.build/SpeakerSuggestionOverlayTests.swift.o",
         "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditorTests.build/TimecodeServiceTests.swift.o",
         "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditorTests.build/WordExportPipelineServiceTests.swift.o",
         "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditorTests.build/WordExportServiceTests.swift.o",
@@ -450,7 +762,7 @@
       ],
       "otherArguments" : [
         "-target",
-        "arm64-apple-macosx13.0",
+        "arm64-apple-macosx14.0",
         "-whole-module-optimization",
         "-num-threads",
         "12",
@@ -470,19 +782,25 @@
         "-parse-as-library",
         "-swift-version",
         "5",
-        "-I",
-        "/Library/Developer/CommandLineTools/Library/Developer/Frameworks",
-        "-L",
-        "/Library/Developer/CommandLineTools/Library/Developer/Frameworks",
         "-plugin-path",
-        "/Library/Developer/CommandLineTools/usr/lib/swift/host/plugins/testing",
+        "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/host/plugins/testing",
         "-sdk",
-        "/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.4.sdk",
+        "-F",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+        "-I",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+        "-L",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
         "-g",
         "-Xcc",
         "-isysroot",
         "-Xcc",
-        "/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.4.sdk",
+        "-Xcc",
+        "-F",
+        "-Xcc",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
         "-Xcc",
         "-fPIC",
         "-Xcc",
@@ -494,7 +812,27 @@
       "outputs" : [
         {
           "kind" : "file",
+          "name" : "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditorTests.build/BugReportServiceTests.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditorTests.build/BundleAppTests.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditorTests.build/ChannelDerivedAudioServiceTests.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditorTests.build/DialogueRowDraftControllerTests.swift.o"
+        },
+        {
+          "kind" : "file",
           "name" : "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditorTests.build/EditorPerformanceTests.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditorTests.build/EditorProjectionCoordinatorTests.swift.o"
         },
         {
           "kind" : "file",
@@ -502,7 +840,31 @@
         },
         {
           "kind" : "file",
+          "name" : "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditorTests.build/NetflixExcelServiceTests.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditorTests.build/PlaybackCompositionServiceTests.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditorTests.build/PlaybackWaveformProjectionServiceTests.swift.o"
+        },
+        {
+          "kind" : "file",
           "name" : "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditorTests.build/ProjectServiceTests.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditorTests.build/ProjectWorkTrackerTests.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditorTests.build/SpeakerAppearanceServiceTests.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditorTests.build/SpeakerSuggestionOverlayTests.swift.o"
         },
         {
           "kind" : "file",
@@ -527,9 +889,20 @@
       ],
       "prepareForIndexing" : false,
       "sources" : [
+        "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Tests/DubbingEditorTests/BugReportServiceTests.swift",
+        "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Tests/DubbingEditorTests/BundleAppTests.swift",
+        "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Tests/DubbingEditorTests/ChannelDerivedAudioServiceTests.swift",
+        "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Tests/DubbingEditorTests/DialogueRowDraftControllerTests.swift",
         "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Tests/DubbingEditorTests/EditorPerformanceTests.swift",
+        "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Tests/DubbingEditorTests/EditorProjectionCoordinatorTests.swift",
         "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Tests/DubbingEditorTests/EditorViewModelTests.swift",
+        "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Tests/DubbingEditorTests/NetflixExcelServiceTests.swift",
+        "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Tests/DubbingEditorTests/PlaybackCompositionServiceTests.swift",
+        "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Tests/DubbingEditorTests/PlaybackWaveformProjectionServiceTests.swift",
         "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Tests/DubbingEditorTests/ProjectServiceTests.swift",
+        "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Tests/DubbingEditorTests/ProjectWorkTrackerTests.swift",
+        "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Tests/DubbingEditorTests/SpeakerAppearanceServiceTests.swift",
+        "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Tests/DubbingEditorTests/SpeakerSuggestionOverlayTests.swift",
         "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Tests/DubbingEditorTests/TimecodeServiceTests.swift",
         "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Tests/DubbingEditorTests/WordExportPipelineServiceTests.swift",
         "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Tests/DubbingEditorTests/WordExportServiceTests.swift",
@@ -544,33 +917,53 @@
   },
   "swiftTargetScanArgs" : {
     "DubbingEditor" : [
-      "/Library/Developer/CommandLineTools/usr/bin/swiftc",
+      "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc",
       "-module-name",
       "DubbingEditor",
       "-package-name",
       "uprava",
       "-c",
+      "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Sources/DubbingEditor/Debug/SpeakerAutocompleteDebugLog.swift",
       "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Sources/DubbingEditor/DubbingEditorApp.swift",
+      "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Sources/DubbingEditor/Extensions/Bundle+App.swift",
       "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Sources/DubbingEditor/Models/AppNotifications.swift",
+      "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Sources/DubbingEditor/Models/BugReport.swift",
+      "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Sources/DubbingEditor/Models/DetachedVideoWindowPresenter.swift",
       "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Sources/DubbingEditor/Models/DialogueLine.swift",
       "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Sources/DubbingEditor/Models/EditorError.swift",
+      "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Sources/DubbingEditor/Models/EditorProjectionCoordinator.swift",
       "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Sources/DubbingEditor/Models/EditorViewModel.swift",
       "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Sources/DubbingEditor/Models/SettingsWindowPresenter.swift",
       "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Sources/DubbingEditor/Services/AutosaveService.swift",
+      "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Sources/DubbingEditor/Services/BugReportEmailService.swift",
+      "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Sources/DubbingEditor/Services/BugReportService.swift",
+      "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Sources/DubbingEditor/Services/ChannelDerivedAudioService.swift",
+      "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Sources/DubbingEditor/Services/NetflixExcelService.swift",
+      "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Sources/DubbingEditor/Services/PlaybackCompositionService.swift",
+      "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Sources/DubbingEditor/Services/PlaybackWaveformProjectionService.swift",
       "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Sources/DubbingEditor/Services/ProjectService.swift",
+      "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Sources/DubbingEditor/Services/ProjectWorkSession.swift",
+      "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Sources/DubbingEditor/Services/ProjectWorkTracker.swift",
+      "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Sources/DubbingEditor/Services/SpeakerAppearanceService.swift",
       "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Sources/DubbingEditor/Services/StereoChannelMuteService.swift",
       "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Sources/DubbingEditor/Services/TimecodeService.swift",
       "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Sources/DubbingEditor/Services/WaveformService.swift",
+      "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Sources/DubbingEditor/Services/WindowSnapshotService.swift",
       "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Sources/DubbingEditor/Services/WordExportPipelineService.swift",
       "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Sources/DubbingEditor/Services/WordExportService.swift",
       "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Sources/DubbingEditor/Services/WordImportService.swift",
       "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Sources/DubbingEditor/Views/AppSettingsView.swift",
+      "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Sources/DubbingEditor/Views/BugReportSheetView.swift",
       "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Sources/DubbingEditor/Views/ContentView.swift",
+      "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Sources/DubbingEditor/Views/DialogueRowDraftController.swift",
       "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Sources/DubbingEditor/Views/DialogueRowView.swift",
       "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Sources/DubbingEditor/Views/PlaybackPanelView.swift",
       "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Sources/DubbingEditor/Views/PlayerContainerView.swift",
       "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Sources/DubbingEditor/Views/ShortcutPresentation.swift",
+      "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Sources/DubbingEditor/Views/SpeakerColorsPanelView.swift",
+      "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Sources/DubbingEditor/Views/SpeakerSuggestionOverlay.swift",
       "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Sources/DubbingEditor/Views/WaveformView.swift",
+      "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditor.build/DerivedSources/resource_bundle_accessor.swift",
       "-I",
       "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/Modules",
       "-target",
@@ -582,7 +975,7 @@
       "-O",
       "-j12",
       "-DSWIFT_PACKAGE",
-      "-DSWIFT_MODULE_RESOURCE_BUNDLE_UNAVAILABLE",
+      "-DSWIFT_MODULE_RESOURCE_BUNDLE_AVAILABLE",
       "-module-cache-path",
       "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/ModuleCache",
       "-parseable-output",
@@ -592,19 +985,25 @@
       "DubbingEditor_main",
       "-swift-version",
       "5",
-      "-I",
-      "/Library/Developer/CommandLineTools/Library/Developer/Frameworks",
-      "-L",
-      "/Library/Developer/CommandLineTools/Library/Developer/Frameworks",
       "-plugin-path",
-      "/Library/Developer/CommandLineTools/usr/lib/swift/host/plugins/testing",
+      "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/host/plugins/testing",
       "-sdk",
-      "/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.4.sdk",
+      "-F",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+      "-I",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+      "-L",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
       "-g",
       "-Xcc",
       "-isysroot",
       "-Xcc",
-      "/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.4.sdk",
+      "-Xcc",
+      "-F",
+      "-Xcc",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
       "-Xcc",
       "-fPIC",
       "-Xcc",
@@ -612,10 +1011,10 @@
       "-package-name",
       "uprava",
       "-driver-use-frontend-path",
-      "/Library/Developer/CommandLineTools/usr/bin/swiftc"
+      "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc"
     ],
     "DubbingEditorPackageTests" : [
-      "/Library/Developer/CommandLineTools/usr/bin/swiftc",
+      "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc",
       "-module-name",
       "DubbingEditorPackageTests",
       "-package-name",
@@ -644,19 +1043,25 @@
       "-emit-objc-header",
       "-emit-objc-header-path",
       "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditorPackageTests.build/include/DubbingEditorPackageTests-Swift.h",
-      "-I",
-      "/Library/Developer/CommandLineTools/Library/Developer/Frameworks",
-      "-L",
-      "/Library/Developer/CommandLineTools/Library/Developer/Frameworks",
       "-plugin-path",
-      "/Library/Developer/CommandLineTools/usr/lib/swift/host/plugins/testing",
+      "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/host/plugins/testing",
       "-sdk",
-      "/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.4.sdk",
+      "-F",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+      "-I",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+      "-L",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
       "-g",
       "-Xcc",
       "-isysroot",
       "-Xcc",
-      "/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.4.sdk",
+      "-Xcc",
+      "-F",
+      "-Xcc",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
       "-Xcc",
       "-fPIC",
       "-Xcc",
@@ -664,18 +1069,29 @@
       "-package-name",
       "uprava",
       "-driver-use-frontend-path",
-      "/Library/Developer/CommandLineTools/usr/bin/swiftc"
+      "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc"
     ],
     "DubbingEditorTests" : [
-      "/Library/Developer/CommandLineTools/usr/bin/swiftc",
+      "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc",
       "-module-name",
       "DubbingEditorTests",
       "-package-name",
       "uprava",
       "-c",
+      "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Tests/DubbingEditorTests/BugReportServiceTests.swift",
+      "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Tests/DubbingEditorTests/BundleAppTests.swift",
+      "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Tests/DubbingEditorTests/ChannelDerivedAudioServiceTests.swift",
+      "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Tests/DubbingEditorTests/DialogueRowDraftControllerTests.swift",
       "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Tests/DubbingEditorTests/EditorPerformanceTests.swift",
+      "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Tests/DubbingEditorTests/EditorProjectionCoordinatorTests.swift",
       "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Tests/DubbingEditorTests/EditorViewModelTests.swift",
+      "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Tests/DubbingEditorTests/NetflixExcelServiceTests.swift",
+      "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Tests/DubbingEditorTests/PlaybackCompositionServiceTests.swift",
+      "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Tests/DubbingEditorTests/PlaybackWaveformProjectionServiceTests.swift",
       "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Tests/DubbingEditorTests/ProjectServiceTests.swift",
+      "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Tests/DubbingEditorTests/ProjectWorkTrackerTests.swift",
+      "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Tests/DubbingEditorTests/SpeakerAppearanceServiceTests.swift",
+      "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Tests/DubbingEditorTests/SpeakerSuggestionOverlayTests.swift",
       "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Tests/DubbingEditorTests/TimecodeServiceTests.swift",
       "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Tests/DubbingEditorTests/WordExportPipelineServiceTests.swift",
       "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Tests/DubbingEditorTests/WordExportServiceTests.swift",
@@ -683,7 +1099,7 @@
       "-I",
       "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/Modules",
       "-target",
-      "arm64-apple-macosx13.0",
+      "arm64-apple-macosx14.0",
       "-whole-module-optimization",
       "-num-threads",
       "12",
@@ -703,19 +1119,25 @@
       "-parse-as-library",
       "-swift-version",
       "5",
-      "-I",
-      "/Library/Developer/CommandLineTools/Library/Developer/Frameworks",
-      "-L",
-      "/Library/Developer/CommandLineTools/Library/Developer/Frameworks",
       "-plugin-path",
-      "/Library/Developer/CommandLineTools/usr/lib/swift/host/plugins/testing",
+      "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/host/plugins/testing",
       "-sdk",
-      "/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.4.sdk",
+      "-F",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+      "-I",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+      "-L",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
       "-g",
       "-Xcc",
       "-isysroot",
       "-Xcc",
-      "/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.4.sdk",
+      "-Xcc",
+      "-F",
+      "-Xcc",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
       "-Xcc",
       "-fPIC",
       "-Xcc",
@@ -723,7 +1145,7 @@
       "-package-name",
       "uprava",
       "-driver-use-frontend-path",
-      "/Library/Developer/CommandLineTools/usr/bin/swiftc"
+      "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc"
     ]
   },
   "targetDependencyMap" : {
@@ -769,11 +1191,27 @@
         },
         {
           "kind" : "file",
+          "name" : "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Sources/DubbingEditor/Debug/SpeakerAutocompleteDebugLog.swift"
+        },
+        {
+          "kind" : "file",
           "name" : "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Sources/DubbingEditor/DubbingEditorApp.swift"
         },
         {
           "kind" : "file",
+          "name" : "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Sources/DubbingEditor/Extensions/Bundle+App.swift"
+        },
+        {
+          "kind" : "file",
           "name" : "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Sources/DubbingEditor/Models/AppNotifications.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Sources/DubbingEditor/Models/BugReport.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Sources/DubbingEditor/Models/DetachedVideoWindowPresenter.swift"
         },
         {
           "kind" : "file",
@@ -782,6 +1220,10 @@
         {
           "kind" : "file",
           "name" : "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Sources/DubbingEditor/Models/EditorError.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Sources/DubbingEditor/Models/EditorProjectionCoordinator.swift"
         },
         {
           "kind" : "file",
@@ -797,7 +1239,43 @@
         },
         {
           "kind" : "file",
+          "name" : "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Sources/DubbingEditor/Services/BugReportEmailService.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Sources/DubbingEditor/Services/BugReportService.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Sources/DubbingEditor/Services/ChannelDerivedAudioService.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Sources/DubbingEditor/Services/NetflixExcelService.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Sources/DubbingEditor/Services/PlaybackCompositionService.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Sources/DubbingEditor/Services/PlaybackWaveformProjectionService.swift"
+        },
+        {
+          "kind" : "file",
           "name" : "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Sources/DubbingEditor/Services/ProjectService.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Sources/DubbingEditor/Services/ProjectWorkSession.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Sources/DubbingEditor/Services/ProjectWorkTracker.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Sources/DubbingEditor/Services/SpeakerAppearanceService.swift"
         },
         {
           "kind" : "file",
@@ -810,6 +1288,10 @@
         {
           "kind" : "file",
           "name" : "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Sources/DubbingEditor/Services/WaveformService.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Sources/DubbingEditor/Services/WindowSnapshotService.swift"
         },
         {
           "kind" : "file",
@@ -829,7 +1311,15 @@
         },
         {
           "kind" : "file",
+          "name" : "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Sources/DubbingEditor/Views/BugReportSheetView.swift"
+        },
+        {
+          "kind" : "file",
           "name" : "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Sources/DubbingEditor/Views/ContentView.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Sources/DubbingEditor/Views/DialogueRowDraftController.swift"
         },
         {
           "kind" : "file",
@@ -849,7 +1339,19 @@
         },
         {
           "kind" : "file",
+          "name" : "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Sources/DubbingEditor/Views/SpeakerColorsPanelView.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Sources/DubbingEditor/Views/SpeakerSuggestionOverlay.swift"
+        },
+        {
+          "kind" : "file",
           "name" : "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Sources/DubbingEditor/Views/WaveformView.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditor.build/DerivedSources/resource_bundle_accessor.swift"
         }
       ],
       "outputFilePath" : "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditor.build/sources"
@@ -875,11 +1377,43 @@
         },
         {
           "kind" : "file",
+          "name" : "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditor.build/BugReport.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditor.build/BugReportEmailService.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditor.build/BugReportService.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditor.build/BugReportSheetView.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditor.build/Bundle+App.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditor.build/ChannelDerivedAudioService.swift.o"
+        },
+        {
+          "kind" : "file",
           "name" : "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditor.build/ContentView.swift.o"
         },
         {
           "kind" : "file",
+          "name" : "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditor.build/DetachedVideoWindowPresenter.swift.o"
+        },
+        {
+          "kind" : "file",
           "name" : "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditor.build/DialogueLine.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditor.build/DialogueRowDraftController.swift.o"
         },
         {
           "kind" : "file",
@@ -895,11 +1429,27 @@
         },
         {
           "kind" : "file",
+          "name" : "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditor.build/EditorProjectionCoordinator.swift.o"
+        },
+        {
+          "kind" : "file",
           "name" : "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditor.build/EditorViewModel.swift.o"
         },
         {
           "kind" : "file",
+          "name" : "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditor.build/NetflixExcelService.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditor.build/PlaybackCompositionService.swift.o"
+        },
+        {
+          "kind" : "file",
           "name" : "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditor.build/PlaybackPanelView.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditor.build/PlaybackWaveformProjectionService.swift.o"
         },
         {
           "kind" : "file",
@@ -911,11 +1461,35 @@
         },
         {
           "kind" : "file",
+          "name" : "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditor.build/ProjectWorkSession.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditor.build/ProjectWorkTracker.swift.o"
+        },
+        {
+          "kind" : "file",
           "name" : "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditor.build/SettingsWindowPresenter.swift.o"
         },
         {
           "kind" : "file",
           "name" : "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditor.build/ShortcutPresentation.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditor.build/SpeakerAppearanceService.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditor.build/SpeakerAutocompleteDebugLog.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditor.build/SpeakerColorsPanelView.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditor.build/SpeakerSuggestionOverlay.swift.o"
         },
         {
           "kind" : "file",
@@ -935,6 +1509,10 @@
         },
         {
           "kind" : "file",
+          "name" : "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditor.build/WindowSnapshotService.swift.o"
+        },
+        {
+          "kind" : "file",
           "name" : "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditor.build/WordExportPipelineService.swift.o"
         },
         {
@@ -944,6 +1522,10 @@
         {
           "kind" : "file",
           "name" : "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditor.build/WordImportService.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditor.build/resource_bundle_accessor.swift.o"
         }
       ],
       "outputFilePath" : "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditor.product/Objects.LinkFileList"
@@ -983,11 +1565,43 @@
         },
         {
           "kind" : "file",
+          "name" : "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditor.build/BugReport.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditor.build/BugReportEmailService.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditor.build/BugReportService.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditor.build/BugReportSheetView.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditor.build/Bundle+App.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditor.build/ChannelDerivedAudioService.swift.o"
+        },
+        {
+          "kind" : "file",
           "name" : "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditor.build/ContentView.swift.o"
         },
         {
           "kind" : "file",
+          "name" : "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditor.build/DetachedVideoWindowPresenter.swift.o"
+        },
+        {
+          "kind" : "file",
           "name" : "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditor.build/DialogueLine.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditor.build/DialogueRowDraftController.swift.o"
         },
         {
           "kind" : "file",
@@ -1003,11 +1617,27 @@
         },
         {
           "kind" : "file",
+          "name" : "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditor.build/EditorProjectionCoordinator.swift.o"
+        },
+        {
+          "kind" : "file",
           "name" : "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditor.build/EditorViewModel.swift.o"
         },
         {
           "kind" : "file",
+          "name" : "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditor.build/NetflixExcelService.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditor.build/PlaybackCompositionService.swift.o"
+        },
+        {
+          "kind" : "file",
           "name" : "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditor.build/PlaybackPanelView.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditor.build/PlaybackWaveformProjectionService.swift.o"
         },
         {
           "kind" : "file",
@@ -1019,11 +1649,35 @@
         },
         {
           "kind" : "file",
+          "name" : "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditor.build/ProjectWorkSession.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditor.build/ProjectWorkTracker.swift.o"
+        },
+        {
+          "kind" : "file",
           "name" : "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditor.build/SettingsWindowPresenter.swift.o"
         },
         {
           "kind" : "file",
           "name" : "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditor.build/ShortcutPresentation.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditor.build/SpeakerAppearanceService.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditor.build/SpeakerAutocompleteDebugLog.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditor.build/SpeakerColorsPanelView.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditor.build/SpeakerSuggestionOverlay.swift.o"
         },
         {
           "kind" : "file",
@@ -1043,6 +1697,10 @@
         },
         {
           "kind" : "file",
+          "name" : "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditor.build/WindowSnapshotService.swift.o"
+        },
+        {
+          "kind" : "file",
           "name" : "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditor.build/WordExportPipelineService.swift.o"
         },
         {
@@ -1055,7 +1713,27 @@
         },
         {
           "kind" : "file",
+          "name" : "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditor.build/resource_bundle_accessor.swift.o"
+        },
+        {
+          "kind" : "file",
           "name" : "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditorPackageTests.build/runner.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditorTests.build/BugReportServiceTests.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditorTests.build/BundleAppTests.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditorTests.build/ChannelDerivedAudioServiceTests.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditorTests.build/DialogueRowDraftControllerTests.swift.o"
         },
         {
           "kind" : "file",
@@ -1063,11 +1741,39 @@
         },
         {
           "kind" : "file",
+          "name" : "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditorTests.build/EditorProjectionCoordinatorTests.swift.o"
+        },
+        {
+          "kind" : "file",
           "name" : "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditorTests.build/EditorViewModelTests.swift.o"
         },
         {
           "kind" : "file",
+          "name" : "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditorTests.build/NetflixExcelServiceTests.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditorTests.build/PlaybackCompositionServiceTests.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditorTests.build/PlaybackWaveformProjectionServiceTests.swift.o"
+        },
+        {
+          "kind" : "file",
           "name" : "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditorTests.build/ProjectServiceTests.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditorTests.build/ProjectWorkTrackerTests.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditorTests.build/SpeakerAppearanceServiceTests.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditorTests.build/SpeakerSuggestionOverlayTests.swift.o"
         },
         {
           "kind" : "file",
@@ -1097,7 +1803,27 @@
         },
         {
           "kind" : "file",
+          "name" : "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Tests/DubbingEditorTests/BugReportServiceTests.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Tests/DubbingEditorTests/BundleAppTests.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Tests/DubbingEditorTests/ChannelDerivedAudioServiceTests.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Tests/DubbingEditorTests/DialogueRowDraftControllerTests.swift"
+        },
+        {
+          "kind" : "file",
           "name" : "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Tests/DubbingEditorTests/EditorPerformanceTests.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Tests/DubbingEditorTests/EditorProjectionCoordinatorTests.swift"
         },
         {
           "kind" : "file",
@@ -1105,7 +1831,31 @@
         },
         {
           "kind" : "file",
+          "name" : "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Tests/DubbingEditorTests/NetflixExcelServiceTests.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Tests/DubbingEditorTests/PlaybackCompositionServiceTests.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Tests/DubbingEditorTests/PlaybackWaveformProjectionServiceTests.swift"
+        },
+        {
+          "kind" : "file",
           "name" : "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Tests/DubbingEditorTests/ProjectServiceTests.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Tests/DubbingEditorTests/ProjectWorkTrackerTests.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Tests/DubbingEditorTests/SpeakerAppearanceServiceTests.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Tests/DubbingEditorTests/SpeakerSuggestionOverlayTests.swift"
         },
         {
           "kind" : "file",
@@ -1126,7 +1876,7 @@
       ],
       "outputFilePath" : "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditorTests.build/sources"
     },
-    "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/swift-version--1AB21518FC5DEDBE.txt" : {
+    "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/swift-version--58304C5D6DBC2206.txt" : {
       "alwaysOutOfDate" : true,
       "inputs" : [
         {
@@ -1135,10 +1885,10 @@
         },
         {
           "kind" : "file",
-          "name" : "/Library/Developer/CommandLineTools/usr/bin/swiftc"
+          "name" : "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc"
         }
       ],
-      "outputFilePath" : "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/swift-version--1AB21518FC5DEDBE.txt"
+      "outputFilePath" : "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/swift-version--58304C5D6DBC2206.txt"
     }
   }
 }

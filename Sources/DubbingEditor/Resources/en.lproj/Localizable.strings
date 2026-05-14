@@ -76,6 +76,7 @@
 
 /* Alert – dialog title */
 "Chyba" = "Error";
+"alert.title.notice" = "Notice";
 "Bug report" = "Bug Report";
 
 /* Alerts – programmatic messages */
@@ -98,6 +99,7 @@
 "alert.invalid_offset" = "Invalid offset. Use seconds (e.g. -1.25) or timecode (e.g. +00:00:01:12).";
 "alert.offset_no_timecodes" = "Offset applied, but no valid timecodes were found.";
 "alert.invalid_video_offset" = "Invalid video offset. Use seconds (e.g. -1.25) or timecode (e.g. +00:00:01:12).";
+"alert.invalid_video_drift" = "Invalid video drift. Use seconds per hour (e.g. +4.5).";
 "alert.loop_no_active_line" = "Active line has no valid start timecode.";
 "alert.loop_no_line_selected" = "Double-click a line first to enable loop.";
 "alert.loop_invalid_start_tc" = "Selected line has no valid start timecode for loop.";

@@ -76,6 +76,7 @@
 
 /* Alert – název dialogu */
 "Chyba" = "Chyba";
+"alert.title.notice" = "Upozornění";
 "Bug report" = "Bug report";
 
 /* Alerts – zprávy (programatické) */
@@ -90,6 +91,8 @@
 "alert.nothing_to_export_empty_lines" = "Není co exportovat. Všechny řádky jsou prázdné.";
 "alert.export_docx_done" = "Export DOCX hotov. Profil: %@. Řádků: %d.";
 "alert.export_docx_failed" = "Export DOCX selhal: %@";
+"alert.export_excel_done" = "Export Excel hotov. Řádků: %d.";
+"alert.export_excel_failed" = "Export Excel selhal: %@";
 "alert.save_project_failed" = "Nepodařilo se uložit projekt: %@";
 "alert.open_project_failed" = "Nepodařilo se otevřít projekt: %@";
 "alert.project_not_found" = "Projekt už neexistuje: %@";
@@ -98,6 +101,7 @@
 "alert.invalid_offset" = "Neplatný offset. Použij sekundy (např. -1.25) nebo timecode (např. +00:00:01:12).";
 "alert.offset_no_timecodes" = "Offset byl aplikován, ale nenašly se žádné validní timecody.";
 "alert.invalid_video_offset" = "Neplatný video offset. Použij sekundy (např. -1.25) nebo timecode (např. +00:00:01:12).";
+"alert.invalid_video_drift" = "Neplatný video drift. Použij sekundy za hodinu (např. +4.5).";
 "alert.loop_no_active_line" = "Aktivní replika nemá validní start timecode.";
 "alert.loop_no_line_selected" = "Nejprve dvojklikem zvýrazni repliku pro loop.";
 "alert.loop_invalid_start_tc" = "Vybraná replika nemá validní start timecode pro loop.";
@@ -105,7 +109,9 @@
 "alert.open_report_folder_failed" = "Nepodařilo se otevřít složku reportu: %@";
 "alert.open_bug_dashboard_failed" = "Nepodařilo se otevřít bug dashboard: %@";
 "alert.import_word_failed" = "Import Word selhal: %@";
+"alert.import_excel_failed" = "Import Excel selhal: %@";
 "alert.import_done" = "Import hotov. Formát: %@. Načteno replik: %d.";
+"alert.import_excel_done" = "Import Excel hotov. Načteno replik: %d.%@";
 "alert.import_done_with_skipped" = "Import hotov. Formát: %@. Načteno replik: %d. %@";
 "alert.video_import_failed" = "Import videa selhal";
 "alert.external_audio_import_failed" = "Import externího audia selhal";

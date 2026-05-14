@@ -1,0 +1,191 @@
+[0/1] Planning build
+Building for debugging...
+[0/4] Write swift-version--58304C5D6DBC2206.txt
+error: emit-module command failed with exit code 1 (use -v to see invocation)
+[2/6] Emitting module DubbingEditor
+/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Sources/DubbingEditor/Views/PlaybackPanelView.swift:8:5: error: expected declaration
+  5 | 
+  6 | @MainActor
+  7 | struct PlaybackPanelView: View {
+    |        `- note: in declaration of 'PlaybackPanelView'
+  8 |     @ObservedObject var model: EditorViewModel
+    |     `- error: expected declaration
+  9 |     @ObservedObject private var detachedVideoWindowPresenter = DetachedVideoWindowPresenter.shared
+ 10 |     @State private var playheadProgress: Double = 0
+
+/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Sources/DubbingEditor/Views/PlaybackPanelView.swift:8:5: error: expected '}' in struct
+  5 | 
+  6 | @MainActor
+  7 | struct PlaybackPanelView: View {
+    |                                `- note: to match this opening '{'
+  8 |     @ObservedObject var model: EditorViewModel
+    |     `- error: expected '}' in struct
+  9 |     @ObservedObject private var detachedVideoWindowPresenter = DetachedVideoWindowPresenter.shared
+ 10 |     @State private var playheadProgress: Double = 0
+
+/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Sources/DubbingEditor/Views/PlaybackPanelView.swift:7:8: error: type 'PlaybackPanelView' does not conform to protocol 'View'
+  5 | 
+  6 | @MainActor
+  7 | struct PlaybackPanelView: View {
+    |        |- error: type 'PlaybackPanelView' does not conform to protocol 'View'
+    |        `- note: add stubs for conformance
+  8 |     @ObservedObject var model: EditorViewModel
+  9 |     @ObservedObject private var detachedVideoWindowPresenter = DetachedVideoWindowPresenter.shared
+
+SwiftUI.View.Body:2:16: note: protocol requires nested type 'Body'
+1 | protocol View {
+2 | associatedtype Body : View}
+  |                `- note: protocol requires nested type 'Body'
+3 | 
+[3/6] Compiling DubbingEditor PlaybackPanelView.swift
+/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Sources/DubbingEditor/Views/PlaybackPanelView.swift:528:5: error: attribute 'private' can only be used in a non-local scope
+526 |         }
+527 | 
+528 |     private func channelWaveformRow(label: String?, samples: [Float]) -> some View {
+    |     `- error: attribute 'private' can only be used in a non-local scope
+529 |         HStack(spacing: 8) {
+530 |             if let label {
+
+/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Sources/DubbingEditor/Views/PlaybackPanelView.swift:551:5: error: attribute 'private' can only be used in a non-local scope
+549 |     }
+550 | 
+551 |     private func playbackDurationSeconds() -> Double? {
+    |     `- error: attribute 'private' can only be used in a non-local scope
+552 |         guard
+553 |             let duration = model.player.currentItem?.duration.seconds,
+
+/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Sources/DubbingEditor/Views/PlaybackPanelView.swift:562:5: error: attribute 'private' can only be used in a non-local scope
+560 |     }
+561 | 
+562 |     private func selectedLineTimeRangeSeconds() -> ClosedRange<Double>? {
+    |     `- error: attribute 'private' can only be used in a non-local scope
+563 |         guard
+564 |             let selectedID = model.selectedLineID,
+
+/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Sources/DubbingEditor/Views/PlaybackPanelView.swift:578:5: error: attribute 'private' can only be used in a non-local scope
+576 |     }
+577 | 
+578 |     private func selectedLineWaveformRangeProgress() -> ClosedRange<Double>? {
+    |     `- error: attribute 'private' can only be used in a non-local scope
+579 |         guard
+580 |             let secondsRange = selectedLineTimeRangeSeconds(),
+
+/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Sources/DubbingEditor/Views/PlaybackPanelView.swift:591:5: error: attribute 'private' can only be used in a non-local scope
+589 |     }
+590 | 
+591 |     private func selectedLineWaveformLabel() -> String? {
+    |     `- error: attribute 'private' can only be used in a non-local scope
+592 |         guard let secondsRange = selectedLineTimeRangeSeconds() else {
+593 |             return nil
+
+/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Sources/DubbingEditor/Views/PlaybackPanelView.swift:606:5: error: attribute 'private' can only be used in a non-local scope
+604 |     }
+605 | 
+606 |     private func beginWaveformScrub() {
+    |     `- error: attribute 'private' can only be used in a non-local scope
+607 |         guard !isWaveformScrubbing else { return }
+608 |         isWaveformScrubbing = true
+
+/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Sources/DubbingEditor/Views/PlaybackPanelView.swift:611:5: error: attribute 'private' can only be used in a non-local scope
+609 |     }
+610 | 
+611 |     private func updateWaveformScrub(progress: Double) {
+    |     `- error: attribute 'private' can only be used in a non-local scope
+612 |         seekToPlaybackProgress(progress, precise: false)
+613 |     }
+
+/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Sources/DubbingEditor/Views/PlaybackPanelView.swift:615:5: error: attribute 'private' can only be used in a non-local scope
+613 |     }
+614 | 
+615 |     private func endWaveformScrub(progress: Double) {
+    |     `- error: attribute 'private' can only be used in a non-local scope
+616 |         seekToPlaybackProgress(progress, precise: true)
+617 |         isWaveformScrubbing = false
+
+/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Sources/DubbingEditor/Views/PlaybackPanelView.swift:620:5: error: attribute 'private' can only be used in a non-local scope
+618 |     }
+619 | 
+620 |     private func seekToPlaybackProgress(_ progress: Double, precise: Bool) {
+    |     `- error: attribute 'private' can only be used in a non-local scope
+621 |         guard let duration = playbackDurationSeconds() else { return }
+622 |         let clamped = max(0, min(1, progress))
+
+/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Sources/DubbingEditor/Views/PlaybackPanelView.swift:657:1: error: expected '}' in struct
+  5 | 
+  6 | @MainActor
+  7 | struct PlaybackPanelView: View {
+    |                                `- note: to match this opening '{'
+  8 |     @ObservedObject var model: EditorViewModel
+  9 |     @ObservedObject private var detachedVideoWindowPresenter = DetachedVideoWindowPresenter.shared
+    :
+655 | 
+656 | }
+657 | 
+    | `- error: expected '}' in struct
+
+/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Sources/DubbingEditor/Views/PlaybackPanelView.swift:557:13: warning: application of result builder 'ViewBuilder' disabled by explicit 'return' statement
+439 |     }
+440 | 
+441 |     @ViewBuilder
+    |     `- note: remove the attribute to explicitly disable the result builder
+442 |     private var waveformSection: some View {
+443 |         if shouldSuspendEmbeddedPlaybackUI {
+    :
+555 |             duration > 0
+556 |         else {
+557 |             return nil
+    |             |- warning: application of result builder 'ViewBuilder' disabled by explicit 'return' statement
+    |             `- note: remove 'return' statements to apply the result builder
+558 |         }
+559 |         return duration
+
+/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Sources/DubbingEditor/Views/PlaybackPanelView.swift:447:18: warning: result of call to 'overlay(alignment:content:)' is unused [#no-usage]
+445 |                 .fill(Color(nsColor: .windowBackgroundColor).opacity(0.35))
+446 |                 .frame(height: 74)
+447 |                 .overlay {
+    |                  `- warning: result of call to 'overlay(alignment:content:)' is unused [#no-usage]
+448 |                     Text("Waveform je pri editaci pozastaveno. Pro plynuly fullscreen pouzij samostatne video okno.")
+449 |                         .font(.caption)
+
+/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Sources/DubbingEditor/Views/PlaybackPanelView.swift:465:26: warning: result of call to 'overlay(alignment:content:)' is unused [#no-usage]
+463 |                         .fill(Color(nsColor: .windowBackgroundColor).opacity(0.35))
+464 |                         .frame(height: 74)
+465 |                         .overlay {
+    |                          `- warning: result of call to 'overlay(alignment:content:)' is unused [#no-usage]
+466 |                             Text(waveformEmptyStateText())
+467 |                                 .font(.caption)
+
+/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Sources/DubbingEditor/Views/PlaybackPanelView.swift:482:22: warning: result of call to 'overlay(alignment:content:)' is unused [#no-usage]
+480 |                         }
+481 |                     }
+482 |                     .overlay(alignment: .topLeading) {
+    |                      `- warning: result of call to 'overlay(alignment:content:)' is unused [#no-usage]
+483 |                         if let label = selectedLineWaveformLabel() {
+484 |                             Text(label)
+
+/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Sources/DubbingEditor/Views/PlaybackPanelView.swift:499:26: warning: result of call to 'overlay(alignment:content:)' is unused [#no-usage]
+497 |                         .fill(Color(nsColor: .windowBackgroundColor).opacity(0.35))
+498 |                         .frame(height: 74)
+499 |                         .overlay {
+    |                          `- warning: result of call to 'overlay(alignment:content:)' is unused [#no-usage]
+500 |                             Text(waveformEmptyStateText())
+501 |                                 .font(.caption)
+
+/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Sources/DubbingEditor/Views/PlaybackPanelView.swift:513:22: warning: result of call to 'overlay(alignment:content:)' is unused [#no-usage]
+511 |                         }
+512 |                     }
+513 |                     .overlay(alignment: .topLeading) {
+    |                      `- warning: result of call to 'overlay(alignment:content:)' is unused [#no-usage]
+514 |                         if let label = selectedLineWaveformLabel() {
+515 |                             Text(label)
+
+/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Sources/DubbingEditor/Views/PlaybackPanelView.swift:442:44: error: function declares an opaque return type, but has no return statements in its body from which to infer an underlying type [#OpaqueTypeInference]
+440 | 
+441 |     @ViewBuilder
+442 |     private var waveformSection: some View {
+    |                                            `- error: function declares an opaque return type, but has no return statements in its body from which to infer an underlying type [#OpaqueTypeInference]
+443 |         if shouldSuspendEmbeddedPlaybackUI {
+444 |             RoundedRectangle(cornerRadius: 8)
+
+[#OpaqueTypeInference]: <https://docs.swift.org/compiler/documentation/diagnostics/opaque-type-inference>
+error: fatalError

@@ -1,0 +1,28 @@
+Building for debugging...
+[0/4] Write swift-version--58304C5D6DBC2206.txt
+Build complete! (0.08s)
+Test Suite 'Selected tests' started at 2026-04-19 23:37:53.445.
+Test Suite 'DubbingEditorPackageTests.xctest' started at 2026-04-19 23:37:53.446.
+Test Suite 'EditorPerformanceTests' started at 2026-04-19 23:37:53.446.
+Test Case '-[DubbingEditorTests.EditorPerformanceTests testFullProjectionRebuildOnTwoThousandLinesSmokePerformance]' started.
+Test Case '-[DubbingEditorTests.EditorPerformanceTests testFullProjectionRebuildOnTwoThousandLinesSmokePerformance]' passed (0.019 seconds).
+Test Case '-[DubbingEditorTests.EditorPerformanceTests testIncrementalSingleLineProjectionUpdateOnTwoThousandLinesSmokePerformance]' started.
+Test Case '-[DubbingEditorTests.EditorPerformanceTests testIncrementalSingleLineProjectionUpdateOnTwoThousandLinesSmokePerformance]' passed (0.023 seconds).
+Test Case '-[DubbingEditorTests.EditorPerformanceTests testIssueCountOnTwoThousandLinesSmokePerformance]' started.
+Test Case '-[DubbingEditorTests.EditorPerformanceTests testIssueCountOnTwoThousandLinesSmokePerformance]' passed (0.012 seconds).
+Test Case '-[DubbingEditorTests.EditorPerformanceTests testReplaceAllOnTwoThousandLinesSmokePerformance]' started.
+Test Case '-[DubbingEditorTests.EditorPerformanceTests testReplaceAllOnTwoThousandLinesSmokePerformance]' passed (0.010 seconds).
+Test Case '-[DubbingEditorTests.EditorPerformanceTests testSelectionTraversalOnTwoThousandLinesSmokePerformance]' started.
+Test Case '-[DubbingEditorTests.EditorPerformanceTests testSelectionTraversalOnTwoThousandLinesSmokePerformance]' passed (0.015 seconds).
+Test Case '-[DubbingEditorTests.EditorPerformanceTests testTimecodeParsingBatchSmokePerformance]' started.
+Test Case '-[DubbingEditorTests.EditorPerformanceTests testTimecodeParsingBatchSmokePerformance]' passed (0.131 seconds).
+Test Suite 'EditorPerformanceTests' passed at 2026-04-19 23:37:53.655.
+	 Executed 6 tests, with 0 failures (0 unexpected) in 0.209 (0.209) seconds
+Test Suite 'DubbingEditorPackageTests.xctest' passed at 2026-04-19 23:37:53.655.
+	 Executed 6 tests, with 0 failures (0 unexpected) in 0.209 (0.209) seconds
+Test Suite 'Selected tests' passed at 2026-04-19 23:37:53.655.
+	 Executed 6 tests, with 0 failures (0 unexpected) in 0.209 (0.210) seconds
+◇ Test run started.
+↳ Testing Library Version: 1743
+↳ Target Platform: arm64e-apple-macos14.0
+✔ Test run with 0 tests in 0 suites passed after 0.001 seconds.

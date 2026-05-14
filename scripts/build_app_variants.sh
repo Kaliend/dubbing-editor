@@ -64,12 +64,14 @@ mkdir -p "$OUTPUT_DIR"
 
 create_bundle() {
     local binary_path="$1"
-    local bundle_path="$2"
+    local resource_root="$2"
+    local bundle_path="$3"
 
     local contents_dir="$bundle_path/Contents"
     local macos_dir="$contents_dir/MacOS"
     local resources_dir="$contents_dir/Resources"
     local plist_path="$contents_dir/Info.plist"
+    local copied=0
 
     rm -rf "$bundle_path"
     mkdir -p "$macos_dir" "$resources_dir"
@@ -77,13 +79,23 @@ create_bundle() {
     cp "$binary_path" "$macos_dir/$APP_NAME"
     cp "$ICON_PATH" "$resources_dir/AppIcon.icns"
 
+    while IFS= read -r -d '' bundle_source; do
+        cp -R "$bundle_source" "$resources_dir/"
+        copied=1
+    done < <(find "$resource_root" -type d -name "${APP_NAME}_*.bundle" -print0)
+
+    if [[ $copied -eq 0 ]]; then
+        echo "Missing resource bundle for $APP_NAME under $resource_root" >&2
+        exit 1
+    fi
+
     cat > "$plist_path" <<PLIST
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
     <key>CFBundleDevelopmentRegion</key>
-    <string>en</string>
+    <string>cs</string>
     <key>CFBundleExecutable</key>
     <string>${APP_NAME}</string>
     <key>CFBundleIconFile</key>
@@ -92,6 +104,11 @@ create_bundle() {
     <string>local.dubbingeditor.bundle</string>
     <key>CFBundleInfoDictionaryVersion</key>
     <string>6.0</string>
+    <key>CFBundleLocalizations</key>
+    <array>
+        <string>cs</string>
+        <string>en</string>
+    </array>
     <key>CFBundleName</key>
     <string>${APP_NAME}</string>
     <key>CFBundlePackageType</key>
@@ -118,14 +135,14 @@ UNIVERSAL_BUNDLE="$OUTPUT_DIR/${APP_NAME}-universal.app"
 UNIVERSAL_BINARY="$OUTPUT_DIR/${APP_NAME}-universal"
 
 echo "Creating Intel app bundle..."
-create_bundle "$X86_64_BINARY" "$INTEL_BUNDLE"
+create_bundle "$X86_64_BINARY" "$X86_64_SCRATCH" "$INTEL_BUNDLE"
 
 echo "Creating universal binary..."
 rm -f "$UNIVERSAL_BINARY"
 lipo -create "$ARM64_BINARY" "$X86_64_BINARY" -output "$UNIVERSAL_BINARY"
 
 echo "Creating universal app bundle..."
-create_bundle "$UNIVERSAL_BINARY" "$UNIVERSAL_BUNDLE"
+create_bundle "$UNIVERSAL_BINARY" "$ARM64_SCRATCH" "$UNIVERSAL_BUNDLE"
 rm -f "$UNIVERSAL_BINARY"
 
 echo "Built app variants:"

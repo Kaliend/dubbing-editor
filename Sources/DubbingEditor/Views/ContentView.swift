@@ -10,7 +10,23 @@ struct ContentView: View {
         case characters
     }
 
+    private struct CharacterFilterEntry: Identifiable {
+        let id: String
+        let speaker: String
+        let entries: Int
+    }
+
+    private struct DisplayedLineReference: Identifiable {
+        let index: Int
+        let line: DialogueLine
+
+        var id: DialogueLine.ID {
+            line.id
+        }
+    }
+
     @ObservedObject var model: EditorViewModel
+    @StateObject private var projectWorkSession: ProjectWorkSession
     @State private var keyMonitor: Any?
     @State private var mouseMonitor: Any?
     @State private var findQuery: String = ""
@@ -31,6 +47,12 @@ struct ContentView: View {
     @State private var devPendingClickToFocus: (lineID: DialogueLine.ID, source: String, startedAt: CFTimeInterval)?
     @State private var devPendingCommitToLinesChanged: (lineID: DialogueLine.ID, field: String, startedAt: CFTimeInterval)?
     @State private var devPendingLinesChangedToCacheDone: (kindLabel: String, startedAt: CFTimeInterval)?
+    @State private var devContentCacheRebuildStartedAt: CFTimeInterval?
+    @State private var devMetadataFlushStartedAt: CFTimeInterval?
+    @State private var devSearchRebuildStartedAt: CFTimeInterval?
+    @State private var devLastSelectedLineID: DialogueLine.ID?
+    @State private var devLastEditingLineID: DialogueLine.ID?
+    @State private var devLastHighlightedLineID: DialogueLine.ID?
     @State private var previousLineCount: Int = 0
     @State private var deferredCacheRebuildAfterEditing = false
     @State private var deferredNeedsFullCacheRebuildAfterEditing = false
@@ -99,6 +121,11 @@ struct ContentView: View {
     private static let devLogger = Logger(subsystem: "local.dubbingeditor.bundle", category: "dev.metrics")
     @State private var projectionCoordinator = EditorProjectionCoordinator()
 
+    init(model: EditorViewModel) {
+        self.model = model
+        _projectWorkSession = StateObject(wrappedValue: ProjectWorkSession())
+    }
+
     var body: some View {
         VStack(spacing: 0) {
             topBar
@@ -113,7 +140,7 @@ struct ContentView: View {
         }
         .background(Color(nsColor: .windowBackgroundColor))
         .alert(
-            "Chyba",
+            Text(String(localized: "alert.title.notice", bundle: .appBundle)),
             isPresented: Binding(
                 get: { model.alertMessage != nil },
                 set: { visible in
@@ -187,14 +214,20 @@ struct ContentView: View {
             )
         }
         .onAppear {
+            model.attachProjectWorkSession(projectWorkSession)
             installKeyMonitor()
             installMouseMonitor()
+            projectWorkSession.setWindowActive(NSApp.isActive)
             model.checkAutosaveRecoveryIfNeeded()
             previousLineCount = model.lines.count
+            devLastSelectedLineID = model.selectedLineID
+            devLastEditingLineID = model.editingLineID
+            devLastHighlightedLineID = model.highlightedLineID
             sanitizeCharacterFilterSelection()
-            rebuildLineDependentCaches()
+            rebuildLineDependentCaches(reason: "content_appear")
         }
         .onDisappear {
+            projectWorkSession.setWindowActive(false)
             removeKeyMonitor()
             removeMouseMonitor()
             searchRebuildTask?.cancel()
@@ -207,6 +240,12 @@ struct ContentView: View {
             devPendingClickToFocus = nil
             devPendingCommitToLinesChanged = nil
             devPendingLinesChangedToCacheDone = nil
+            devContentCacheRebuildStartedAt = nil
+            devMetadataFlushStartedAt = nil
+            devSearchRebuildStartedAt = nil
+            devLastSelectedLineID = nil
+            devLastEditingLineID = nil
+            devLastHighlightedLineID = nil
             closeFindReplacePanel()
             closeTCChronologyPanel()
             closeSpeakerStatsPanel()
@@ -231,26 +270,36 @@ struct ContentView: View {
         .onChange(of: shortcutCaptureEndTC) { _ in resetKeyMonitor() }
         .onChange(of: shortcutUndo) { _ in resetKeyMonitor() }
         .onChange(of: shortcutRedo) { _ in resetKeyMonitor() }
+        .onChange(of: model.selectedLineID) { selectedLineID in
+            logContentLineStateTransition(kind: "selected", from: devLastSelectedLineID, to: selectedLineID)
+            devLastSelectedLineID = selectedLineID
+        }
         .onChange(of: model.editingLineID) { editingLineID in
+            logContentLineStateTransition(kind: "editing", from: devLastEditingLineID, to: editingLineID)
+            devLastEditingLineID = editingLineID
             if editingLineID == nil, deferredCacheRebuildAfterEditing {
                 deferredCacheRebuildAfterEditing = false
                 if deferredNeedsFullCacheRebuildAfterEditing {
                     deferredNeedsFullCacheRebuildAfterEditing = false
                     deferredSearchRebuildAfterEditing = false
-                    scheduleLineDependentRebuild()
+                    scheduleLineDependentRebuild(reason: "editing_finished_full_rebuild")
                 } else if !pendingDirtyLineIDs.isEmpty {
-                    flushPendingDirtyLineUpdates()
+                    flushPendingDirtyLineUpdates(reason: "editing_finished_pending_dirty_flush")
                     if deferredSearchRebuildAfterEditing {
                         deferredSearchRebuildAfterEditing = false
-                        scheduleSearchCacheRebuild()
+                        scheduleSearchCacheRebuild(reason: "editing_finished_deferred_search")
                     }
                 } else if deferredSearchRebuildAfterEditing {
                     deferredSearchRebuildAfterEditing = false
-                    scheduleSearchCacheRebuild()
+                    scheduleSearchCacheRebuild(reason: "editing_finished_search_only")
                 } else {
-                    scheduleLineDependentRebuild()
+                    scheduleLineDependentRebuild(reason: "editing_finished_default_rebuild")
                 }
             }
+        }
+        .onChange(of: model.highlightedLineID) { highlightedLineID in
+            logContentLineStateTransition(kind: "highlighted", from: devLastHighlightedLineID, to: highlightedLineID)
+            devLastHighlightedLineID = highlightedLineID
         }
         .onChange(of: model.pendingRestoreLineID) { _ in
             if let restoreLineID = model.consumePendingRestoreLineID() {
@@ -267,11 +316,27 @@ struct ContentView: View {
             if countChanged && model.editingLineID != nil {
                 deferredCacheRebuildAfterEditing = true
                 deferredNeedsFullCacheRebuildAfterEditing = true
+                logContentDebugEvent(
+                    "CONTENT_LINES_CHANGED_DEFERRED",
+                    source: "count_changed_while_editing",
+                    extraFields: [
+                        ("changeKind", label(for: changeKind)),
+                        ("lineCount", String(model.lines.count))
+                    ]
+                )
                 return
             }
             if shouldSuspendHeavyUpdatesWhileEditing(for: changeKind) || shouldDeferCacheUpdate(for: changeKind) {
                 deferredCacheRebuildAfterEditing = true
                 queueDeferredCacheUpdate(for: changeKind)
+                logContentDebugEvent(
+                    "CONTENT_LINES_CHANGED_DEFERRED",
+                    source: "editing_deferred",
+                    extraFields: [
+                        ("changeKind", label(for: changeKind)),
+                        ("lineCount", String(model.lines.count))
+                    ]
+                )
                 return
             }
             markDevCachePipelineStarted(for: changeKind)
@@ -283,30 +348,35 @@ struct ContentView: View {
             if model.editingLineID != nil {
                 deferredCacheRebuildAfterEditing = true
                 deferredSearchRebuildAfterEditing = true
+                logContentDebugEvent(
+                    "CONTENT_SEARCH_REBUILD_DEFERRED",
+                    source: "find_query_while_editing",
+                    extraFields: [("findQueryLength", String(findQuery.count))]
+                )
                 return
             }
-            scheduleSearchCacheRebuild()
+            scheduleSearchCacheRebuild(reason: "find_query_changed")
         }
         .onChange(of: model.showValidationIssues) { _ in
-            rebuildLineDependentCaches()
+            rebuildLineDependentCaches(reason: "show_validation_issues_changed")
         }
         .onChange(of: model.showOnlyIssues) { _ in
-            rebuildLineDependentCaches()
+            rebuildLineDependentCaches(reason: "show_only_issues_changed")
         }
         .onChange(of: model.validateMissingSpeaker) { _ in
-            rebuildLineDependentCaches()
+            rebuildLineDependentCaches(reason: "validate_missing_speaker_changed")
         }
         .onChange(of: model.validateMissingStartTC) { _ in
-            rebuildLineDependentCaches()
+            rebuildLineDependentCaches(reason: "validate_missing_start_tc_changed")
         }
         .onChange(of: model.validateMissingEndTC) { _ in
-            rebuildLineDependentCaches()
+            rebuildLineDependentCaches(reason: "validate_missing_end_tc_changed")
         }
         .onChange(of: model.validateInvalidTC) { _ in
-            rebuildLineDependentCaches()
+            rebuildLineDependentCaches(reason: "validate_invalid_tc_changed")
         }
         .onChange(of: model.isLightModeEnabled) { _ in
-            rebuildLineDependentCaches()
+            rebuildLineDependentCaches(reason: "light_mode_changed")
         }
         .onChange(of: showOnlyChronologyIssues) { _ in
             rebuildDisplayedIndicesAndIssueCountCache()
@@ -326,7 +396,11 @@ struct ContentView: View {
             sanitizeCharacterFilterSelection()
         }
         .onReceive(NotificationCenter.default.publisher(for: NSApplication.willResignActiveNotification)) { _ in
+            projectWorkSession.setWindowActive(false)
             model.forceAutosaveNow()
+        }
+        .onReceive(NotificationCenter.default.publisher(for: NSApplication.didBecomeActiveNotification)) { _ in
+            projectWorkSession.setWindowActive(true)
         }
         .onReceive(NotificationCenter.default.publisher(for: NSApplication.willTerminateNotification)) { _ in
             model.handleAppWillTerminate()
@@ -494,6 +568,15 @@ struct ContentView: View {
                     .padding(.leading, 8)
             }
 
+            if projectWorkSession.shouldShowDuration {
+                TimelineView(.periodic(from: .now, by: 1)) { context in
+                    Text("Prace: \(projectWorkSession.durationLabel(at: context.date))")
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                }
+                    .padding(.leading, 8)
+            }
+
             if let projectURL = model.currentProjectURL {
                 Text("Project: \(projectURL.lastPathComponent)")
                     .font(.caption)
@@ -639,13 +722,8 @@ struct ContentView: View {
 
     private var rightPane: some View {
         let activeSearchLineID = activeSearchTargetLineID()
-        let displayedLineIDs: [DialogueLine.ID] = validDisplayedLineIndices().compactMap { index in
-            guard model.lines.indices.contains(index) else { return nil }
-            return model.lines[index].id
-        }
-        let speakerSuggestions = model.speakerDatabase
-            .map { $0.speaker.trimmingCharacters(in: .whitespacesAndNewlines) }
-            .filter { !$0.isEmpty }
+        let displayedRows = displayedLineReferences()
+        let speakerSuggestions = speakerSuggestionsForEditableRows()
         let missingSpeakerCount = model.missingSpeakerCount
 
         return VStack(alignment: .leading, spacing: 10) {
@@ -720,41 +798,45 @@ struct ContentView: View {
                 ScrollViewReader { proxy in
                     ScrollView {
                         LazyVStack(spacing: 8) {
-                            ForEach(displayedLineIDs, id: \.self) { lineID in
+                            ForEach(displayedRows) { displayedRow in
+                                let line = displayedRow.line
+                                let lineID = line.id
+                                let isSelected = model.selectedLineIDs.contains(lineID)
+                                let isEditable = model.editingLineID == lineID
+                                let usesInteractiveRowPath = isEditable || (model.isTimecodeModeEnabled && isSelected)
                                 if
-                                    let index = model.lineIndex(for: lineID),
-                                    model.lines.indices.contains(index)
+                                    usesInteractiveRowPath,
+                                    model.lines.indices.contains(displayedRow.index),
+                                    model.lines[displayedRow.index].id == lineID
                                 {
-                                    let line = model.lines[index]
                                     DialogueRowView(
-                                        lineID: line.id,
-                                        line: $model.lines[index],
+                                        lineID: lineID,
+                                        line: $model.lines[displayedRow.index],
                                         fps: model.fps,
                                         hideTimecodeFrames: model.hideTimecodeFrames,
                                         isEndTimecodeFieldHidden: model.isEndTimecodeFieldHidden,
                                         isTimecodeModeEnabled: model.isTimecodeModeEnabled,
-                                        isSelected: model.selectedLineIDs.contains(line.id),
-                                        isEditable: model.editingLineID == line.id,
-                                        isPlaybackActive: model.isPlaybackActive,
+                                        isSelected: isSelected,
+                                        isEditable: isEditable,
                                         replicaTextFocusRequestLineID: replicaTextFocusRequestLineID,
                                         replicaTextFocusRequestToken: replicaTextFocusRequestToken,
                                         startTimecodeFocusRequestLineID: startTimecodeFocusRequestLineID,
                                         startTimecodeFocusRequestToken: startTimecodeFocusRequestToken,
-                                        isActiveSearchSelection: line.id == activeSearchLineID,
-                                        hasStartChronologyIssue: projectionResult.chronoIssueLineIDs.contains(line.id),
+                                        isActiveSearchSelection: lineID == activeSearchLineID,
+                                        hasStartChronologyIssue: projectionResult.chronoIssueLineIDs.contains(lineID),
                                         totalLineCount: model.lines.count,
                                         replicaTextFontSize: model.replicaTextFontSize,
                                         speakerColorOverridesByKey: model.speakerColorOverridesByKey,
                                         speakerSuggestions: speakerSuggestions,
-                                        speakerSuggestionSelection: speakerSuggestionSelection,
+                                        speakerSuggestionSelection: isEditable ? speakerSuggestionSelection : nil,
                                         isDevModeEnabled: model.isDevModeEnabled,
-                                        issues: issuesForRow(lineID: line.id),
+                                        issues: issuesForRow(lineID: lineID),
                                         onSelect: { extendSelection in
                                             let selectionDebugTrace = model.beginSelectionClickDebugTrace(
-                                                clickedLineID: line.id,
+                                                clickedLineID: lineID,
                                                 source: extendSelection ? "shift_click" : "single_click"
                                             )
-                                            markDevSelectionInteractionStarted(lineID: line.id, source: extendSelection ? "shift_click" : "single_click")
+                                            markDevSelectionInteractionStarted(lineID: lineID, source: extendSelection ? "shift_click" : "single_click")
                                             model.selectLine(
                                                 line,
                                                 extendSelection: extendSelection,
@@ -765,75 +847,75 @@ struct ContentView: View {
                                         onDoubleClick: {
                                             if !model.isTimecodeModeEnabled {
                                                 let selectionDebugTrace = model.beginSelectionClickDebugTrace(
-                                                    clickedLineID: line.id,
+                                                    clickedLineID: lineID,
                                                     source: "double_click"
                                                 )
-                                                markDevSelectionInteractionStarted(lineID: line.id, source: "double_click")
+                                                markDevSelectionInteractionStarted(lineID: lineID, source: "double_click")
                                                 model.activateLineByDoubleClick(line)
-                                                requestReplicaTextFocus(for: line.id)
-                                                scheduleReplicaTextFocusRetries(for: line.id)
+                                                requestReplicaTextFocus(for: lineID)
+                                                scheduleReplicaTextFocusRetries(for: lineID)
                                                 model.finishSelectionClickDebugTrace(selectionDebugTrace)
                                             }
                                         },
                                         onStartTimecodeFieldTap: {
                                             _ = model.prefillEmptyTimecodeWithPreviousHourMinute(
-                                                lineID: line.id,
+                                                lineID: lineID,
                                                 target: .start,
                                                 allowOutsideTimecodeMode: model.isEditModeTimecodePrefillEnabled
                                             )
                                         },
                                         onEndTimecodeFieldTap: {
                                             _ = model.prefillEmptyTimecodeWithPreviousHourMinute(
-                                                lineID: line.id,
+                                                lineID: lineID,
                                                 target: .end,
                                                 allowOutsideTimecodeMode: model.isEditModeTimecodePrefillEnabled
                                             )
                                         },
                                         onSetStart: {
-                                            model.setStartFromCurrentTime(lineID: line.id)
+                                            model.setStartFromCurrentTime(lineID: lineID)
                                         },
                                         onSetEnd: {
-                                            model.setEndFromCurrentTime(lineID: line.id)
+                                            model.setEndFromCurrentTime(lineID: lineID)
                                         },
                                         onFocusAcquired: { field in
-                                            markDevFocusAcquired(lineID: line.id, field: field)
+                                            markDevFocusAcquired(lineID: lineID, field: field)
                                             appendFocusDebugReport(
-                                                "FOCUS_ACQUIRED line=\(line.index) id=\(line.id.uuidString.prefix(8)) field=\(field) editing=\(model.editingLineID == line.id) selected=\(model.selectedLineID == line.id)"
+                                                "FOCUS_ACQUIRED line=\(line.index) id=\(lineID.uuidString.prefix(8)) field=\(field) editing=\(model.editingLineID == lineID) selected=\(model.selectedLineID == lineID)"
                                             )
-                                            if field == "start_tc", startTimecodeFocusRequestLineID == line.id {
+                                            if field == "start_tc", startTimecodeFocusRequestLineID == lineID {
                                                 appendFocusDebugReport(
-                                                    "CMD_ENTER_REQUEST_CONSUMED line=\(line.index) id=\(line.id.uuidString.prefix(8)) token=\(startTimecodeFocusRequestToken.uuidString.prefix(8))"
+                                                    "CMD_ENTER_REQUEST_CONSUMED line=\(line.index) id=\(lineID.uuidString.prefix(8)) token=\(startTimecodeFocusRequestToken.uuidString.prefix(8))"
                                                 )
                                                 startTimecodeFocusRequestLineID = nil
                                                 startTimecodeFocusRetryTask?.cancel()
                                                 startTimecodeFocusRetryTask = nil
                                             }
-                                            if field == "text", replicaTextFocusRequestLineID == line.id {
+                                            if field == "text", replicaTextFocusRequestLineID == lineID {
                                                 replicaTextFocusRequestLineID = nil
                                                 replicaTextFocusRetryTask?.cancel()
                                                 replicaTextFocusRetryTask = nil
                                                 appendFocusDebugReport(
-                                                    "TEXT_FOCUS_REQUEST_CONSUMED line=\(line.index) id=\(line.id.uuidString.prefix(8)) token=\(replicaTextFocusRequestToken.uuidString.prefix(8))"
+                                                    "TEXT_FOCUS_REQUEST_CONSUMED line=\(line.index) id=\(lineID.uuidString.prefix(8)) token=\(replicaTextFocusRequestToken.uuidString.prefix(8))"
                                                 )
                                             }
                                         },
                                         onModelCommit: { field in
-                                            markDevCommitRequested(lineID: line.id, field: field)
+                                            markDevCommitRequested(lineID: lineID, field: field)
                                         },
                                         dragItemProvider: model.editingLineID == nil ? {
-                                            draggedLineID = line.id
-                                            return NSItemProvider(object: line.id.uuidString as NSString)
+                                            draggedLineID = lineID
+                                            return NSItemProvider(object: lineID.uuidString as NSString)
                                         } : nil
                                     )
-                                    .id(line.id)
+                                    .id(lineID)
                                     .onAppear {
-                                        handleLineVisibility(lineID: line.id, isVisible: true)
+                                        handleLineVisibility(lineID: lineID, isVisible: true)
                                     }
                                     .onDisappear {
-                                        handleLineVisibility(lineID: line.id, isVisible: false)
+                                        handleLineVisibility(lineID: lineID, isVisible: false)
                                     }
                                     .overlay(alignment: .top) {
-                                        if dropTargetLineID == line.id {
+                                        if dropTargetLineID == lineID {
                                             Rectangle()
                                                 .fill(Color.accentColor.opacity(0.95))
                                                 .frame(height: 3)
@@ -844,7 +926,74 @@ struct ContentView: View {
                                     .onDrop(
                                         of: [UTType.text],
                                         delegate: DialogueLineDropDelegate(
-                                            targetLineID: line.id,
+                                            targetLineID: lineID,
+                                            draggedLineID: $draggedLineID,
+                                            dropTargetLineID: $dropTargetLineID,
+                                            isDropAtEndActive: $isDropAtEndActive,
+                                            model: model
+                                        )
+                                    )
+                                } else {
+                                    ReadOnlyDialogueRowView(
+                                        snapshot: readOnlyRowSnapshot(for: line),
+                                        isEndTimecodeFieldHidden: model.isEndTimecodeFieldHidden,
+                                        isSelected: isSelected,
+                                        isActiveSearchSelection: lineID == activeSearchLineID,
+                                        hasStartChronologyIssue: projectionResult.chronoIssueLineIDs.contains(lineID),
+                                        totalLineCount: model.lines.count,
+                                        replicaTextFontSize: model.replicaTextFontSize,
+                                        issues: issuesForRow(lineID: lineID),
+                                        onSelect: { extendSelection in
+                                            let selectionDebugTrace = model.beginSelectionClickDebugTrace(
+                                                clickedLineID: lineID,
+                                                source: extendSelection ? "shift_click" : "single_click"
+                                            )
+                                            markDevSelectionInteractionStarted(lineID: lineID, source: extendSelection ? "shift_click" : "single_click")
+                                            model.selectLine(
+                                                line,
+                                                extendSelection: extendSelection,
+                                                debounceSeek: true
+                                            )
+                                            model.finishSelectionClickDebugTrace(selectionDebugTrace)
+                                        },
+                                        onDoubleClick: {
+                                            if !model.isTimecodeModeEnabled {
+                                                let selectionDebugTrace = model.beginSelectionClickDebugTrace(
+                                                    clickedLineID: lineID,
+                                                    source: "double_click"
+                                                )
+                                                markDevSelectionInteractionStarted(lineID: lineID, source: "double_click")
+                                                model.activateLineByDoubleClick(line)
+                                                requestReplicaTextFocus(for: lineID)
+                                                scheduleReplicaTextFocusRetries(for: lineID)
+                                                model.finishSelectionClickDebugTrace(selectionDebugTrace)
+                                            }
+                                        },
+                                        dragItemProvider: model.editingLineID == nil ? {
+                                            draggedLineID = lineID
+                                            return NSItemProvider(object: lineID.uuidString as NSString)
+                                        } : nil
+                                    )
+                                    .id(lineID)
+                                    .onAppear {
+                                        handleLineVisibility(lineID: lineID, isVisible: true)
+                                    }
+                                    .onDisappear {
+                                        handleLineVisibility(lineID: lineID, isVisible: false)
+                                    }
+                                    .overlay(alignment: .top) {
+                                        if dropTargetLineID == lineID {
+                                            Rectangle()
+                                                .fill(Color.accentColor.opacity(0.95))
+                                                .frame(height: 3)
+                                                .padding(.horizontal, 2)
+                                                .transition(.opacity)
+                                        }
+                                    }
+                                    .onDrop(
+                                        of: [UTType.text],
+                                        delegate: DialogueLineDropDelegate(
+                                            targetLineID: lineID,
                                             draggedLineID: $draggedLineID,
                                             dropTargetLineID: $dropTargetLineID,
                                             isDropAtEndActive: $isDropAtEndActive,
@@ -934,13 +1083,13 @@ struct ContentView: View {
     }
 
     private var characterFilterPopoverContent: some View {
-        let filteredStats = filteredSpeakerStatsForCharacterFilter()
+        let filteredEntries = characterFilterEntriesForPopover()
         return VStack(alignment: .leading, spacing: 8) {
             HStack {
                 Text("Filtr postav")
                     .font(.headline)
                 Spacer()
-                Text("\(filteredStats.count)/\(model.speakerDatabase.count)")
+                Text("\(filteredEntries.count)/\(model.speakerDatabase.count)")
                     .font(.caption)
                     .foregroundStyle(.secondary)
             }
@@ -969,30 +1118,29 @@ struct ContentView: View {
                 .buttonStyle(.bordered)
 
                 ScrollView {
-                    VStack(alignment: .leading, spacing: 6) {
-                        if filteredStats.isEmpty {
+                    LazyVStack(alignment: .leading, spacing: 6) {
+                        if filteredEntries.isEmpty {
                             Text("Zadna postava neodpovida hledani.")
                                 .font(.subheadline)
                                 .foregroundStyle(.secondary)
                                 .padding(.top, 6)
                         }
-                        ForEach(filteredStats, id: \.speaker) { stat in
-                            let key = EditorProjectionCoordinator.normalizedSpeakerKey(stat.speaker)
+                        ForEach(filteredEntries) { entry in
                             Toggle(isOn: Binding(
-                                get: { selectedCharacterFilterKeys.contains(key) },
+                                get: { selectedCharacterFilterKeys.contains(entry.id) },
                                 set: { isOn in
                                     if isOn {
-                                        selectedCharacterFilterKeys.insert(key)
+                                        selectedCharacterFilterKeys.insert(entry.id)
                                     } else {
-                                        selectedCharacterFilterKeys.remove(key)
+                                        selectedCharacterFilterKeys.remove(entry.id)
                                     }
                                 }
                             )) {
                                 HStack {
-                                    Text(stat.speaker)
+                                    Text(entry.speaker)
                                         .lineLimit(1)
                                     Spacer(minLength: 8)
-                                    Text("\(stat.entries)")
+                                    Text("\(entry.entries)")
                                         .font(.caption)
                                         .foregroundStyle(.secondary)
                                 }
@@ -1025,7 +1173,13 @@ struct ContentView: View {
         return "TC mode: \(startShortcut) = Start + dalsi replika, \(endShortcut) = End + dalsi replika"
     }
 
-    private func rebuildLineDependentCaches() {
+    private func rebuildLineDependentCaches(reason: String = "direct") {
+        devContentCacheRebuildStartedAt = CFAbsoluteTimeGetCurrent()
+        logContentDebugEvent(
+            "CONTENT_CACHE_REBUILD_BEGIN",
+            source: reason,
+            extraFields: [("kind", "full")]
+        )
         metadataCacheUpdateTask?.cancel()
         metadataCacheUpdateTask = nil
         pendingDirtyLineIDs.removeAll()
@@ -1035,18 +1189,39 @@ struct ContentView: View {
         let result = projectionCoordinator.rebuildAll(from: makeProjectionInput())
         applyProjectionResult(result)
         markDevCachesCompleted()
+        let durationMs = devContentCacheRebuildStartedAt.map { Int((CFAbsoluteTimeGetCurrent() - $0) * 1_000) }
+        devContentCacheRebuildStartedAt = nil
+        logContentDebugEvent(
+            "CONTENT_CACHE_REBUILD_END",
+            source: reason,
+            extraFields: [
+                ("kind", "full"),
+                ("durationMs", durationMs.map(String.init)),
+                ("issueLineCount", String(projectionResult.issueLineCount)),
+                ("searchMatchCount", String(projectionResult.searchMatchIndices.count))
+            ]
+        )
     }
 
-    private func scheduleLineDependentRebuild() {
+    private func scheduleLineDependentRebuild(reason: String = "unspecified") {
         metadataCacheUpdateTask?.cancel()
         metadataCacheUpdateTask = nil
         pendingDirtyLineIDs.removeAll()
         pendingDirtyNeedsChronologyRebuild = false
         lineCacheRebuildTask?.cancel()
+        let delayNanoseconds: UInt64 = model.isLightModeEnabled ? 260_000_000 : 140_000_000
+        logContentDebugEvent(
+            "CONTENT_CACHE_REBUILD_SCHEDULED",
+            source: reason,
+            extraFields: [
+                ("kind", "full"),
+                ("delayMs", String(delayNanoseconds / 1_000_000))
+            ]
+        )
         lineCacheRebuildTask = Task { @MainActor in
-            try? await Task.sleep(nanoseconds: model.isLightModeEnabled ? 260_000_000 : 140_000_000)
+            try? await Task.sleep(nanoseconds: delayNanoseconds)
             guard !Task.isCancelled else { return }
-            rebuildLineDependentCaches()
+            rebuildLineDependentCaches(reason: "\(reason)_scheduled")
         }
     }
 
@@ -1072,7 +1247,7 @@ struct ContentView: View {
         case .singleLineMetadata(let lineID):
             enqueuePendingDirtyLineUpdate(lineID: lineID, rebuildChronology: true)
         case .structure, .multiLine:
-            scheduleLineDependentRebuild()
+            scheduleLineDependentRebuild(reason: "apply_line_cache_update_structure")
         }
     }
 
@@ -1086,11 +1261,11 @@ struct ContentView: View {
             pendingDirtyNeedsChronologyRebuild = true
         }
         if scheduleFlush {
-            schedulePendingDirtyLineFlush()
+            schedulePendingDirtyLineFlush(reason: "pending_dirty_line_update")
         }
     }
 
-    private func schedulePendingDirtyLineFlush() {
+    private func schedulePendingDirtyLineFlush(reason: String = "pending_dirty_lines") {
         metadataCacheUpdateTask?.cancel()
 
         let baseDelayNanoseconds: UInt64
@@ -1099,22 +1274,40 @@ struct ContentView: View {
         } else {
             baseDelayNanoseconds = pendingDirtyNeedsChronologyRebuild ? 120_000_000 : 80_000_000
         }
+        logContentDebugEvent(
+            "CONTENT_METADATA_FLUSH_SCHEDULED",
+            source: reason,
+            extraFields: [
+                ("delayMs", String(baseDelayNanoseconds / 1_000_000)),
+                ("dirtyLineCount", String(pendingDirtyLineIDs.count)),
+                ("rebuildChronology", contentDebugBoolean(pendingDirtyNeedsChronologyRebuild))
+            ]
+        )
         metadataCacheUpdateTask = Task { @MainActor in
             try? await Task.sleep(nanoseconds: baseDelayNanoseconds)
             guard !Task.isCancelled else { return }
-            flushPendingDirtyLineUpdates()
+            flushPendingDirtyLineUpdates(reason: "\(reason)_scheduled")
         }
     }
 
-    private func flushPendingDirtyLineUpdates() {
+    private func flushPendingDirtyLineUpdates(reason: String = "pending_dirty_lines") {
         metadataCacheUpdateTask?.cancel()
         metadataCacheUpdateTask = nil
 
         guard !pendingDirtyLineIDs.isEmpty else { return }
+        devMetadataFlushStartedAt = CFAbsoluteTimeGetCurrent()
         let dirtyLineIDs = pendingDirtyLineIDs
         pendingDirtyLineIDs.removeAll()
         let rebuildChronology = pendingDirtyNeedsChronologyRebuild
         pendingDirtyNeedsChronologyRebuild = false
+        logContentDebugEvent(
+            "CONTENT_METADATA_FLUSH_BEGIN",
+            source: reason,
+            extraFields: [
+                ("dirtyLineCount", String(dirtyLineIDs.count)),
+                ("rebuildChronology", contentDebugBoolean(rebuildChronology))
+            ]
+        )
 
         var updatedAnyLine = false
         for lineID in dirtyLineIDs {
@@ -1124,7 +1317,17 @@ struct ContentView: View {
         }
 
         guard updatedAnyLine else {
-            scheduleLineDependentRebuild()
+            let durationMs = devMetadataFlushStartedAt.map { Int((CFAbsoluteTimeGetCurrent() - $0) * 1_000) }
+            devMetadataFlushStartedAt = nil
+            logContentDebugEvent(
+                "CONTENT_METADATA_FLUSH_END",
+                source: reason,
+                extraFields: [
+                    ("result", "fallback_full_rebuild"),
+                    ("durationMs", durationMs.map(String.init))
+                ]
+            )
+            scheduleLineDependentRebuild(reason: "\(reason)_fallback_full_rebuild")
             return
         }
 
@@ -1134,6 +1337,16 @@ struct ContentView: View {
                 preserveSearchCursor: true
             )
             markDevCachesCompleted()
+            let durationMs = devMetadataFlushStartedAt.map { Int((CFAbsoluteTimeGetCurrent() - $0) * 1_000) }
+            devMetadataFlushStartedAt = nil
+            logContentDebugEvent(
+                "CONTENT_METADATA_FLUSH_END",
+                source: reason,
+                extraFields: [
+                    ("result", "chronology_rebuild"),
+                    ("durationMs", durationMs.map(String.init))
+                ]
+            )
             return
         }
 
@@ -1142,10 +1355,20 @@ struct ContentView: View {
         }
 
         if !findQuery.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
-            scheduleSearchCacheRebuild()
+            scheduleSearchCacheRebuild(reason: "\(reason)_post_flush_search")
         }
 
         markDevCachesCompleted()
+        let durationMs = devMetadataFlushStartedAt.map { Int((CFAbsoluteTimeGetCurrent() - $0) * 1_000) }
+        devMetadataFlushStartedAt = nil
+        logContentDebugEvent(
+            "CONTENT_METADATA_FLUSH_END",
+            source: reason,
+            extraFields: [
+                ("result", "single_line_refresh"),
+                ("durationMs", durationMs.map(String.init))
+            ]
+        )
     }
 
     private func shouldDeferCacheUpdate(for changeKind: EditorViewModel.LineChangeKind) -> Bool {
@@ -1173,7 +1396,7 @@ struct ContentView: View {
 
     private func updateCachesForSingleLine(_ lineID: DialogueLine.ID, rebuildChronology: Bool) {
         guard refreshSingleLineProjection(lineID) else {
-            scheduleLineDependentRebuild()
+            scheduleLineDependentRebuild(reason: "single_line_projection_fallback")
             return
         }
 
@@ -1191,7 +1414,7 @@ struct ContentView: View {
         }
 
         if !findQuery.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
-            scheduleSearchCacheRebuild()
+            scheduleSearchCacheRebuild(reason: "single_line_projection_post_refresh")
         }
 
         markDevCachesCompleted()
@@ -1219,12 +1442,21 @@ struct ContentView: View {
         projectionResult = nextResult
     }
 
-    private func scheduleSearchCacheRebuild() {
+    private func scheduleSearchCacheRebuild(reason: String = "unspecified") {
         searchRebuildTask?.cancel()
+        let delayNanoseconds: UInt64 = model.isLightModeEnabled ? 220_000_000 : 120_000_000
+        logContentDebugEvent(
+            "CONTENT_SEARCH_REBUILD_SCHEDULED",
+            source: reason,
+            extraFields: [
+                ("delayMs", String(delayNanoseconds / 1_000_000)),
+                ("findQueryLength", String(findQuery.count))
+            ]
+        )
         searchRebuildTask = Task { @MainActor in
-            try? await Task.sleep(nanoseconds: model.isLightModeEnabled ? 220_000_000 : 120_000_000)
+            try? await Task.sleep(nanoseconds: delayNanoseconds)
             guard !Task.isCancelled else { return }
-            rebuildSearchCache()
+            rebuildSearchCache(reason: "\(reason)_scheduled")
         }
     }
 
@@ -1251,10 +1483,26 @@ struct ContentView: View {
         return projectionResult.issuesByLineID[lineID] ?? []
     }
 
-    private func rebuildSearchCache() {
+    private func rebuildSearchCache(reason: String = "direct") {
+        devSearchRebuildStartedAt = CFAbsoluteTimeGetCurrent()
+        logContentDebugEvent(
+            "CONTENT_SEARCH_REBUILD_BEGIN",
+            source: reason,
+            extraFields: [("findQueryLength", String(findQuery.count))]
+        )
         var nextResult = projectionResult
         projectionCoordinator.rebuildSearch(in: &nextResult, from: makeProjectionInput())
         applyProjectionResult(nextResult, preserveChronologyCursor: true)
+        let durationMs = devSearchRebuildStartedAt.map { Int((CFAbsoluteTimeGetCurrent() - $0) * 1_000) }
+        devSearchRebuildStartedAt = nil
+        logContentDebugEvent(
+            "CONTENT_SEARCH_REBUILD_END",
+            source: reason,
+            extraFields: [
+                ("durationMs", durationMs.map(String.init)),
+                ("searchMatchCount", String(projectionResult.searchMatchIndices.count))
+            ]
+        )
     }
 
     private func makeProjectionInput() -> EditorProjectionInput {
@@ -1569,6 +1817,8 @@ struct ContentView: View {
     private func installKeyMonitor() {
         guard keyMonitor == nil else { return }
         keyMonitor = NSEvent.addLocalMonitorForEvents(matching: .keyDown) { event in
+            projectWorkSession.noteActivity()
+
             // While alert is visible, let the system route keys only to the alert.
             if model.alertMessage != nil {
                 return event
@@ -1623,6 +1873,15 @@ struct ContentView: View {
             }
 
             if model.editingLineID != nil, pressedModifiers == [.shift], (event.keyCode == 36 || event.keyCode == 76) {
+                if isSingleLineTextFieldFocused() {
+                    DispatchQueue.main.async {
+                        model.finishEditing()
+                        clearFocus()
+                        model.moveSelection(step: 1)
+                        scrollToSelectedLine()
+                    }
+                    return event
+                }
                 model.finishEditing()
                 clearFocus()
                 model.moveSelection(step: 1)
@@ -1635,6 +1894,13 @@ struct ContentView: View {
                     return nil
                 }
                 if model.editingLineID != nil {
+                    if isSingleLineTextFieldFocused() {
+                        DispatchQueue.main.async {
+                            model.finishEditing()
+                            clearFocus()
+                        }
+                        return event
+                    }
                     model.finishEditing()
                     clearFocus()
                     return nil
@@ -1767,8 +2033,13 @@ struct ContentView: View {
 
     private func installMouseMonitor() {
         guard mouseMonitor == nil else { return }
-        mouseMonitor = NSEvent.addLocalMonitorForEvents(matching: [.leftMouseDown]) { event in
-            handleMouseDownForFocus(event)
+        mouseMonitor = NSEvent.addLocalMonitorForEvents(
+            matching: [.leftMouseDown, .rightMouseDown, .otherMouseDown, .scrollWheel]
+        ) { event in
+            projectWorkSession.noteActivity()
+            if event.type == .leftMouseDown {
+                handleMouseDownForFocus(event)
+            }
             return event
         }
     }
@@ -2079,6 +2350,19 @@ struct ContentView: View {
         return responder is NSTextView || responder is NSTextField
     }
 
+    private func isSingleLineTextFieldFocused() -> Bool {
+        guard let responder = NSApp.keyWindow?.firstResponder else {
+            return false
+        }
+        if responder is NSTextField {
+            return true
+        }
+        if let textView = responder as? NSTextView {
+            return textView.isFieldEditor
+        }
+        return false
+    }
+
     private func appendFocusDebugReport(_ line: String) {
         guard model.isDevModeEnabled else { return }
         let timestamp = Self.focusDebugDateFormatter.string(from: Date())
@@ -2254,6 +2538,30 @@ struct ContentView: View {
         return sanitized
     }
 
+    private func displayedLineReferences() -> [DisplayedLineReference] {
+        let lines = model.lines
+        return validDisplayedLineIndices().compactMap { index in
+            guard lines.indices.contains(index) else { return nil }
+            return DisplayedLineReference(index: index, line: lines[index])
+        }
+    }
+
+    private func speakerSuggestionsForEditableRows() -> [String] {
+        guard model.editingLineID != nil else { return [] }
+        return model.speakerDatabase
+            .map { $0.speaker.trimmingCharacters(in: .whitespacesAndNewlines) }
+            .filter { !$0.isEmpty }
+    }
+
+    private func readOnlyRowSnapshot(for line: DialogueLine) -> ReadOnlyDialogueRowSnapshot {
+        ReadOnlyDialogueRowSnapshot(
+            line: line,
+            fps: model.fps,
+            hideTimecodeFrames: model.hideTimecodeFrames,
+            speakerColorOverridesByKey: model.speakerColorOverridesByKey
+        )
+    }
+
     private func validSearchMatchIndices() -> [Int] {
         projectionResult.searchMatchIndices.filter { model.lines.indices.contains($0) }
     }
@@ -2299,11 +2607,18 @@ struct ContentView: View {
         return true
     }
 
-    private func filteredSpeakerStatsForCharacterFilter() -> [EditorViewModel.SpeakerStatistic] {
+    private func characterFilterEntriesForPopover() -> [CharacterFilterEntry] {
         let query = EditorProjectionCoordinator.normalizeSearch(characterFilterQuery)
-        guard !query.isEmpty else { return model.speakerDatabase }
-        return model.speakerDatabase.filter { stat in
-            EditorProjectionCoordinator.normalizeSearch(stat.speaker).contains(query)
+        return model.speakerDatabase.compactMap { stat in
+            if !query.isEmpty {
+                let normalizedSpeaker = EditorProjectionCoordinator.normalizeSearch(stat.speaker)
+                guard normalizedSpeaker.contains(query) else { return nil }
+            }
+            return CharacterFilterEntry(
+                id: EditorProjectionCoordinator.normalizedSpeakerKey(stat.speaker),
+                speaker: stat.speaker,
+                entries: stat.entries
+            )
         }
     }
 
@@ -2366,6 +2681,23 @@ struct ContentView: View {
         devPendingCommitToLinesChanged = (lineID: lineID, field: field, startedAt: now)
     }
 
+    private func logContentLineStateTransition(
+        kind: String,
+        from oldValue: DialogueLine.ID?,
+        to newValue: DialogueLine.ID?
+    ) {
+        guard model.isDevModeEnabled else { return }
+        guard oldValue != newValue else { return }
+        logContentDebugEvent(
+            "CONTENT_LINE_STATE_CHANGED",
+            source: kind,
+            extraFields: [
+                ("old", focusDebugLineSummary(oldValue)),
+                ("new", focusDebugLineSummary(newValue))
+            ]
+        )
+    }
+
     private func markDevLinesChangedObserved(_ changeKind: EditorViewModel.LineChangeKind) {
         guard model.isDevModeEnabled else {
             devPendingCommitToLinesChanged = nil
@@ -2408,6 +2740,36 @@ struct ContentView: View {
         model.recordDevLinesChangedToCacheDone(milliseconds: elapsed, label: pending.kindLabel)
         Self.devLogger.debug("lines_changed_to_cache_done \(pending.kindLabel, privacy: .public) \(elapsed, format: .fixed(precision: 2), privacy: .public)ms")
         devPendingLinesChangedToCacheDone = nil
+    }
+
+    private func logContentDebugEvent(
+        _ event: String,
+        source: String,
+        extraFields: [(String, String?)] = []
+    ) {
+        guard model.isDevModeEnabled else { return }
+        model.logPlaybackDebugEventFromUI(
+            event,
+            source: source,
+            extraFields: contentDebugContextFields() + extraFields
+        )
+    }
+
+    private func contentDebugContextFields() -> [(String, String?)] {
+        [
+            ("contentSelectedLine", focusDebugLineSummary(model.selectedLineID)),
+            ("contentEditingLine", focusDebugLineSummary(model.editingLineID)),
+            ("contentHighlightedLine", focusDebugLineSummary(model.highlightedLineID)),
+            ("contentVisibleLineCount", String(visibleLineIDs.count)),
+            ("contentPendingDirtyCount", String(pendingDirtyLineIDs.count)),
+            ("contentDeferredCacheRebuild", contentDebugBoolean(deferredCacheRebuildAfterEditing)),
+            ("contentDeferredFullRebuild", contentDebugBoolean(deferredNeedsFullCacheRebuildAfterEditing)),
+            ("contentDeferredSearchRebuild", contentDebugBoolean(deferredSearchRebuildAfterEditing))
+        ]
+    }
+
+    private func contentDebugBoolean(_ value: Bool) -> String {
+        value ? "true" : "false"
     }
 
     private func lineID(from changeKind: EditorViewModel.LineChangeKind) -> DialogueLine.ID? {

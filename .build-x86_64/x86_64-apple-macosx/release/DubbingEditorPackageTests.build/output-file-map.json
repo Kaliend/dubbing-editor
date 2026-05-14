@@ -2,7 +2,7 @@
   "": {
     "dependencies": "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-x86_64/x86_64-apple-macosx/release/DubbingEditorPackageTests.build/DubbingEditorPackageTests.d",
     "object": "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-x86_64/x86_64-apple-macosx/release/DubbingEditorPackageTests.build/DubbingEditorPackageTests.o",
-    "swift-dependencies": "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-x86_64/x86_64-apple-macosx/release/DubbingEditorPackageTests.build/master.swiftdeps"
+    "swift-dependencies": "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-x86_64/x86_64-apple-macosx/release/DubbingEditorPackageTests.build/primary.swiftdeps"
   },
   "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-x86_64/x86_64-apple-macosx/release/DubbingEditorPackageTests.derived/runner.swift": {
     "object": "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-x86_64/x86_64-apple-macosx/release/DubbingEditorPackageTests.build/runner.swift.o",

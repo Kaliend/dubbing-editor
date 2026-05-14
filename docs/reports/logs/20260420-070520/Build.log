@@ -1,0 +1,78 @@
+Another instance of SwiftPM (PID: 70224) is already running using '/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build', waiting until that process has finished execution...[0/1] Planning build
+Building for debugging...
+[0/3] Write swift-version--58304C5D6DBC2206.txt
+[2/5] Emitting module DubbingEditor
+[3/5] Compiling DubbingEditor PlaybackPanelView.swift
+/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Sources/DubbingEditor/Views/PlaybackPanelView.swift:454:13: warning: application of result builder 'ViewBuilder' disabled by explicit 'return' statement
+439 |     }
+440 | 
+441 |     @ViewBuilder
+    |     `- note: remove the attribute to explicitly disable the result builder
+442 |     private var waveformSection: some View {
+443 |         if shouldSuspendEmbeddedPlaybackUI {
+    :
+452 |                         .padding(.horizontal, 12)
+453 |                 }
+454 |             return
+    |             |- warning: application of result builder 'ViewBuilder' disabled by explicit 'return' statement
+    |             `- note: remove 'return' statements to apply the result builder
+455 |         }
+456 | 
+
+/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Sources/DubbingEditor/Views/PlaybackPanelView.swift:447:18: warning: result of call to 'overlay(alignment:content:)' is unused [#no-usage]
+445 |                 .fill(Color(nsColor: .windowBackgroundColor).opacity(0.35))
+446 |                 .frame(height: 74)
+447 |                 .overlay {
+    |                  `- warning: result of call to 'overlay(alignment:content:)' is unused [#no-usage]
+448 |                     Text("Waveform je pri editaci pozastaveno. Pro plynuly fullscreen pouzij samostatne video okno.")
+449 |                         .font(.caption)
+
+/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Sources/DubbingEditor/Views/PlaybackPanelView.swift:454:13: error: non-void function should return a value
+452 |                         .padding(.horizontal, 12)
+453 |                 }
+454 |             return
+    |             `- error: non-void function should return a value
+455 |         }
+456 | 
+
+/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Sources/DubbingEditor/Views/PlaybackPanelView.swift:467:22: warning: result of call to 'overlay(alignment:content:)' is unused [#no-usage]
+465 |                     .fill(Color(nsColor: .windowBackgroundColor).opacity(0.35))
+466 |                     .frame(height: 74)
+467 |                     .overlay {
+    |                      `- warning: result of call to 'overlay(alignment:content:)' is unused [#no-usage]
+468 |                         Text(waveformEmptyStateText())
+469 |                             .font(.caption)
+
+/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Sources/DubbingEditor/Views/PlaybackPanelView.swift:484:18: warning: result of call to 'overlay(alignment:content:)' is unused [#no-usage]
+482 |                     }
+483 |                 }
+484 |                 .overlay(alignment: .topLeading) {
+    |                  `- warning: result of call to 'overlay(alignment:content:)' is unused [#no-usage]
+485 |                     if let label = selectedLineWaveformLabel() {
+486 |                         Text(label)
+
+/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Sources/DubbingEditor/Views/PlaybackPanelView.swift:501:22: warning: result of call to 'overlay(alignment:content:)' is unused [#no-usage]
+499 |                     .fill(Color(nsColor: .windowBackgroundColor).opacity(0.35))
+500 |                     .frame(height: 74)
+501 |                     .overlay {
+    |                      `- warning: result of call to 'overlay(alignment:content:)' is unused [#no-usage]
+502 |                         Text(waveformEmptyStateText())
+503 |                             .font(.caption)
+
+/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Sources/DubbingEditor/Views/PlaybackPanelView.swift:515:18: warning: result of call to 'overlay(alignment:content:)' is unused [#no-usage]
+513 |                     }
+514 |                 }
+515 |                 .overlay(alignment: .topLeading) {
+    |                  `- warning: result of call to 'overlay(alignment:content:)' is unused [#no-usage]
+516 |                     if let label = selectedLineWaveformLabel() {
+517 |                         Text(label)
+
+/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Sources/DubbingEditor/Views/PlaybackPanelView.swift:442:44: error: function declares an opaque return type, but has no return statements in its body from which to infer an underlying type [#OpaqueTypeInference]
+440 | 
+441 |     @ViewBuilder
+442 |     private var waveformSection: some View {
+    |                                            `- error: function declares an opaque return type, but has no return statements in its body from which to infer an underlying type [#OpaqueTypeInference]
+443 |         if shouldSuspendEmbeddedPlaybackUI {
+444 |             RoundedRectangle(cornerRadius: 8)
+
+[#OpaqueTypeInference]: <https://docs.swift.org/compiler/documentation/diagnostics/opaque-type-inference>

@@ -149,6 +149,7 @@ struct DubbingProjectSettings: Codable, Hashable, Sendable {
     let playbackSeekStepSeconds: Double?
     let isReplayPrerollEnabled: Bool?
     let videoOffsetSeconds: Double?
+    let videoDriftSecondsPerHour: Double?
     let muteLeftChannel: Bool?
     let muteRightChannel: Bool?
     let muteVideoAudio: Bool?
@@ -161,6 +162,7 @@ struct DubbingProjectSettings: Codable, Hashable, Sendable {
         playbackSeekStepSeconds: Double? = nil,
         isReplayPrerollEnabled: Bool? = nil,
         videoOffsetSeconds: Double? = nil,
+        videoDriftSecondsPerHour: Double? = nil,
         muteLeftChannel: Bool? = nil,
         muteRightChannel: Bool? = nil,
         muteVideoAudio: Bool? = nil,
@@ -172,6 +174,7 @@ struct DubbingProjectSettings: Codable, Hashable, Sendable {
         self.playbackSeekStepSeconds = playbackSeekStepSeconds
         self.isReplayPrerollEnabled = isReplayPrerollEnabled
         self.videoOffsetSeconds = videoOffsetSeconds
+        self.videoDriftSecondsPerHour = videoDriftSecondsPerHour
         self.muteLeftChannel = muteLeftChannel
         self.muteRightChannel = muteRightChannel
         self.muteVideoAudio = muteVideoAudio
@@ -189,6 +192,7 @@ struct DubbingProjectFile: Codable, Sendable {
     let selectedLineID: DialogueLine.ID?
     let highlightedLineID: DialogueLine.ID?
     let playbackPositionSeconds: Double?
+    let workedTimeSeconds: Double?
     let sourceWordPath: String?
     let sourceVideoPath: String?
     let sourceExternalAudioPath: String?
@@ -202,12 +206,13 @@ struct DubbingProjectFile: Codable, Sendable {
         selectedLineID: DialogueLine.ID?,
         highlightedLineID: DialogueLine.ID?,
         playbackPositionSeconds: Double?,
+        workedTimeSeconds: Double? = nil,
         sourceWordPath: String?,
         sourceVideoPath: String?,
         sourceExternalAudioPath: String? = nil,
         settings: DubbingProjectSettings?
     ) {
-        self.schemaVersion = 5
+        self.schemaVersion = 6
         self.savedAt = savedAt
         self.documentTitle = documentTitle
         self.fps = fps
@@ -215,6 +220,7 @@ struct DubbingProjectFile: Codable, Sendable {
         self.selectedLineID = selectedLineID
         self.highlightedLineID = highlightedLineID
         self.playbackPositionSeconds = playbackPositionSeconds
+        self.workedTimeSeconds = workedTimeSeconds
         self.sourceWordPath = sourceWordPath
         self.sourceVideoPath = sourceVideoPath
         self.sourceExternalAudioPath = sourceExternalAudioPath
@@ -230,6 +236,7 @@ struct DubbingProjectFile: Codable, Sendable {
         case selectedLineID
         case highlightedLineID
         case playbackPositionSeconds
+        case workedTimeSeconds
         case sourceWordPath
         case sourceVideoPath
         case sourceExternalAudioPath
@@ -246,6 +253,7 @@ struct DubbingProjectFile: Codable, Sendable {
         selectedLineID = try container.decodeIfPresent(DialogueLine.ID.self, forKey: .selectedLineID)
         highlightedLineID = try container.decodeIfPresent(DialogueLine.ID.self, forKey: .highlightedLineID)
         playbackPositionSeconds = try container.decodeIfPresent(Double.self, forKey: .playbackPositionSeconds)
+        workedTimeSeconds = try container.decodeIfPresent(Double.self, forKey: .workedTimeSeconds)
         sourceWordPath = try container.decodeIfPresent(String.self, forKey: .sourceWordPath)
         sourceVideoPath = try container.decodeIfPresent(String.self, forKey: .sourceVideoPath)
         sourceExternalAudioPath = try container.decodeIfPresent(String.self, forKey: .sourceExternalAudioPath)

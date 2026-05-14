@@ -1,0 +1,443 @@
+[0/1] Planning build
+Building for debugging...
+[0/4] Write swift-version--58304C5D6DBC2206.txt
+Build complete! (0.12s)
+Test Suite 'All tests' started at 2026-04-18 11:51:35.542.
+Test Suite 'DubbingEditorPackageTests.xctest' started at 2026-04-18 11:51:35.543.
+Test Suite 'BugReportServiceTests' started at 2026-04-18 11:51:35.543.
+Test Case '-[DubbingEditorTests.BugReportServiceTests testCreateReportWritesExpectedBundleFiles]' started.
+Test Case '-[DubbingEditorTests.BugReportServiceTests testCreateReportWritesExpectedBundleFiles]' passed (0.008 seconds).
+Test Case '-[DubbingEditorTests.BugReportServiceTests testReportsRootURLUsesPreferredBaseDirectory]' started.
+Test Case '-[DubbingEditorTests.BugReportServiceTests testReportsRootURLUsesPreferredBaseDirectory]' passed (0.000 seconds).
+Test Suite 'BugReportServiceTests' passed at 2026-04-18 11:51:35.551.
+	 Executed 2 tests, with 0 failures (0 unexpected) in 0.008 (0.009) seconds
+Test Suite 'ChannelDerivedAudioServiceTests' started at 2026-04-18 11:51:35.551.
+Test Case '-[DubbingEditorTests.ChannelDerivedAudioServiceTests testCacheIdentityChangesWithVariantAndSourceFingerprint]' started.
+Test Case '-[DubbingEditorTests.ChannelDerivedAudioServiceTests testCacheIdentityChangesWithVariantAndSourceFingerprint]' passed (0.000 seconds).
+Test Case '-[DubbingEditorTests.ChannelDerivedAudioServiceTests testVideoAudioChannelVariantMapsMuteStatesToExpectedStem]' started.
+Test Case '-[DubbingEditorTests.ChannelDerivedAudioServiceTests testVideoAudioChannelVariantMapsMuteStatesToExpectedStem]' passed (0.000 seconds).
+Test Suite 'ChannelDerivedAudioServiceTests' passed at 2026-04-18 11:51:35.552.
+	 Executed 2 tests, with 0 failures (0 unexpected) in 0.000 (0.001) seconds
+Test Suite 'DialogueRowDraftControllerTests' started at 2026-04-18 11:51:35.552.
+Test Case '-[DubbingEditorTests.DialogueRowDraftControllerTests testCommitStartTimecodeNormalizesHiddenFramesDraft]' started.
+Test Case '-[DubbingEditorTests.DialogueRowDraftControllerTests testCommitStartTimecodeNormalizesHiddenFramesDraft]' passed (0.000 seconds).
+Test Case '-[DubbingEditorTests.DialogueRowDraftControllerTests testHideFramesRefreshUpdatesDisplayedTimecodeDrafts]' started.
+Test Case '-[DubbingEditorTests.DialogueRowDraftControllerTests testHideFramesRefreshUpdatesDisplayedTimecodeDrafts]' passed (0.000 seconds).
+Test Case '-[DubbingEditorTests.DialogueRowDraftControllerTests testResolvedDisplayedTimecodeIgnoresStaleCacheWhenHideFramesModeChanges]' started.
+Test Case '-[DubbingEditorTests.DialogueRowDraftControllerTests testResolvedDisplayedTimecodeIgnoresStaleCacheWhenHideFramesModeChanges]' passed (0.000 seconds).
+Test Case '-[DubbingEditorTests.DialogueRowDraftControllerTests testTextDraftSyncSkipsFocusedFieldButRefreshesAfterFocusLeaves]' started.
+Test Case '-[DubbingEditorTests.DialogueRowDraftControllerTests testTextDraftSyncSkipsFocusedFieldButRefreshesAfterFocusLeaves]' passed (0.000 seconds).
+Test Suite 'DialogueRowDraftControllerTests' passed at 2026-04-18 11:51:35.553.
+	 Executed 4 tests, with 0 failures (0 unexpected) in 0.001 (0.001) seconds
+Test Suite 'EditorPerformanceTests' started at 2026-04-18 11:51:35.553.
+Test Case '-[DubbingEditorTests.EditorPerformanceTests testFullProjectionRebuildOnTwoThousandLinesSmokePerformance]' started.
+/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Tests/DubbingEditorTests/EditorPerformanceTests.swift:62: error: -[DubbingEditorTests.EditorPerformanceTests testFullProjectionRebuildOnTwoThousandLinesSmokePerformance] : XCTAssertEqual failed: ("0") is not equal to ("2000")
+/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Tests/DubbingEditorTests/EditorPerformanceTests.swift:63: error: -[DubbingEditorTests.EditorPerformanceTests testFullProjectionRebuildOnTwoThousandLinesSmokePerformance] : XCTAssertEqual failed: ("0") is not equal to ("2000")
+/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Tests/DubbingEditorTests/EditorPerformanceTests.swift:64: error: -[DubbingEditorTests.EditorPerformanceTests testFullProjectionRebuildOnTwoThousandLinesSmokePerformance] : XCTAssertEqual failed: ("0") is not equal to ("2000")
+Test Case '-[DubbingEditorTests.EditorPerformanceTests testFullProjectionRebuildOnTwoThousandLinesSmokePerformance]' failed (0.408 seconds).
+Test Case '-[DubbingEditorTests.EditorPerformanceTests testIncrementalSingleLineProjectionUpdateOnTwoThousandLinesSmokePerformance]' started.
+/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Tests/DubbingEditorTests/EditorPerformanceTests.swift:116: error: -[DubbingEditorTests.EditorPerformanceTests testIncrementalSingleLineProjectionUpdateOnTwoThousandLinesSmokePerformance] : XCTAssertEqual failed: ("0") is not equal to ("1")
+Test Case '-[DubbingEditorTests.EditorPerformanceTests testIncrementalSingleLineProjectionUpdateOnTwoThousandLinesSmokePerformance]' failed (0.026 seconds).
+Test Case '-[DubbingEditorTests.EditorPerformanceTests testIssueCountOnTwoThousandLinesSmokePerformance]' started.
+/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Tests/DubbingEditorTests/EditorPerformanceTests.swift:43: error: -[DubbingEditorTests.EditorPerformanceTests testIssueCountOnTwoThousandLinesSmokePerformance] : XCTAssertEqual failed: ("0") is not equal to ("2000")
+Test Case '-[DubbingEditorTests.EditorPerformanceTests testIssueCountOnTwoThousandLinesSmokePerformance]' failed (0.021 seconds).
+Test Case '-[DubbingEditorTests.EditorPerformanceTests testReplaceAllOnTwoThousandLinesSmokePerformance]' started.
+Test Case '-[DubbingEditorTests.EditorPerformanceTests testReplaceAllOnTwoThousandLinesSmokePerformance]' passed (0.013 seconds).
+Test Case '-[DubbingEditorTests.EditorPerformanceTests testSelectionTraversalOnTwoThousandLinesSmokePerformance]' started.
+Test Case '-[DubbingEditorTests.EditorPerformanceTests testSelectionTraversalOnTwoThousandLinesSmokePerformance]' passed (0.019 seconds).
+Test Case '-[DubbingEditorTests.EditorPerformanceTests testTimecodeParsingBatchSmokePerformance]' started.
+Test Case '-[DubbingEditorTests.EditorPerformanceTests testTimecodeParsingBatchSmokePerformance]' passed (0.141 seconds).
+Test Suite 'EditorPerformanceTests' failed at 2026-04-18 11:51:36.181.
+	 Executed 6 tests, with 5 failures (0 unexpected) in 0.628 (0.628) seconds
+Test Suite 'EditorProjectionCoordinatorTests' started at 2026-04-18 11:51:36.181.
+Test Case '-[DubbingEditorTests.EditorProjectionCoordinatorTests testRebuildAllComputesIssuesChronologyDisplayedAndSearch]' started.
+Test Case '-[DubbingEditorTests.EditorProjectionCoordinatorTests testRebuildAllComputesIssuesChronologyDisplayedAndSearch]' passed (0.000 seconds).
+Test Case '-[DubbingEditorTests.EditorProjectionCoordinatorTests testRebuildAllPreservesPreviousViewportIssuesOutsideEvaluationTarget]' started.
+Test Case '-[DubbingEditorTests.EditorProjectionCoordinatorTests testRebuildAllPreservesPreviousViewportIssuesOutsideEvaluationTarget]' passed (0.000 seconds).
+Test Case '-[DubbingEditorTests.EditorProjectionCoordinatorTests testRefreshSingleLineUpdatesIssuesAndSearchHaystack]' started.
+Test Case '-[DubbingEditorTests.EditorProjectionCoordinatorTests testRefreshSingleLineUpdatesIssuesAndSearchHaystack]' passed (0.000 seconds).
+Test Suite 'EditorProjectionCoordinatorTests' passed at 2026-04-18 11:51:36.181.
+	 Executed 3 tests, with 0 failures (0 unexpected) in 0.000 (0.001) seconds
+Test Suite 'EditorViewModelTests' started at 2026-04-18 11:51:36.181.
+Test Case '-[DubbingEditorTests.EditorViewModelTests testApplySpeakerAutocompleteSuggestionCommitsDirectlyToTargetLine]' started.
+Test Case '-[DubbingEditorTests.EditorViewModelTests testApplySpeakerAutocompleteSuggestionCommitsDirectlyToTargetLine]' passed (0.000 seconds).
+Test Case '-[DubbingEditorTests.EditorViewModelTests testApplyVideoOffsetParsesSecondsAndTimecode]' started.
+Test Case '-[DubbingEditorTests.EditorViewModelTests testApplyVideoOffsetParsesSecondsAndTimecode]' passed (0.002 seconds).
+Test Case '-[DubbingEditorTests.EditorViewModelTests testCaptureEndTimecodeAutoSwitchesToStartWhenEnabled]' started.
+/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Tests/DubbingEditorTests/EditorViewModelTests.swift:261: error: -[DubbingEditorTests.EditorViewModelTests testCaptureEndTimecodeAutoSwitchesToStartWhenEnabled] : XCTAssertEqual failed: ("") is not equal to ("00:00:00:00")
+Test Case '-[DubbingEditorTests.EditorViewModelTests testCaptureEndTimecodeAutoSwitchesToStartWhenEnabled]' failed (0.001 seconds).
+Test Case '-[DubbingEditorTests.EditorViewModelTests testCaptureEndTimecodeWithoutSelectionUsesFirstLine]' started.
+/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Tests/DubbingEditorTests/EditorViewModelTests.swift:217: error: -[DubbingEditorTests.EditorViewModelTests testCaptureEndTimecodeWithoutSelectionUsesFirstLine] : XCTAssertEqual failed: ("") is not equal to ("00:00:00:00")
+Test Case '-[DubbingEditorTests.EditorViewModelTests testCaptureEndTimecodeWithoutSelectionUsesFirstLine]' failed (0.001 seconds).
+Test Case '-[DubbingEditorTests.EditorViewModelTests testCaptureStartTimecodeForSelectedLineAdvancesSelection]' started.
+/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Tests/DubbingEditorTests/EditorViewModelTests.swift:201: error: -[DubbingEditorTests.EditorViewModelTests testCaptureStartTimecodeForSelectedLineAdvancesSelection] : XCTAssertEqual failed: ("") is not equal to ("00:00:00:00")
+Test Case '-[DubbingEditorTests.EditorViewModelTests testCaptureStartTimecodeForSelectedLineAdvancesSelection]' failed (0.000 seconds).
+Test Case '-[DubbingEditorTests.EditorViewModelTests testCaptureStartTimecodeWithoutAdvanceAutoSwitchesToEndWhenEnabled]' started.
+/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Tests/DubbingEditorTests/EditorViewModelTests.swift:247: error: -[DubbingEditorTests.EditorViewModelTests testCaptureStartTimecodeWithoutAdvanceAutoSwitchesToEndWhenEnabled] : XCTAssertEqual failed: ("") is not equal to ("00:00:00:00")
+Test Case '-[DubbingEditorTests.EditorViewModelTests testCaptureStartTimecodeWithoutAdvanceAutoSwitchesToEndWhenEnabled]' failed (0.001 seconds).
+Test Case '-[DubbingEditorTests.EditorViewModelTests testCaptureStartTimecodeWithoutAdvanceKeepsSelection]' started.
+/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Tests/DubbingEditorTests/EditorViewModelTests.swift:233: error: -[DubbingEditorTests.EditorViewModelTests testCaptureStartTimecodeWithoutAdvanceKeepsSelection] : XCTAssertEqual failed: ("") is not equal to ("00:00:00:00")
+Test Case '-[DubbingEditorTests.EditorViewModelTests testCaptureStartTimecodeWithoutAdvanceKeepsSelection]' failed (0.001 seconds).
+Test Case '-[DubbingEditorTests.EditorViewModelTests testChronologicalStartIssuesDetectsDescendingStartTimecodes]' started.
+Test Case '-[DubbingEditorTests.EditorViewModelTests testChronologicalStartIssuesDetectsDescendingStartTimecodes]' passed (0.000 seconds).
+Test Case '-[DubbingEditorTests.EditorViewModelTests testChronologicalStartIssuesSkipMissingStartTimecodes]' started.
+Test Case '-[DubbingEditorTests.EditorViewModelTests testChronologicalStartIssuesSkipMissingStartTimecodes]' passed (0.000 seconds).
+Test Case '-[DubbingEditorTests.EditorViewModelTests testDeleteSelectedLinesRemovesMultiSelectionAndRenumbers]' started.
+/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Tests/DubbingEditorTests/EditorViewModelTests.swift:425: error: -[DubbingEditorTests.EditorViewModelTests testDeleteSelectedLinesRemovesMultiSelectionAndRenumbers] : XCTAssertEqual failed: ("1") is not equal to ("2")
+/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Tests/DubbingEditorTests/EditorViewModelTests.swift:426: error: -[DubbingEditorTests.EditorViewModelTests testDeleteSelectedLinesRemovesMultiSelectionAndRenumbers] : XCTAssertEqual failed: ("3") is not equal to ("2")
+/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Tests/DubbingEditorTests/EditorViewModelTests.swift:427: error: -[DubbingEditorTests.EditorViewModelTests testDeleteSelectedLinesRemovesMultiSelectionAndRenumbers] : XCTAssertEqual failed: ("[C2EC3496-5D2C-455D-BDDF-2679711931A6, 18BC95E7-4ACA-4B63-BFE3-9114630C6383, 41E81E8E-3129-471D-AD2C-49592BFB9B8C]") is not equal to ("[C2EC3496-5D2C-455D-BDDF-2679711931A6, 41E81E8E-3129-471D-AD2C-49592BFB9B8C]")
+/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Tests/DubbingEditorTests/EditorViewModelTests.swift:428: error: -[DubbingEditorTests.EditorViewModelTests testDeleteSelectedLinesRemovesMultiSelectionAndRenumbers] : XCTAssertEqual failed: ("[1, 2, 3]") is not equal to ("[1, 2]")
+Test Case '-[DubbingEditorTests.EditorViewModelTests testDeleteSelectedLinesRemovesMultiSelectionAndRenumbers]' failed (0.003 seconds).
+Test Case '-[DubbingEditorTests.EditorViewModelTests testFillMissingStartTimecodesWithPreviousHourMinuteFillsEmptyRows]' started.
+Test Case '-[DubbingEditorTests.EditorViewModelTests testFillMissingStartTimecodesWithPreviousHourMinuteFillsEmptyRows]' passed (0.000 seconds).
+Test Case '-[DubbingEditorTests.EditorViewModelTests testFillMissingStartTimecodesWithPreviousHourMinuteNormalizesMinuteSecondInput]' started.
+Test Case '-[DubbingEditorTests.EditorViewModelTests testFillMissingStartTimecodesWithPreviousHourMinuteNormalizesMinuteSecondInput]' passed (0.000 seconds).
+Test Case '-[DubbingEditorTests.EditorViewModelTests testInsertNewLineAfterSelectionInsertsAfterSelectedAndRenumbers]' started.
+/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Tests/DubbingEditorTests/EditorViewModelTests.swift:30: error: -[DubbingEditorTests.EditorViewModelTests testInsertNewLineAfterSelectionInsertsAfterSelectedAndRenumbers] : XCTAssertEqual failed: ("00:00:") is not equal to ("00:00:15:00")
+Test Case '-[DubbingEditorTests.EditorViewModelTests testInsertNewLineAfterSelectionInsertsAfterSelectedAndRenumbers]' failed (0.001 seconds).
+Test Case '-[DubbingEditorTests.EditorViewModelTests testInsertNewLineFallsBackToLatestValidPreviousTimecode]' started.
+/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Tests/DubbingEditorTests/EditorViewModelTests.swift:63: error: -[DubbingEditorTests.EditorViewModelTests testInsertNewLineFallsBackToLatestValidPreviousTimecode] : XCTAssertEqual failed: ("Optional("00:00:")") is not equal to ("Optional("00:00:17:00")")
+Test Case '-[DubbingEditorTests.EditorViewModelTests testInsertNewLineFallsBackToLatestValidPreviousTimecode]' failed (0.001 seconds).
+Test Case '-[DubbingEditorTests.EditorViewModelTests testInsertNewLineMatchesCanonicalPlaybackTimecodePath]' started.
+Test Case '-[DubbingEditorTests.EditorViewModelTests testInsertNewLineMatchesCanonicalPlaybackTimecodePath]' passed (0.122 seconds).
+Test Case '-[DubbingEditorTests.EditorViewModelTests testInsertNewLinePreservesFrameSnappingAtTwentyFourFPS]' started.
+/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Tests/DubbingEditorTests/EditorViewModelTests.swift:147: error: -[DubbingEditorTests.EditorViewModelTests testInsertNewLinePreservesFrameSnappingAtTwentyFourFPS] : XCTAssertEqual failed: ("00:00:02:00") is not equal to ("00:00:10:11")
+Test Case '-[DubbingEditorTests.EditorViewModelTests testInsertNewLinePreservesFrameSnappingAtTwentyFourFPS]' failed (0.180 seconds).
+Test Case '-[DubbingEditorTests.EditorViewModelTests testInsertNewLineWithLoadedVideoUsesCurrentPlaybackTimecode]' started.
+Test Case '-[DubbingEditorTests.EditorViewModelTests testInsertNewLineWithLoadedVideoUsesCurrentPlaybackTimecode]' passed (0.129 seconds).
+Test Case '-[DubbingEditorTests.EditorViewModelTests testInsertNewLineWithLoadedVideoUsesOffsetAwarePlaybackTimecode]' started.
+/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Tests/DubbingEditorTests/EditorViewModelTests.swift:101: error: -[DubbingEditorTests.EditorViewModelTests testInsertNewLineWithLoadedVideoUsesOffsetAwarePlaybackTimecode] : XCTAssertEqual failed: ("00:00:00:00") is not equal to ("00:00:11:05")
+Test Case '-[DubbingEditorTests.EditorViewModelTests testInsertNewLineWithLoadedVideoUsesOffsetAwarePlaybackTimecode]' failed (0.128 seconds).
+Test Case '-[DubbingEditorTests.EditorViewModelTests testInsertNewLineWithoutLoadedVideoKeepsExistingFallbackMechanism]' started.
+/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Tests/DubbingEditorTests/EditorViewModelTests.swift:115: error: -[DubbingEditorTests.EditorViewModelTests testInsertNewLineWithoutLoadedVideoKeepsExistingFallbackMechanism] : XCTAssertEqual failed: ("Optional("00:00:")") is not equal to ("Optional("00:00:17:00")")
+Test Case '-[DubbingEditorTests.EditorViewModelTests testInsertNewLineWithoutLoadedVideoKeepsExistingFallbackMechanism]' failed (0.001 seconds).
+Test Case '-[DubbingEditorTests.EditorViewModelTests testInsertNewLineWithoutSelectionAppendsAtEnd]' started.
+/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Tests/DubbingEditorTests/EditorViewModelTests.swift:50: error: -[DubbingEditorTests.EditorViewModelTests testInsertNewLineWithoutSelectionAppendsAtEnd] : XCTAssertEqual failed: ("Optional("00:00:")") is not equal to ("Optional("00:00:14:00")")
+Test Case '-[DubbingEditorTests.EditorViewModelTests testInsertNewLineWithoutSelectionAppendsAtEnd]' failed (0.001 seconds).
+Test Case '-[DubbingEditorTests.EditorViewModelTests testPlaybackTimelineConversionsUseVideoOffset]' started.
+Test Case '-[DubbingEditorTests.EditorViewModelTests testPlaybackTimelineConversionsUseVideoOffset]' passed (0.000 seconds).
+Test Case '-[DubbingEditorTests.EditorViewModelTests testPrefillDoesNothingWhenPreviousTimecodeMissing]' started.
+Test Case '-[DubbingEditorTests.EditorViewModelTests testPrefillDoesNothingWhenPreviousTimecodeMissing]' passed (0.000 seconds).
+Test Case '-[DubbingEditorTests.EditorViewModelTests testPrefillEmptyEndTimecodeUsesPreviousHourMinutePrefix]' started.
+Test Case '-[DubbingEditorTests.EditorViewModelTests testPrefillEmptyEndTimecodeUsesPreviousHourMinutePrefix]' passed (0.001 seconds).
+Test Case '-[DubbingEditorTests.EditorViewModelTests testPrefillEmptyStartTimecodeNormalizesPreviousMinuteSecondInput]' started.
+Test Case '-[DubbingEditorTests.EditorViewModelTests testPrefillEmptyStartTimecodeNormalizesPreviousMinuteSecondInput]' passed (0.000 seconds).
+Test Case '-[DubbingEditorTests.EditorViewModelTests testPrefillEmptyStartTimecodeUsesPreviousHourMinutePrefix]' started.
+Test Case '-[DubbingEditorTests.EditorViewModelTests testPrefillEmptyStartTimecodeUsesPreviousHourMinutePrefix]' passed (0.000 seconds).
+Test Case '-[DubbingEditorTests.EditorViewModelTests testPrefillEmptyStartTimecodeUsesPreviousPrefixWithoutSeconds]' started.
+Test Case '-[DubbingEditorTests.EditorViewModelTests testPrefillEmptyStartTimecodeUsesPreviousPrefixWithoutSeconds]' passed (0.000 seconds).
+Test Case '-[DubbingEditorTests.EditorViewModelTests testQualityIssuesFlagsInvalidTimecodeWhenEnabled]' started.
+Test Case '-[DubbingEditorTests.EditorViewModelTests testQualityIssuesFlagsInvalidTimecodeWhenEnabled]' passed (0.000 seconds).
+Test Case '-[DubbingEditorTests.EditorViewModelTests testQualityIssuesIncludesOnlyConfiguredValidationTypes]' started.
+Test Case '-[DubbingEditorTests.EditorViewModelTests testQualityIssuesIncludesOnlyConfiguredValidationTypes]' passed (0.000 seconds).
+Test Case '-[DubbingEditorTests.EditorViewModelTests testSelectNextLineMissingTimecodeForActiveTargetWraps]' started.
+Test Case '-[DubbingEditorTests.EditorViewModelTests testSelectNextLineMissingTimecodeForActiveTargetWraps]' passed (0.001 seconds).
+Test Case '-[DubbingEditorTests.EditorViewModelTests testSetFPSPresetChangesProjectFPS]' started.
+/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Tests/DubbingEditorTests/EditorViewModelTests.swift:495: error: -[DubbingEditorTests.EditorViewModelTests testSetFPSPresetChangesProjectFPS] : XCTAssertEqual failed: ("fps23976") is not equal to ("fps24")
+Test Case '-[DubbingEditorTests.EditorViewModelTests testSetFPSPresetChangesProjectFPS]' failed (0.001 seconds).
+Test Case '-[DubbingEditorTests.EditorViewModelTests testShiftExtendSelectionCreatesContiguousRange]' started.
+Test Case '-[DubbingEditorTests.EditorViewModelTests testShiftExtendSelectionCreatesContiguousRange]' passed (0.000 seconds).
+Test Case '-[DubbingEditorTests.EditorViewModelTests testSpeakerColorOverrideMatchingDefaultDoesNotPersistExplicitOverride]' started.
+Test Case '-[DubbingEditorTests.EditorViewModelTests testSpeakerColorOverrideMatchingDefaultDoesNotPersistExplicitOverride]' passed (0.000 seconds).
+Test Case '-[DubbingEditorTests.EditorViewModelTests testSpeakerColorOverrideUsesNormalizedSpeakerKeyAndCanReset]' started.
+Test Case '-[DubbingEditorTests.EditorViewModelTests testSpeakerColorOverrideUsesNormalizedSpeakerKeyAndCanReset]' passed (0.000 seconds).
+Test Case '-[DubbingEditorTests.EditorViewModelTests testSpeakerStatisticsRefreshAsynchronouslyAfterLinesChange]' started.
+Test Case '-[DubbingEditorTests.EditorViewModelTests testSpeakerStatisticsRefreshAsynchronouslyAfterLinesChange]' passed (0.508 seconds).
+Test Suite 'EditorViewModelTests' failed at 2026-04-18 11:51:37.267.
+	 Executed 34 tests, with 16 failures (0 unexpected) in 1.084 (1.086) seconds
+Test Suite 'NetflixExcelServiceTests' started at 2026-04-18 11:51:37.267.
+Test Case '-[DubbingEditorTests.NetflixExcelServiceTests testBuildExportDraftFormatsTimecodesAndSkipsEmptyRows]' started.
+Test Case '-[DubbingEditorTests.NetflixExcelServiceTests testBuildExportDraftFormatsTimecodesAndSkipsEmptyRows]' passed (0.000 seconds).
+Test Case '-[DubbingEditorTests.NetflixExcelServiceTests testExportXLSXCreatesDialogueListWorksheet]' started.
+Test Case '-[DubbingEditorTests.NetflixExcelServiceTests testExportXLSXCreatesDialogueListWorksheet]' passed (0.213 seconds).
+Test Case '-[DubbingEditorTests.NetflixExcelServiceTests testParseImportPackageMapsNetflixColumnsByHeaderName]' started.
+Test Case '-[DubbingEditorTests.NetflixExcelServiceTests testParseImportPackageMapsNetflixColumnsByHeaderName]' passed (0.006 seconds).
+Test Case '-[DubbingEditorTests.NetflixExcelServiceTests testParseImportPackageThrowsWhenRequiredHeadersAreMissing]' started.
+Test Case '-[DubbingEditorTests.NetflixExcelServiceTests testParseImportPackageThrowsWhenRequiredHeadersAreMissing]' passed (0.001 seconds).
+Test Suite 'NetflixExcelServiceTests' passed at 2026-04-18 11:51:37.488.
+	 Executed 4 tests, with 0 failures (0 unexpected) in 0.220 (0.221) seconds
+Test Suite 'PlaybackCompositionServiceTests' started at 2026-04-18 11:51:37.488.
+Test Case '-[DubbingEditorTests.PlaybackCompositionServiceTests testAudioMixPlanCanMuteVideoTrackWithoutTap]' started.
+Test Case '-[DubbingEditorTests.PlaybackCompositionServiceTests testAudioMixPlanCanMuteVideoTrackWithoutTap]' passed (0.000 seconds).
+Test Case '-[DubbingEditorTests.PlaybackCompositionServiceTests testAudioMixPlanKeepsOnlyTrackMuteResponsibilities]' started.
+Test Case '-[DubbingEditorTests.PlaybackCompositionServiceTests testAudioMixPlanKeepsOnlyTrackMuteResponsibilities]' passed (0.000 seconds).
+Test Case '-[DubbingEditorTests.PlaybackCompositionServiceTests testAudioMixPlanUsesNoMixWhenNothingIsMuted]' started.
+Test Case '-[DubbingEditorTests.PlaybackCompositionServiceTests testAudioMixPlanUsesNoMixWhenNothingIsMuted]' passed (0.000 seconds).
+Test Suite 'PlaybackCompositionServiceTests' passed at 2026-04-18 11:51:37.488.
+	 Executed 3 tests, with 0 failures (0 unexpected) in 0.000 (0.000) seconds
+Test Suite 'PlaybackWaveformProjectionServiceTests' started at 2026-04-18 11:51:37.488.
+Test Case '-[DubbingEditorTests.PlaybackWaveformProjectionServiceTests testProjectToTimelinePadsTrailingSilenceWhenExternalAudioIsShorter]' started.
+Test Case '-[DubbingEditorTests.PlaybackWaveformProjectionServiceTests testProjectToTimelinePadsTrailingSilenceWhenExternalAudioIsShorter]' passed (0.000 seconds).
+Test Case '-[DubbingEditorTests.PlaybackWaveformProjectionServiceTests testProjectToTimelineReturnsOriginalSamplesWhenDurationsMatch]' started.
+Test Case '-[DubbingEditorTests.PlaybackWaveformProjectionServiceTests testProjectToTimelineReturnsOriginalSamplesWhenDurationsMatch]' passed (0.000 seconds).
+Test Case '-[DubbingEditorTests.PlaybackWaveformProjectionServiceTests testProjectToTimelineTruncatesAndStretchesWhenExternalAudioIsLonger]' started.
+Test Case '-[DubbingEditorTests.PlaybackWaveformProjectionServiceTests testProjectToTimelineTruncatesAndStretchesWhenExternalAudioIsLonger]' passed (0.000 seconds).
+Test Suite 'PlaybackWaveformProjectionServiceTests' passed at 2026-04-18 11:51:37.489.
+	 Executed 3 tests, with 0 failures (0 unexpected) in 0.000 (0.001) seconds
+Test Suite 'ProjectServiceTests' started at 2026-04-18 11:51:37.489.
+Test Case '-[DubbingEditorTests.ProjectServiceTests testLoadLegacyViewSettingsDefaultsNewValidationFlagsToTrue]' started.
+Test Case '-[DubbingEditorTests.ProjectServiceTests testLoadLegacyViewSettingsDefaultsNewValidationFlagsToTrue]' passed (0.001 seconds).
+Test Case '-[DubbingEditorTests.ProjectServiceTests testLoadV1ProjectWithoutSettings]' started.
+Test Case '-[DubbingEditorTests.ProjectServiceTests testLoadV1ProjectWithoutSettings]' passed (0.001 seconds).
+Test Case '-[DubbingEditorTests.ProjectServiceTests testSaveAndLoadV5PreservesSettingsAndSpeakerColorOverrides]' started.
+Test Case '-[DubbingEditorTests.ProjectServiceTests testSaveAndLoadV5PreservesSettingsAndSpeakerColorOverrides]' passed (0.001 seconds).
+Test Suite 'ProjectServiceTests' passed at 2026-04-18 11:51:37.491.
+	 Executed 3 tests, with 0 failures (0 unexpected) in 0.002 (0.003) seconds
+Test Suite 'SpeakerAppearanceServiceTests' started at 2026-04-18 11:51:37.491.
+Test Case '-[DubbingEditorTests.SpeakerAppearanceServiceTests testDefaultPaletteAssignmentIsDeterministic]' started.
+Test Case '-[DubbingEditorTests.SpeakerAppearanceServiceTests testDefaultPaletteAssignmentIsDeterministic]' passed (0.000 seconds).
+Test Case '-[DubbingEditorTests.SpeakerAppearanceServiceTests testNormalizedSpeakerKeyCollapsesWhitespaceAndUppercases]' started.
+Test Case '-[DubbingEditorTests.SpeakerAppearanceServiceTests testNormalizedSpeakerKeyCollapsesWhitespaceAndUppercases]' passed (0.000 seconds).
+Test Case '-[DubbingEditorTests.SpeakerAppearanceServiceTests testResolvedAppearancePrefersOverride]' started.
+Test Case '-[DubbingEditorTests.SpeakerAppearanceServiceTests testResolvedAppearancePrefersOverride]' passed (0.000 seconds).
+Test Suite 'SpeakerAppearanceServiceTests' passed at 2026-04-18 11:51:37.492.
+	 Executed 3 tests, with 0 failures (0 unexpected) in 0.000 (0.001) seconds
+Test Suite 'SpeakerSuggestionOverlayTests' started at 2026-04-18 11:51:37.492.
+Test Case '-[DubbingEditorTests.SpeakerSuggestionOverlayTests testDismissKeepsPopupClosedUntilQueryChanges]' started.
+Test Case '-[DubbingEditorTests.SpeakerSuggestionOverlayTests testDismissKeepsPopupClosedUntilQueryChanges]' passed (0.000 seconds).
+Test Case '-[DubbingEditorTests.SpeakerSuggestionOverlayTests testMoveDownFromNilSelectsFirstSuggestion]' started.
+Test Case '-[DubbingEditorTests.SpeakerSuggestionOverlayTests testMoveDownFromNilSelectsFirstSuggestion]' passed (0.000 seconds).
+Test Case '-[DubbingEditorTests.SpeakerSuggestionOverlayTests testMoveUpFromNilSelectsLastSuggestion]' started.
+Test Case '-[DubbingEditorTests.SpeakerSuggestionOverlayTests testMoveUpFromNilSelectsLastSuggestion]' passed (0.000 seconds).
+Test Case '-[DubbingEditorTests.SpeakerSuggestionOverlayTests testOverlayUsesScrollingListAboveVisibleRowLimit]' started.
+Test Case '-[DubbingEditorTests.SpeakerSuggestionOverlayTests testOverlayUsesScrollingListAboveVisibleRowLimit]' passed (0.000 seconds).
+Test Case '-[DubbingEditorTests.SpeakerSuggestionOverlayTests testOverlayUsesStaticListAtOrBelowVisibleRowLimit]' started.
+Test Case '-[DubbingEditorTests.SpeakerSuggestionOverlayTests testOverlayUsesStaticListAtOrBelowVisibleRowLimit]' passed (0.000 seconds).
+Test Case '-[DubbingEditorTests.SpeakerSuggestionOverlayTests testQueryChangeResetsSelectedIndex]' started.
+Test Case '-[DubbingEditorTests.SpeakerSuggestionOverlayTests testQueryChangeResetsSelectedIndex]' passed (0.000 seconds).
+Test Case '-[DubbingEditorTests.SpeakerSuggestionOverlayTests testSuggestionForCommitFallsBackToFirstSuggestion]' started.
+Test Case '-[DubbingEditorTests.SpeakerSuggestionOverlayTests testSuggestionForCommitFallsBackToFirstSuggestion]' passed (0.000 seconds).
+Test Case '-[DubbingEditorTests.SpeakerSuggestionOverlayTests testSuggestionForCommitPrefersExplicitIndex]' started.
+Test Case '-[DubbingEditorTests.SpeakerSuggestionOverlayTests testSuggestionForCommitPrefersExplicitIndex]' passed (0.000 seconds).
+Test Suite 'SpeakerSuggestionOverlayTests' passed at 2026-04-18 11:51:37.493.
+	 Executed 8 tests, with 0 failures (0 unexpected) in 0.001 (0.001) seconds
+Test Suite 'TimecodeServiceTests' started at 2026-04-18 11:51:37.493.
+Test Case '-[DubbingEditorTests.TimecodeServiceTests testDisplayTimecodeDropsFramesWithoutChangingVisibleFormat]' started.
+Test Case '-[DubbingEditorTests.TimecodeServiceTests testDisplayTimecodeDropsFramesWithoutChangingVisibleFormat]' passed (0.000 seconds).
+Test Case '-[DubbingEditorTests.TimecodeServiceTests testOffsetParsesSignedSeconds]' started.
+Test Case '-[DubbingEditorTests.TimecodeServiceTests testOffsetParsesSignedSeconds]' passed (0.000 seconds).
+Test Case '-[DubbingEditorTests.TimecodeServiceTests testOffsetParsesSignedTimecode]' started.
+Test Case '-[DubbingEditorTests.TimecodeServiceTests testOffsetParsesSignedTimecode]' passed (0.000 seconds).
+Test Case '-[DubbingEditorTests.TimecodeServiceTests testOffsetRejectsInvalidValues]' started.
+Test Case '-[DubbingEditorTests.TimecodeServiceTests testOffsetRejectsInvalidValues]' passed (0.000 seconds).
+Test Case '-[DubbingEditorTests.TimecodeServiceTests testSecondsParsesClockTimecode]' started.
+Test Case '-[DubbingEditorTests.TimecodeServiceTests testSecondsParsesClockTimecode]' passed (0.000 seconds).
+Test Case '-[DubbingEditorTests.TimecodeServiceTests testSecondsParsesFrameTimecode]' started.
+Test Case '-[DubbingEditorTests.TimecodeServiceTests testSecondsParsesFrameTimecode]' passed (0.000 seconds).
+Test Case '-[DubbingEditorTests.TimecodeServiceTests testSecondsParsesMillisecondTimecode]' started.
+Test Case '-[DubbingEditorTests.TimecodeServiceTests testSecondsParsesMillisecondTimecode]' passed (0.000 seconds).
+Test Case '-[DubbingEditorTests.TimecodeServiceTests testSecondsParsesMillisecondTimecodeWithComma]' started.
+Test Case '-[DubbingEditorTests.TimecodeServiceTests testSecondsParsesMillisecondTimecodeWithComma]' passed (0.000 seconds).
+Test Case '-[DubbingEditorTests.TimecodeServiceTests testSecondsParsesMinuteSecondTimecode]' started.
+Test Case '-[DubbingEditorTests.TimecodeServiceTests testSecondsParsesMinuteSecondTimecode]' passed (0.000 seconds).
+Test Case '-[DubbingEditorTests.TimecodeServiceTests testTimecodeFromSecondsClampsToZero]' started.
+Test Case '-[DubbingEditorTests.TimecodeServiceTests testTimecodeFromSecondsClampsToZero]' passed (0.000 seconds).
+Test Case '-[DubbingEditorTests.TimecodeServiceTests testTimecodeFromSecondsIncludesFrames]' started.
+Test Case '-[DubbingEditorTests.TimecodeServiceTests testTimecodeFromSecondsIncludesFrames]' passed (0.000 seconds).
+Test Case '-[DubbingEditorTests.TimecodeServiceTests testTimecodeWithoutFramesDropsFrameComponent]' started.
+Test Case '-[DubbingEditorTests.TimecodeServiceTests testTimecodeWithoutFramesDropsFrameComponent]' passed (0.000 seconds).
+Test Suite 'TimecodeServiceTests' passed at 2026-04-18 11:51:37.495.
+	 Executed 12 tests, with 0 failures (0 unexpected) in 0.001 (0.002) seconds
+Test Suite 'WordExportPipelineServiceTests' started at 2026-04-18 11:51:37.495.
+Test Case '-[DubbingEditorTests.WordExportPipelineServiceTests testBuildDraftCanUseEndTimecodeSource]' started.
+Test Case '-[DubbingEditorTests.WordExportPipelineServiceTests testBuildDraftCanUseEndTimecodeSource]' passed (0.000 seconds).
+Test Case '-[DubbingEditorTests.WordExportPipelineServiceTests testBuildDraftKeepsSpeakerOnlyRows]' started.
+Test Case '-[DubbingEditorTests.WordExportPipelineServiceTests testBuildDraftKeepsSpeakerOnlyRows]' passed (0.000 seconds).
+Test Case '-[DubbingEditorTests.WordExportPipelineServiceTests testBuildDraftMapsRowsToSpeakerTimecodeTextOrder]' started.
+Test Case '-[DubbingEditorTests.WordExportPipelineServiceTests testBuildDraftMapsRowsToSpeakerTimecodeTextOrder]' passed (0.000 seconds).
+Test Case '-[DubbingEditorTests.WordExportPipelineServiceTests testBuildDraftSkipsCompletelyEmptyRowsByDefault]' started.
+Test Case '-[DubbingEditorTests.WordExportPipelineServiceTests testBuildDraftSkipsCompletelyEmptyRowsByDefault]' passed (0.000 seconds).
+Test Case '-[DubbingEditorTests.WordExportPipelineServiceTests testTimecodeFormattingFallsBackToRawForInvalidTimecode]' started.
+Test Case '-[DubbingEditorTests.WordExportPipelineServiceTests testTimecodeFormattingFallsBackToRawForInvalidTimecode]' passed (0.000 seconds).
+Test Case '-[DubbingEditorTests.WordExportPipelineServiceTests testTimecodeFormattingHonorsSelectedComponents]' started.
+Test Case '-[DubbingEditorTests.WordExportPipelineServiceTests testTimecodeFormattingHonorsSelectedComponents]' passed (0.000 seconds).
+Test Suite 'WordExportPipelineServiceTests' passed at 2026-04-18 11:51:37.496.
+	 Executed 6 tests, with 0 failures (0 unexpected) in 0.001 (0.001) seconds
+Test Suite 'WordExportServiceTests' started at 2026-04-18 11:51:37.496.
+Test Case '-[DubbingEditorTests.WordExportServiceTests testExportDocxCreatesOutputFile]' started.
+Test Case '-[DubbingEditorTests.WordExportServiceTests testExportDocxCreatesOutputFile]' passed (0.023 seconds).
+Test Case '-[DubbingEditorTests.WordExportServiceTests testExportDocxFailsForEmptyDraft]' started.
+Test Case '-[DubbingEditorTests.WordExportServiceTests testExportDocxFailsForEmptyDraft]' passed (0.000 seconds).
+Test Case '-[DubbingEditorTests.WordExportServiceTests testExportDocxIyunoContainsWordTable]' started.
+Test Case '-[DubbingEditorTests.WordExportServiceTests testExportDocxIyunoContainsWordTable]' passed (0.028 seconds).
+Test Case '-[DubbingEditorTests.WordExportServiceTests testMakeIyunoDocumentXMLContainsTableRows]' started.
+Test Case '-[DubbingEditorTests.WordExportServiceTests testMakeIyunoDocumentXMLContainsTableRows]' passed (0.000 seconds).
+Test Case '-[DubbingEditorTests.WordExportServiceTests testMakePlainTextDocumentUsesTabSeparatedRowsAndTrailingNewline]' started.
+Test Case '-[DubbingEditorTests.WordExportServiceTests testMakePlainTextDocumentUsesTabSeparatedRowsAndTrailingNewline]' passed (0.000 seconds).
+Test Suite 'WordExportServiceTests' passed at 2026-04-18 11:51:37.548.
+	 Executed 5 tests, with 0 failures (0 unexpected) in 0.051 (0.052) seconds
+Test Suite 'WordImportServiceTests' started at 2026-04-18 11:51:37.548.
+Test Case '-[DubbingEditorTests.WordImportServiceTests testFormatDetectorDetectsClassicTabsProfile]' started.
+Test Case '-[DubbingEditorTests.WordImportServiceTests testFormatDetectorDetectsClassicTabsProfile]' passed (0.000 seconds).
+Test Case '-[DubbingEditorTests.WordImportServiceTests testFormatDetectorDetectsIyunoTableProfile]' started.
+Test Case '-[DubbingEditorTests.WordImportServiceTests testFormatDetectorDetectsIyunoTableProfile]' passed (0.000 seconds).
+Test Case '-[DubbingEditorTests.WordImportServiceTests testFormatDetectorFallsBackToUnknown]' started.
+Test Case '-[DubbingEditorTests.WordImportServiceTests testFormatDetectorFallsBackToUnknown]' passed (0.000 seconds).
+Test Case '-[DubbingEditorTests.WordImportServiceTests testImportClassicIncludesRowsWithoutSpeaker]' started.
+Test Case '-[DubbingEditorTests.WordImportServiceTests testImportClassicIncludesRowsWithoutSpeaker]' passed (0.001 seconds).
+Test Case '-[DubbingEditorTests.WordImportServiceTests testImportClassicSkipsLeadingPreambleRows]' started.
+/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Tests/DubbingEditorTests/WordImportServiceTests.swift:222: error: -[DubbingEditorTests.WordImportServiceTests testImportClassicSkipsLeadingPreambleRows] : XCTAssertEqual failed: ("5") is not equal to ("2")
+/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Tests/DubbingEditorTests/WordImportServiceTests.swift:223: error: -[DubbingEditorTests.WordImportServiceTests testImportClassicSkipsLeadingPreambleRows] : XCTAssertEqual failed: ("ORIGINAL TITLE") is not equal to ("LIZ")
+/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Tests/DubbingEditorTests/WordImportServiceTests.swift:224: error: -[DubbingEditorTests.WordImportServiceTests testImportClassicSkipsLeadingPreambleRows] : XCTAssertEqual failed: ("") is not equal to ("00:03:43:00")
+/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Tests/DubbingEditorTests/WordImportServiceTests.swift:225: error: -[DubbingEditorTests.WordImportServiceTests testImportClassicSkipsLeadingPreambleRows] : XCTAssertEqual failed: ("TRANSLATED BY") is not equal to ("")
+/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Tests/DubbingEditorTests/WordImportServiceTests.swift:226: error: -[DubbingEditorTests.WordImportServiceTests testImportClassicSkipsLeadingPreambleRows] : XCTAssertEqual failed: ("") is not equal to ("00:03:51:00")
+Test Case '-[DubbingEditorTests.WordImportServiceTests testImportClassicSkipsLeadingPreambleRows]' failed (0.001 seconds).
+Test Case '-[DubbingEditorTests.WordImportServiceTests testImportIyunoDoesNotDropDialogueContainingKonecWord]' started.
+Test Case '-[DubbingEditorTests.WordImportServiceTests testImportIyunoDoesNotDropDialogueContainingKonecWord]' passed (0.000 seconds).
+Test Case '-[DubbingEditorTests.WordImportServiceTests testImportIyunoIncludesRowsWithoutTimecodeAndWithoutSpeaker]' started.
+Test Case '-[DubbingEditorTests.WordImportServiceTests testImportIyunoIncludesRowsWithoutTimecodeAndWithoutSpeaker]' passed (0.001 seconds).
+Test Case '-[DubbingEditorTests.WordImportServiceTests testImportIyunoParagraphSkipsLeadingMetadata]' started.
+Test Case '-[DubbingEditorTests.WordImportServiceTests testImportIyunoParagraphSkipsLeadingMetadata]' passed (0.001 seconds).
+Test Case '-[DubbingEditorTests.WordImportServiceTests testImportIyunoParagraphTreatsHashSpeakerAsSpeaker]' started.
+/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Tests/DubbingEditorTests/WordImportServiceTests.swift:288: error: -[DubbingEditorTests.WordImportServiceTests testImportIyunoParagraphTreatsHashSpeakerAsSpeaker] : XCTAssertEqual failed: ("Běž.") is not equal to ("Jdeme.")
+/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Tests/DubbingEditorTests/WordImportServiceTests.swift:291: error: -[DubbingEditorTests.WordImportServiceTests testImportIyunoParagraphTreatsHashSpeakerAsSpeaker] : XCTAssertEqual failed: ("") is not equal to ("Běž.")
+Test Case '-[DubbingEditorTests.WordImportServiceTests testImportIyunoParagraphTreatsHashSpeakerAsSpeaker]' failed (0.001 seconds).
+Test Case '-[DubbingEditorTests.WordImportServiceTests testImportIyunoParagraphTreatsInsertLabelAsSpeaker]' started.
+Test Case '-[DubbingEditorTests.WordImportServiceTests testImportIyunoParagraphTreatsInsertLabelAsSpeaker]' passed (0.000 seconds).
+Test Case '-[DubbingEditorTests.WordImportServiceTests testInspectPipelineUsesDetectorResult]' started.
+Test Case '-[DubbingEditorTests.WordImportServiceTests testInspectPipelineUsesDetectorResult]' passed (0.000 seconds).
+Test Suite 'WordImportServiceTests' failed at 2026-04-18 11:51:37.555.
+	 Executed 11 tests, with 7 failures (0 unexpected) in 0.006 (0.007) seconds
+Test Suite 'DubbingEditorPackageTests.xctest' failed at 2026-04-18 11:51:37.555.
+	 Executed 109 tests, with 28 failures (0 unexpected) in 2.006 (2.012) seconds
+Test Suite 'All tests' failed at 2026-04-18 11:51:37.555.
+	 Executed 109 tests, with 28 failures (0 unexpected) in 2.006 (2.013) seconds
+=== STRUCTURE DEBUG ===
+timestamp=2026-04-18T09:51:36.188Z
+event=deleteLines(withIDs:)
+count.before=4
+count.after=3
+delta=-1
+before.selected=#3 [E676C884] spk='C' tc='' txt='Three'
+before.highlighted=<nil>
+before.anchor=<nil>
+before.selectedLineIDs=#2 [18BC95E7] spk='B' tc='' txt='Two' | #3 [E676C884] spk='C' tc='' txt='Three'
+after.selected=#3 [41E81E8E] spk='D' tc='' txt='Four'
+after.highlighted=#3 [41E81E8E] spk='D' tc='' txt='Four'
+after.anchor=#3 [41E81E8E] spk='D' tc='' txt='Four'
+after.selectedLineIDs=#3 [41E81E8E] spk='D' tc='' txt='Four'
+details=deletedCount=1 targets=#3 [E676C884] spk='C' tc='' txt='Three'
+=== STRUCTURE DEBUG ===
+timestamp=2026-04-18T09:51:36.191Z
+event=insertNewLineAfterSelection
+count.before=3
+count.after=4
+delta=1
+before.selected=#8 [DE56220E] spk='B' tc='00:00:10:00' txt='Druha'
+before.highlighted=<nil>
+before.anchor=<nil>
+before.selectedLineIDs=
+after.selected=#3 [1F34E33A] spk='' tc='00:00:' txt='<empty>'
+after.highlighted=#3 [1F34E33A] spk='' tc='00:00:' txt='<empty>'
+after.anchor=#3 [1F34E33A] spk='' tc='00:00:' txt='<empty>'
+after.selectedLineIDs=#3 [1F34E33A] spk='' tc='00:00:' txt='<empty>'
+details=inserted=#3 [1F34E33A] spk='' tc='00:00:' txt='<empty>'
+=== STRUCTURE DEBUG ===
+timestamp=2026-04-18T09:51:36.192Z
+event=insertNewLineAfterSelection
+count.before=2
+count.after=3
+delta=1
+before.selected=#2 [56643CA5] spk='B' tc='' txt='Two'
+before.highlighted=<nil>
+before.anchor=<nil>
+before.selectedLineIDs=
+after.selected=#3 [48C540E4] spk='' tc='00:00:' txt='<empty>'
+after.highlighted=#3 [48C540E4] spk='' tc='00:00:' txt='<empty>'
+after.anchor=#3 [48C540E4] spk='' tc='00:00:' txt='<empty>'
+after.selectedLineIDs=#3 [48C540E4] spk='' tc='00:00:' txt='<empty>'
+details=inserted=#3 [48C540E4] spk='' tc='00:00:' txt='<empty>'
+=== STRUCTURE DEBUG ===
+timestamp=2026-04-18T09:51:36.314Z
+event=insertNewLineAfterSelection
+count.before=1
+count.after=2
+delta=1
+before.selected=#1 [853BB5E5] spk='A' tc='00:00:01:00' txt='One'
+before.highlighted=<nil>
+before.anchor=<nil>
+before.selectedLineIDs=
+after.selected=#2 [EE1C0EF2] spk='' tc='00:00:43:17' txt='<empty>'
+after.highlighted=#2 [EE1C0EF2] spk='' tc='00:00:43:17' txt='<empty>'
+after.anchor=#2 [EE1C0EF2] spk='' tc='00:00:43:17' txt='<empty>'
+after.selectedLineIDs=#2 [EE1C0EF2] spk='' tc='00:00:43:17' txt='<empty>'
+details=inserted=#2 [EE1C0EF2] spk='' tc='00:00:43:17' txt='<empty>'
+=== STRUCTURE DEBUG ===
+timestamp=2026-04-18T09:51:36.491Z
+event=insertNewLineAfterSelection
+count.before=1
+count.after=2
+delta=1
+before.selected=#1 [1499C16C] spk='A' tc='00:00:01:00' txt='One'
+before.highlighted=<nil>
+before.anchor=<nil>
+before.selectedLineIDs=
+after.selected=#2 [B50811EC] spk='' tc='00:00:02:00' txt='<empty>'
+after.highlighted=#2 [B50811EC] spk='' tc='00:00:02:00' txt='<empty>'
+after.anchor=#2 [B50811EC] spk='' tc='00:00:02:00' txt='<empty>'
+after.selectedLineIDs=#2 [B50811EC] spk='' tc='00:00:02:00' txt='<empty>'
+details=inserted=#2 [B50811EC] spk='' tc='00:00:02:00' txt='<empty>'
+=== STRUCTURE DEBUG ===
+timestamp=2026-04-18T09:51:36.623Z
+event=insertNewLineAfterSelection
+count.before=1
+count.after=2
+delta=1
+before.selected=#1 [BE7BCC59] spk='A' tc='00:00:03:00' txt='One'
+before.highlighted=<nil>
+before.anchor=<nil>
+before.selectedLineIDs=
+after.selected=#2 [DD071BE6] spk='' tc='00:00:14:12' txt='<empty>'
+after.highlighted=#2 [DD071BE6] spk='' tc='00:00:14:12' txt='<empty>'
+after.anchor=#2 [DD071BE6] spk='' tc='00:00:14:12' txt='<empty>'
+after.selectedLineIDs=#2 [DD071BE6] spk='' tc='00:00:14:12' txt='<empty>'
+details=inserted=#2 [DD071BE6] spk='' tc='00:00:14:12' txt='<empty>'
+=== STRUCTURE DEBUG ===
+timestamp=2026-04-18T09:51:36.750Z
+event=insertNewLineAfterSelection
+count.before=1
+count.after=2
+delta=1
+before.selected=#1 [85B3C8A7] spk='A' tc='00:00:03:00' txt='One'
+before.highlighted=<nil>
+before.anchor=<nil>
+before.selectedLineIDs=
+after.selected=#2 [F9D5042C] spk='' tc='00:00:00:00' txt='<empty>'
+after.highlighted=#2 [F9D5042C] spk='' tc='00:00:00:00' txt='<empty>'
+after.anchor=#2 [F9D5042C] spk='' tc='00:00:00:00' txt='<empty>'
+after.selectedLineIDs=#2 [F9D5042C] spk='' tc='00:00:00:00' txt='<empty>'
+details=inserted=#2 [F9D5042C] spk='' tc='00:00:00:00' txt='<empty>'
+=== STRUCTURE DEBUG ===
+timestamp=2026-04-18T09:51:36.752Z
+event=insertNewLineAfterSelection
+count.before=2
+count.after=3
+delta=1
+before.selected=#2 [7BCEA4FF] spk='B' tc='' txt='Two'
+before.highlighted=<nil>
+before.anchor=<nil>
+before.selectedLineIDs=
+after.selected=#3 [C13595D1] spk='' tc='00:00:' txt='<empty>'
+after.highlighted=#3 [C13595D1] spk='' tc='00:00:' txt='<empty>'
+after.anchor=#3 [C13595D1] spk='' tc='00:00:' txt='<empty>'
+after.selectedLineIDs=#3 [C13595D1] spk='' tc='00:00:' txt='<empty>'
+details=inserted=#3 [C13595D1] spk='' tc='00:00:' txt='<empty>'
+=== STRUCTURE DEBUG ===
+timestamp=2026-04-18T09:51:36.753Z
+event=insertNewLineAfterSelection
+count.before=2
+count.after=3
+delta=1
+before.selected=<nil>
+before.highlighted=<nil>
+before.anchor=<nil>
+before.selectedLineIDs=
+after.selected=#3 [ADECB1DE] spk='' tc='00:00:' txt='<empty>'
+after.highlighted=#3 [ADECB1DE] spk='' tc='00:00:' txt='<empty>'
+after.anchor=#3 [ADECB1DE] spk='' tc='00:00:' txt='<empty>'
+after.selectedLineIDs=#3 [ADECB1DE] spk='' tc='00:00:' txt='<empty>'
+details=inserted=#3 [ADECB1DE] spk='' tc='00:00:' txt='<empty>'
+◇ Test run started.
+↳ Testing Library Version: 1743
+↳ Target Platform: arm64e-apple-macos14.0
+✔ Test run with 0 tests in 0 suites passed after 0.001 seconds.

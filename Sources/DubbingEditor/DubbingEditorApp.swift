@@ -48,12 +48,18 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
 private struct EditorMenuCommands: Commands {
     @ObservedObject var model: EditorViewModel
+    @ObservedObject private var detachedVideoWindowPresenter = DetachedVideoWindowPresenter.shared
     @AppStorage("shortcut_add_line") private var shortcutAddLine = "cmd+shift+n"
 
     var body: some Commands {
         CommandGroup(after: .newItem) {
             Button("Import Word...") {
                 model.promptImportWord()
+            }
+            .disabled(model.isImportingWord)
+
+            Button("Import Netflix Excel...") {
+                model.promptImportNetflixExcel()
             }
             .disabled(model.isImportingWord)
 
@@ -85,6 +91,16 @@ private struct EditorMenuCommands: Commands {
                 model.deleteWaveformCacheForCurrentVideo()
             }
             .disabled(model.videoURL == nil || !model.hasAnyWaveformCache || model.isBuildingWaveform)
+
+            Divider()
+
+            Button(detachedVideoWindowPresenter.isPresented ? "Zavrit video okno" : "Video v samostatnem okne") {
+                detachedVideoWindowPresenter.toggle(
+                    player: model.player,
+                    hasLoadedVideo: model.videoURL != nil
+                )
+            }
+            .disabled(model.videoURL == nil)
 
             Divider()
 
@@ -125,6 +141,11 @@ private struct EditorMenuCommands: Commands {
 
             Button("Export DOCX...") {
                 model.requestExportDocxFlow()
+            }
+            .disabled(model.lines.isEmpty || model.isImportingWord)
+
+            Button("Export Netflix Excel...") {
+                model.requestExportNetflixExcelFlow()
             }
             .disabled(model.lines.isEmpty || model.isImportingWord)
         }

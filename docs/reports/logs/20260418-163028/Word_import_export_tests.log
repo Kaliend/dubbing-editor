@@ -1,0 +1,44 @@
+Building for debugging...
+[0/4] Write swift-version--58304C5D6DBC2206.txt
+[2/6] Emitting module DubbingEditor
+[3/6] Compiling DubbingEditor EditorViewModel.swift
+/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Sources/DubbingEditor/Models/EditorViewModel.swift:516:9: error: call to main actor-isolated instance method 'invalidatePlayerItemDebugObservations()' in a synchronous nonisolated context [#ActorIsolatedCall]
+ 514 |         videoFPSDetectionTask?.cancel()
+ 515 |         playbackSourceTask?.cancel()
+ 516 |         invalidatePlayerItemDebugObservations()
+     |         `- error: call to main actor-isolated instance method 'invalidatePlayerItemDebugObservations()' in a synchronous nonisolated context [#ActorIsolatedCall]
+ 517 |         playerTimeControlObservation?.invalidate()
+ 518 |         playerWaitingReasonObservation?.invalidate()
+     :
+3831 |     }
+3832 | 
+3833 |     private func invalidatePlayerItemDebugObservations() {
+     |                  `- note: calls to instance method 'invalidatePlayerItemDebugObservations()' from outside of its actor context are implicitly asynchronous
+3834 |         playerItemStatusObservation?.invalidate()
+3835 |         playerItemStatusObservation = nil
+
+/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Sources/DubbingEditor/Models/EditorViewModel.swift:519:9: error: call to main actor-isolated instance method 'stopPlaybackDebugStallMonitor()' in a synchronous nonisolated context [#ActorIsolatedCall]
+ 517 |         playerTimeControlObservation?.invalidate()
+ 518 |         playerWaitingReasonObservation?.invalidate()
+ 519 |         stopPlaybackDebugStallMonitor()
+     |         `- error: call to main actor-isolated instance method 'stopPlaybackDebugStallMonitor()' in a synchronous nonisolated context [#ActorIsolatedCall]
+ 520 |     }
+ 521 | 
+     :
+3869 |     }
+3870 | 
+3871 |     private func stopPlaybackDebugStallMonitor() {
+     |                  `- note: calls to instance method 'stopPlaybackDebugStallMonitor()' from outside of its actor context are implicitly asynchronous
+3872 |         playbackDebugStallMonitor?.cancel()
+3873 |         playbackDebugStallMonitor = nil
+
+/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Sources/DubbingEditor/Models/EditorViewModel.swift:3915:16: error: cannot find 'lastMovingSeconds' in scope
+3913 |         }
+3914 | 
+3915 |         if let lastMovingSeconds, abs(currentSeconds - lastMovingSeconds) > playbackDebugProgressEpsilonSeconds {
+     |                `- error: cannot find 'lastMovingSeconds' in scope
+3916 |             playbackDebugLastMovingSeconds = currentSeconds
+3917 |             playbackDebugLastMovingWallclock = now
+
+[#ActorIsolatedCall]: <https://docs.swift.org/compiler/documentation/diagnostics/actor-isolated-call>
+error: fatalError

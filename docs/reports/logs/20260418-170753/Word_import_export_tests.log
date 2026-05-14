@@ -1,0 +1,14 @@
+Building for debugging...
+[0/4] Write swift-version--58304C5D6DBC2206.txt
+Build complete! (0.12s)
+warning: No matching test cases were run
+Test Suite 'Selected tests' started at 2026-04-18 17:08:00.147.
+Test Suite 'DubbingEditorPackageTests.xctest' started at 2026-04-18 17:08:00.148.
+Test Suite 'DubbingEditorPackageTests.xctest' passed at 2026-04-18 17:08:00.148.
+	 Executed 0 tests, with 0 failures (0 unexpected) in 0.000 (0.000) seconds
+Test Suite 'Selected tests' passed at 2026-04-18 17:08:00.148.
+	 Executed 0 tests, with 0 failures (0 unexpected) in 0.000 (0.001) seconds
+◇ Test run started.
+↳ Testing Library Version: 1743
+↳ Target Platform: arm64e-apple-macos14.0
+✔ Test run with 0 tests in 0 suites passed after 0.001 seconds.

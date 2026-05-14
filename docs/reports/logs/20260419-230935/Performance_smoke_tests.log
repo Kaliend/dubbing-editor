@@ -1,0 +1,33 @@
+Building for debugging...
+[0/4] Write swift-version--58304C5D6DBC2206.txt
+Build complete! (0.08s)
+Test Suite 'Selected tests' started at 2026-04-19 23:09:41.691.
+Test Suite 'DubbingEditorPackageTests.xctest' started at 2026-04-19 23:09:41.692.
+Test Suite 'EditorPerformanceTests' started at 2026-04-19 23:09:41.692.
+Test Case '-[DubbingEditorTests.EditorPerformanceTests testFullProjectionRebuildOnTwoThousandLinesSmokePerformance]' started.
+/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Tests/DubbingEditorTests/EditorPerformanceTests.swift:62: error: -[DubbingEditorTests.EditorPerformanceTests testFullProjectionRebuildOnTwoThousandLinesSmokePerformance] : XCTAssertEqual failed: ("0") is not equal to ("2000")
+/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Tests/DubbingEditorTests/EditorPerformanceTests.swift:63: error: -[DubbingEditorTests.EditorPerformanceTests testFullProjectionRebuildOnTwoThousandLinesSmokePerformance] : XCTAssertEqual failed: ("0") is not equal to ("2000")
+/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Tests/DubbingEditorTests/EditorPerformanceTests.swift:64: error: -[DubbingEditorTests.EditorPerformanceTests testFullProjectionRebuildOnTwoThousandLinesSmokePerformance] : XCTAssertEqual failed: ("0") is not equal to ("2000")
+Test Case '-[DubbingEditorTests.EditorPerformanceTests testFullProjectionRebuildOnTwoThousandLinesSmokePerformance]' failed (0.032 seconds).
+Test Case '-[DubbingEditorTests.EditorPerformanceTests testIncrementalSingleLineProjectionUpdateOnTwoThousandLinesSmokePerformance]' started.
+/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Tests/DubbingEditorTests/EditorPerformanceTests.swift:116: error: -[DubbingEditorTests.EditorPerformanceTests testIncrementalSingleLineProjectionUpdateOnTwoThousandLinesSmokePerformance] : XCTAssertEqual failed: ("0") is not equal to ("1")
+Test Case '-[DubbingEditorTests.EditorPerformanceTests testIncrementalSingleLineProjectionUpdateOnTwoThousandLinesSmokePerformance]' failed (0.024 seconds).
+Test Case '-[DubbingEditorTests.EditorPerformanceTests testIssueCountOnTwoThousandLinesSmokePerformance]' started.
+/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Tests/DubbingEditorTests/EditorPerformanceTests.swift:43: error: -[DubbingEditorTests.EditorPerformanceTests testIssueCountOnTwoThousandLinesSmokePerformance] : XCTAssertEqual failed: ("0") is not equal to ("2000")
+Test Case '-[DubbingEditorTests.EditorPerformanceTests testIssueCountOnTwoThousandLinesSmokePerformance]' failed (0.019 seconds).
+Test Case '-[DubbingEditorTests.EditorPerformanceTests testReplaceAllOnTwoThousandLinesSmokePerformance]' started.
+Test Case '-[DubbingEditorTests.EditorPerformanceTests testReplaceAllOnTwoThousandLinesSmokePerformance]' passed (0.012 seconds).
+Test Case '-[DubbingEditorTests.EditorPerformanceTests testSelectionTraversalOnTwoThousandLinesSmokePerformance]' started.
+Test Case '-[DubbingEditorTests.EditorPerformanceTests testSelectionTraversalOnTwoThousandLinesSmokePerformance]' passed (0.019 seconds).
+Test Case '-[DubbingEditorTests.EditorPerformanceTests testTimecodeParsingBatchSmokePerformance]' started.
+Test Case '-[DubbingEditorTests.EditorPerformanceTests testTimecodeParsingBatchSmokePerformance]' passed (0.128 seconds).
+Test Suite 'EditorPerformanceTests' failed at 2026-04-19 23:09:41.927.
+	 Executed 6 tests, with 5 failures (0 unexpected) in 0.234 (0.235) seconds
+Test Suite 'DubbingEditorPackageTests.xctest' failed at 2026-04-19 23:09:41.927.
+	 Executed 6 tests, with 5 failures (0 unexpected) in 0.234 (0.235) seconds
+Test Suite 'Selected tests' failed at 2026-04-19 23:09:41.927.
+	 Executed 6 tests, with 5 failures (0 unexpected) in 0.234 (0.236) seconds
+◇ Test run started.
+↳ Testing Library Version: 1743
+↳ Target Platform: arm64e-apple-macos14.0
+✔ Test run with 0 tests in 0 suites passed after 0.001 seconds.

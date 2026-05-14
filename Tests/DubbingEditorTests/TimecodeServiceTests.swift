@@ -65,13 +65,13 @@ final class TimecodeServiceTests: XCTestCase {
     }
 
     func testOffsetParsesSignedSeconds() {
-        XCTAssertEqual(TimecodeService.offsetSeconds(from: "-1.25", fps: 25), -1.25, accuracy: 0.0001)
-        XCTAssertEqual(TimecodeService.offsetSeconds(from: "+1,5", fps: 25), 1.5, accuracy: 0.0001)
+        XCTAssertEqual(TimecodeService.offsetSeconds(from: "-1.25", fps: 25) ?? .nan, -1.25, accuracy: 0.0001)
+        XCTAssertEqual(TimecodeService.offsetSeconds(from: "+1,5", fps: 25) ?? .nan, 1.5, accuracy: 0.0001)
     }
 
     func testOffsetParsesSignedTimecode() {
-        XCTAssertEqual(TimecodeService.offsetSeconds(from: "+00:00:02:12", fps: 25), 2.48, accuracy: 0.0001)
-        XCTAssertEqual(TimecodeService.offsetSeconds(from: "-00:00:01:00", fps: 25), -1, accuracy: 0.0001)
+        XCTAssertEqual(TimecodeService.offsetSeconds(from: "+00:00:02:12", fps: 25) ?? .nan, 2.48, accuracy: 0.0001)
+        XCTAssertEqual(TimecodeService.offsetSeconds(from: "-00:00:01:00", fps: 25) ?? .nan, -1, accuracy: 0.0001)
     }
 
     func testOffsetRejectsInvalidValues() {

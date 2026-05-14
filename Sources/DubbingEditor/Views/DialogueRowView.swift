@@ -10,7 +10,6 @@ struct DialogueRowView: View {
     let isTimecodeModeEnabled: Bool
     let isSelected: Bool
     let isEditable: Bool
-    let isPlaybackActive: Bool
     let replicaTextFocusRequestLineID: DialogueLine.ID?
     let replicaTextFocusRequestToken: UUID
     let startTimecodeFocusRequestLineID: DialogueLine.ID?
@@ -176,6 +175,12 @@ struct DialogueRowView: View {
         }
         .onChange(of: focusedField) { field in
             let previous = previousFocusedField
+            if previous == .replicaText, field != .replicaText {
+                commitTextDraft()
+            }
+            if previous == .speaker, field != .speaker {
+                commitSpeakerDraft()
+            }
             if previous == .startTimecode, field != .startTimecode {
                 commitStartTimecodeDraft()
             }
@@ -326,11 +331,15 @@ struct DialogueRowView: View {
     @ViewBuilder
     private var interactiveRowContent: some View {
         VStack(alignment: .leading, spacing: 8) {
-            rowHeader(
-                speakerView: AnyView(speakerFieldView),
-                startView: AnyView(startFieldView),
-                endView: isEndTimecodeFieldHidden ? nil : AnyView(endFieldView)
-            )
+            rowHeader {
+                speakerFieldView
+            } startView: {
+                startFieldView
+            } endView: {
+                if !isEndTimecodeFieldHidden {
+                    endFieldView
+                }
+            }
 
             if isEditable {
                 TextEditor(text: editableTextDraftBinding)
@@ -363,35 +372,36 @@ struct DialogueRowView: View {
 
     @ViewBuilder
     private var readOnlyRowContent: some View {
+        let displayedStartTimecode = resolvedDisplayedStartTimecode
+        let displayedEndTimecode = resolvedDisplayedEndTimecode
         VStack(alignment: .leading, spacing: 8) {
-            rowHeader(
-                speakerView: AnyView(
-                    speakerReadOnlyField(
-                        value: line.speaker,
-                        placeholder: "Speaker"
-                    )
-                ),
-                startView: AnyView(
-                    readOnlyField(
-                        value: resolvedDisplayedStartTimecode,
-                        placeholder: "Start",
-                        width: 115,
-                        monospaced: true
-                    )
+            rowHeader {
+                speakerReadOnlyField(
+                    value: line.speaker,
+                    placeholder: "Speaker"
+                )
+            } startView: {
+                let startField = readOnlyField(
+                    value: displayedStartTimecode,
+                    placeholder: "Start",
+                    width: 115,
+                    monospaced: true
+                )
+                startField
                     .overlay(
                         RoundedRectangle(cornerRadius: 6)
                             .stroke(hasStartChronologyIssue ? Color.red.opacity(0.85) : Color.clear, lineWidth: 1.25)
                     )
-                ),
-                endView: isEndTimecodeFieldHidden ? nil : AnyView(
+            } endView: {
+                if !isEndTimecodeFieldHidden {
                     readOnlyField(
-                        value: resolvedDisplayedEndTimecode,
+                        value: displayedEndTimecode,
                         placeholder: "End",
                         width: 115,
                         monospaced: true
                     )
-                )
-            )
+                }
+            }
 
             Text(line.text)
                 .font(.system(size: replicaTextFontSize))
@@ -491,10 +501,10 @@ struct DialogueRowView: View {
         )
     }
 
-    private func rowHeader(
-        speakerView: AnyView,
-        startView: AnyView,
-        endView: AnyView?
+    private func rowHeader<SpeakerView: View, StartView: View, EndView: View>(
+        @ViewBuilder speakerView: () -> SpeakerView,
+        @ViewBuilder startView: () -> StartView,
+        @ViewBuilder endView: () -> EndView
     ) -> some View {
         HStack(alignment: .center, spacing: 8) {
             Text(String(format: "%04d", line.index))
@@ -502,12 +512,9 @@ struct DialogueRowView: View {
                 .foregroundStyle(.secondary)
                 .frame(width: 46, alignment: .leading)
 
-            speakerView
-            startView
-
-            if let endView {
-                endView
-            }
+            speakerView()
+            startView()
+            endView()
 
             Button("S") {
                 onSetStart()
@@ -903,6 +910,14 @@ struct DialogueRowView: View {
         )
     }
 
+    private func commitTextDraft() {
+        guard isBoundToExpectedLine else { return }
+        draftController.commitTextIfNeeded(
+            into: &line,
+            onCommit: onModelCommit
+        )
+    }
+
     private func commitEndTimecodeDraft() {
         guard isBoundToExpectedLine else { return }
         draftController.commitEndTimecodeIfNeeded(
@@ -964,6 +979,283 @@ private struct ReadOnlyRowInteractionCaptureView: NSViewRepresentable {
         override func scrollWheel(with event: NSEvent) {
             nextResponder?.scrollWheel(with: event)
         }
+    }
+}
+
+struct ReadOnlyDialogueRowSnapshot: Identifiable {
+    let id: DialogueLine.ID
+    let index: Int
+    let indexText: String
+    let speaker: String
+    let text: String
+    let displayedStartTimecode: String
+    let displayedEndTimecode: String
+    let speakerAppearance: SpeakerAppearance?
+
+    init(
+        line: DialogueLine,
+        fps: Double,
+        hideTimecodeFrames: Bool,
+        speakerColorOverridesByKey: [String: String]
+    ) {
+        id = line.id
+        index = line.index
+        indexText = String(format: "%04d", line.index)
+        speaker = line.speaker
+        text = line.text
+        displayedStartTimecode = TimecodeService.displayTimecode(
+            line.startTimecode,
+            fps: fps,
+            hideFrames: hideTimecodeFrames
+        )
+        displayedEndTimecode = TimecodeService.displayTimecode(
+            line.endTimecode,
+            fps: fps,
+            hideFrames: hideTimecodeFrames
+        )
+        speakerAppearance = SpeakerAppearanceService.resolvedAppearance(
+            for: line.speaker,
+            overridesByKey: speakerColorOverridesByKey
+        )
+    }
+}
+
+struct ReadOnlyDialogueRowView: View {
+    let snapshot: ReadOnlyDialogueRowSnapshot
+    let isEndTimecodeFieldHidden: Bool
+    let isSelected: Bool
+    let isActiveSearchSelection: Bool
+    let hasStartChronologyIssue: Bool
+    let totalLineCount: Int
+    let replicaTextFontSize: Double
+    let issues: [String]
+    let onSelect: (Bool) -> Void
+    let onDoubleClick: () -> Void
+    let dragItemProvider: (() -> NSItemProvider)?
+
+    private let dragHandleWidth: CGFloat = 24
+    private let speakerFieldWidth: CGFloat = 132
+
+    var body: some View {
+        HStack(alignment: .top, spacing: 8) {
+            dragHandleView
+
+            VStack(alignment: .leading, spacing: 8) {
+                rowHeader {
+                    speakerReadOnlyField(
+                        value: snapshot.speaker,
+                        placeholder: "Speaker"
+                    )
+                } startView: {
+                    readOnlyField(
+                        value: snapshot.displayedStartTimecode,
+                        placeholder: "Start",
+                        width: 115,
+                        monospaced: true
+                    )
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 6)
+                            .stroke(hasStartChronologyIssue ? Color.red.opacity(0.85) : Color.clear, lineWidth: 1.25)
+                    )
+                } endView: {
+                    if !isEndTimecodeFieldHidden {
+                        readOnlyField(
+                            value: snapshot.displayedEndTimecode,
+                            placeholder: "End",
+                            width: 115,
+                            monospaced: true
+                        )
+                    }
+                }
+
+                Text(snapshot.text)
+                    .font(.system(size: replicaTextFontSize))
+                    .frame(maxWidth: .infinity, minHeight: 66, alignment: .topLeading)
+                    .padding(6)
+                    .background(
+                        RoundedRectangle(cornerRadius: 6)
+                            .fill(Color(nsColor: .textBackgroundColor))
+                    )
+
+                Text("Replika \(snapshot.index) / \(totalLineCount)")
+                    .font(.caption2)
+                    .foregroundStyle(.secondary)
+
+                if !issues.isEmpty {
+                    issuesView
+                }
+            }
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .contentShape(Rectangle())
+            .overlay {
+                ReadOnlyRowInteractionCaptureView(
+                    onSingleClick: onSelect,
+                    onDoubleClick: onDoubleClick
+                )
+            }
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .padding(10)
+        .background(
+            RoundedRectangle(cornerRadius: 10)
+                .fill(backgroundColor)
+                .overlay(
+                    RoundedRectangle(cornerRadius: 10)
+                        .stroke(borderColor, lineWidth: (isSelected || isActiveSearchSelection) ? 2 : 1)
+                )
+        )
+    }
+
+    private func rowHeader<SpeakerView: View, StartView: View, EndView: View>(
+        @ViewBuilder speakerView: () -> SpeakerView,
+        @ViewBuilder startView: () -> StartView,
+        @ViewBuilder endView: () -> EndView
+    ) -> some View {
+        HStack(alignment: .center, spacing: 8) {
+            Text(snapshot.indexText)
+                .font(.system(.caption, design: .monospaced).weight(.bold))
+                .foregroundStyle(.secondary)
+                .frame(width: 46, alignment: .leading)
+
+            speakerView()
+            startView()
+            endView()
+
+            Button("S") {}
+                .buttonStyle(.bordered)
+                .disabled(true)
+
+            Button("E") {}
+                .buttonStyle(.bordered)
+                .disabled(true)
+        }
+    }
+
+    private func speakerReadOnlyField(
+        value: String,
+        placeholder: String
+    ) -> some View {
+        speakerFieldChrome(speakerValue: value, placeholder: placeholder) {
+            let trimmed = value.trimmingCharacters(in: .whitespacesAndNewlines)
+            Text(trimmed.isEmpty ? placeholder : value)
+                .lineLimit(1)
+                .foregroundStyle(trimmed.isEmpty ? .secondary : .primary)
+        }
+    }
+
+    private func speakerFieldChrome<Content: View>(
+        speakerValue _: String,
+        placeholder _: String,
+        @ViewBuilder content: () -> Content
+    ) -> some View {
+        let baseFill = Color(nsColor: .controlBackgroundColor)
+
+        return HStack(spacing: 8) {
+            if let appearance = snapshot.speakerAppearance {
+                Circle()
+                    .fill(appearance.swatchColor)
+                    .frame(width: 10, height: 10)
+            }
+
+            content()
+                .frame(maxWidth: .infinity, alignment: .leading)
+        }
+        .padding(.horizontal, 10)
+        .frame(width: speakerFieldWidth, height: 28, alignment: .leading)
+        .background(
+            RoundedRectangle(cornerRadius: 6)
+                .fill(snapshot.speakerAppearance?.fieldFillColor ?? baseFill)
+                .overlay(
+                    RoundedRectangle(cornerRadius: 6)
+                        .stroke(
+                            snapshot.speakerAppearance?.fieldBorderColor ?? Color.secondary.opacity(0.18),
+                            lineWidth: snapshot.speakerAppearance == nil ? 1 : 1.2
+                        )
+                )
+        )
+    }
+
+    private func readOnlyField(
+        value: String,
+        placeholder: String,
+        width: CGFloat,
+        monospaced: Bool
+    ) -> some View {
+        let trimmed = value.trimmingCharacters(in: .whitespacesAndNewlines)
+        return ZStack(alignment: .leading) {
+            RoundedRectangle(cornerRadius: 6)
+                .fill(Color(nsColor: .controlBackgroundColor))
+            Text(trimmed.isEmpty ? placeholder : value)
+                .font(monospaced ? .system(.caption, design: .monospaced) : .body)
+                .foregroundStyle(trimmed.isEmpty ? .secondary : .primary)
+                .lineLimit(1)
+                .padding(.horizontal, 10)
+        }
+        .frame(width: width, height: 28)
+    }
+
+    @ViewBuilder
+    private var dragHandleView: some View {
+        let isHandleHighlighted = isSelected
+        let base = ZStack {
+            RoundedRectangle(cornerRadius: 5)
+                .fill(isHandleHighlighted ? Color.accentColor.opacity(0.18) : Color.clear)
+                .frame(width: dragHandleWidth, height: 20)
+            Image(systemName: "line.3.horizontal")
+                .font(.system(size: 12, weight: .semibold))
+                .foregroundStyle(Color.secondary.opacity(0.85))
+        }
+        .frame(width: dragHandleWidth, height: 22)
+        .contentShape(Rectangle())
+        .help("Pretahni repliku")
+
+        if let dragItemProvider {
+            base
+                .onDrag {
+                    dragItemProvider()
+                } preview: {
+                    DragGhostPreview(
+                        index: snapshot.index,
+                        speaker: snapshot.speaker,
+                        startTimecode: snapshot.displayedStartTimecode,
+                        text: snapshot.text
+                    )
+                }
+        } else {
+            base
+                .opacity(0.45)
+        }
+    }
+
+    private var issuesView: some View {
+        VStack(alignment: .leading, spacing: 4) {
+            ForEach(issues, id: \.self) { issue in
+                Text("• \(issue)")
+                    .font(.caption2)
+                    .foregroundStyle(.red)
+                    .lineLimit(2)
+            }
+        }
+    }
+
+    private var backgroundColor: Color {
+        if isSelected || isActiveSearchSelection {
+            return Color.blue.opacity(0.20)
+        }
+        if hasStartChronologyIssue {
+            return Color.red.opacity(0.06)
+        }
+        return .clear
+    }
+
+    private var borderColor: Color {
+        if isSelected || isActiveSearchSelection {
+            return Color.blue.opacity(0.75)
+        }
+        if hasStartChronologyIssue {
+            return Color.red.opacity(0.65)
+        }
+        return .clear
     }
 }
 

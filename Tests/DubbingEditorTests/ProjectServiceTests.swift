@@ -4,7 +4,7 @@ import XCTest
 @testable import DubbingEditor
 
 final class ProjectServiceTests: XCTestCase {
-    func testSaveAndLoadV5PreservesSettingsAndSpeakerColorOverrides() throws {
+    func testSaveAndLoadV6PreservesSettingsAndSpeakerColorOverrides() throws {
         let service = ProjectService()
         let lineID = UUID(uuidString: "AAAAAAAA-BBBB-CCCC-DDDD-EEEEEEEEEEEE")!
         let line = DialogueLine(
@@ -23,6 +23,7 @@ final class ProjectServiceTests: XCTestCase {
             selectedLineID: lineID,
             highlightedLineID: lineID,
             playbackPositionSeconds: 123.45,
+            workedTimeSeconds: 4_567,
             sourceWordPath: "/tmp/source.docm",
             sourceVideoPath: "/tmp/source.mp4",
             sourceExternalAudioPath: "/tmp/source.wav",
@@ -49,6 +50,7 @@ final class ProjectServiceTests: XCTestCase {
                 ),
                 playbackSeekStepSeconds: 0.5,
                 videoOffsetSeconds: -1.25,
+                videoDriftSecondsPerHour: 4.5,
                 muteVideoAudio: true,
                 muteExternalAudio: false,
                 speakerColorOverridesByKey: [
@@ -63,13 +65,14 @@ final class ProjectServiceTests: XCTestCase {
         try service.save(payload, to: url)
         let loaded = try service.load(from: url)
 
-        XCTAssertEqual(loaded.schemaVersion, 5)
+        XCTAssertEqual(loaded.schemaVersion, 6)
         XCTAssertEqual(loaded.documentTitle, payload.documentTitle)
         XCTAssertEqual(loaded.fps, payload.fps)
         XCTAssertEqual(loaded.lines, payload.lines)
         XCTAssertEqual(loaded.selectedLineID, payload.selectedLineID)
         XCTAssertEqual(loaded.highlightedLineID, payload.highlightedLineID)
-        XCTAssertEqual(loaded.playbackPositionSeconds, payload.playbackPositionSeconds, accuracy: 0.0001)
+        XCTAssertEqual(loaded.playbackPositionSeconds ?? .nan, payload.playbackPositionSeconds ?? .nan, accuracy: 0.0001)
+        XCTAssertEqual(loaded.workedTimeSeconds ?? .nan, payload.workedTimeSeconds ?? .nan, accuracy: 0.0001)
         XCTAssertEqual(loaded.sourceWordPath, payload.sourceWordPath)
         XCTAssertEqual(loaded.sourceVideoPath, payload.sourceVideoPath)
         XCTAssertEqual(loaded.sourceExternalAudioPath, payload.sourceExternalAudioPath)
@@ -80,8 +83,9 @@ final class ProjectServiceTests: XCTestCase {
         XCTAssertEqual(loaded.settings?.shortcuts?.seekForward, "option+right")
         XCTAssertEqual(loaded.settings?.shortcuts?.captureStartTC, "enter")
         XCTAssertEqual(loaded.settings?.shortcuts?.captureEndTC, "shift+enter")
-        XCTAssertEqual(loaded.settings?.playbackSeekStepSeconds, 0.5, accuracy: 0.0001)
-        XCTAssertEqual(loaded.settings?.videoOffsetSeconds, -1.25, accuracy: 0.0001)
+        XCTAssertEqual(loaded.settings?.playbackSeekStepSeconds ?? .nan, 0.5, accuracy: 0.0001)
+        XCTAssertEqual(loaded.settings?.videoOffsetSeconds ?? .nan, -1.25, accuracy: 0.0001)
+        XCTAssertEqual(loaded.settings?.videoDriftSecondsPerHour ?? .nan, 4.5, accuracy: 0.0001)
         XCTAssertEqual(loaded.settings?.muteVideoAudio, true)
         XCTAssertEqual(loaded.settings?.muteExternalAudio, false)
         XCTAssertEqual(

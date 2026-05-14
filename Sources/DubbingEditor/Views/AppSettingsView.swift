@@ -235,6 +235,7 @@ private struct PlaybackSettingsTab: View {
     @State private var playbackSeekStepInput: String = ""
     @State private var lineOffsetInput: String = "0"
     @State private var videoOffsetInput: String = "0"
+    @State private var videoDriftInput: String = "0"
 
     var body: some View {
         Form {
@@ -313,6 +314,27 @@ private struct PlaybackSettingsTab: View {
             }
 
             HStack {
+                Text("Drift videa")
+                Spacer()
+                TextField("s/h", text: $videoDriftInput)
+                    .textFieldStyle(.roundedBorder)
+                    .multilineTextAlignment(.trailing)
+                    .frame(width: 110)
+                    .help("Linearni korekce seeku. +4.5 s/h prida na 40. minute priblizne +3 s.")
+                    .onSubmit {
+                        applyVideoDrift()
+                    }
+                Text("s/h")
+                    .foregroundStyle(.secondary)
+                Button("Aplikovat") {
+                    applyVideoDrift()
+                }
+                .buttonStyle(.bordered)
+                .disabled(model.videoURL == nil || model.isImportingWord)
+                .help("Aplikuje linearni drift jen na prehravani videa.")
+            }
+
+            HStack {
                 Text("Replay predjezd")
                 Spacer()
                 Text(model.isReplayPrerollEnabled ? "\(formattedPlaybackSeekStepValue()) s" : "Vypnuto")
@@ -369,12 +391,16 @@ private struct PlaybackSettingsTab: View {
         .onAppear {
             syncPlaybackSeekStepInput()
             videoOffsetInput = formatOffsetInput(model.videoOffsetSeconds)
+            videoDriftInput = formatOffsetInput(model.videoDriftSecondsPerHour)
         }
         .onChange(of: model.playbackSeekStepSeconds) { _ in
             syncPlaybackSeekStepInput()
         }
         .onChange(of: model.videoOffsetSeconds) { value in
             videoOffsetInput = formatOffsetInput(value)
+        }
+        .onChange(of: model.videoDriftSecondsPerHour) { value in
+            videoDriftInput = formatOffsetInput(value)
         }
     }
 
@@ -422,6 +448,10 @@ private struct PlaybackSettingsTab: View {
 
     private func applyVideoOffset() {
         model.applyVideoOffset(rawValue: videoOffsetInput)
+    }
+
+    private func applyVideoDrift() {
+        model.applyVideoDrift(rawValue: videoDriftInput)
     }
 
     private func formatOffsetInput(_ value: Double) -> String {

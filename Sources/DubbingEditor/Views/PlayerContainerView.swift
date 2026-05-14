@@ -1,25 +1,23 @@
 import AVFoundation
 import AppKit
-import QuartzCore
 import SwiftUI
 
-struct PlayerContainerView: NSViewRepresentable {
+struct PlayerContainerView: NSViewRepresentable, Equatable {
     let player: AVPlayer
-    let model: EditorViewModel
+
+    static func == (lhs: PlayerContainerView, rhs: PlayerContainerView) -> Bool {
+        lhs.player === rhs.player
+    }
 
     func makeNSView(context: Context) -> ScrubbablePlayerLayerView {
         let view = ScrubbablePlayerLayerView()
         view.player = player
-        view.debugModel = model
         return view
     }
 
     func updateNSView(_ nsView: ScrubbablePlayerLayerView, context: Context) {
         if nsView.player !== player {
             nsView.player = player
-        }
-        if nsView.debugModel !== model {
-            nsView.debugModel = model
         }
     }
 }
@@ -30,9 +28,6 @@ final class ScrubbablePlayerLayerView: NSView {
     private var lastScrubSeekTimestamp: TimeInterval = 0
     private var lastScrubInteractionTimestamp: TimeInterval = 0
     private var scrubSeekGeneration: UInt64 = 0
-    private var activeScrubTraceGeneration: UInt64?
-    private var pendingScrubTraceEndWorkItem: DispatchWorkItem?
-    weak var debugModel: EditorViewModel?
 
     var player: AVPlayer? {
         didSet {
@@ -41,23 +36,20 @@ final class ScrubbablePlayerLayerView: NSView {
             lastScrubSeekTimestamp = 0
             lastScrubInteractionTimestamp = 0
             scrubSeekGeneration = 0
-            activeScrubTraceGeneration = nil
-            pendingScrubTraceEndWorkItem?.cancel()
-            pendingScrubTraceEndWorkItem = nil
         }
     }
 
     override init(frame frameRect: NSRect) {
         super.init(frame: frameRect)
-        wantsLayer = true
-        layer?.backgroundColor = NSColor.black.cgColor
-        playerLayer.videoGravity = .resizeAspect
-        playerLayer.drawsAsynchronously = true
-        layer?.addSublayer(playerLayer)
+        commonInit()
     }
 
     required init?(coder: NSCoder) {
         super.init(coder: coder)
+        commonInit()
+    }
+
+    private func commonInit() {
         wantsLayer = true
         layer?.backgroundColor = NSColor.black.cgColor
         playerLayer.videoGravity = .resizeAspect
@@ -109,7 +101,6 @@ final class ScrubbablePlayerLayerView: NSView {
         let targetTime = CMTime(seconds: targetSeconds, preferredTimescale: 600)
         let tolerance = CMTime(seconds: 0.05, preferredTimescale: 600)
         let now = CACurrentMediaTime()
-        let isNewScrubBurst = now - lastScrubInteractionTimestamp > 0.25
         lastScrubInteractionTimestamp = now
         if now - lastScrubSeekTimestamp < 0.01 {
             return
@@ -118,61 +109,22 @@ final class ScrubbablePlayerLayerView: NSView {
 
         scrubSeekGeneration &+= 1
         let seekGeneration = scrubSeekGeneration
-        activeScrubTraceGeneration = seekGeneration
-        pendingScrubTraceEndWorkItem?.cancel()
-        pendingScrubTraceEndWorkItem = nil
-        if isNewScrubBurst {
-            debugModel?.logPlaybackDebugEventFromUI(
-                "SEEK_BEGIN",
-                source: "scroll_scrub",
-                seekGeneration: seekGeneration,
-                itemOverride: player.currentItem,
-                currentSecondsOverride: targetSeconds,
-                extraFields: [("deltaSeconds", String(format: "%.3f", deltaSeconds))]
-            )
-        }
         player.seek(to: targetTime, toleranceBefore: tolerance, toleranceAfter: tolerance) { [weak self] finished in
             DispatchQueue.main.async {
-                guard let self, let player = self.player else { return }
+                guard let self, self.player != nil else { return }
                 guard seekGeneration == self.scrubSeekGeneration else { return }
-                let traceGeneration = self.activeScrubTraceGeneration ?? seekGeneration
                 if !finished {
-                    self.debugModel?.logPlaybackDebugEventFromUI(
-                        "SEEK_END",
-                        source: "scroll_scrub",
-                        seekGeneration: traceGeneration,
-                        itemOverride: player.currentItem,
-                        currentSecondsOverride: player.currentTime().seconds,
-                        extraFields: [("finished", "false")]
-                    )
                     return
                 }
 
-                let workItem = DispatchWorkItem { [weak self] in
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.18) { [weak self] in
                     guard let self, let player = self.player else { return }
-                    self.debugModel?.logPlaybackDebugEventFromUI(
-                        "SEEK_END",
-                        source: "scroll_scrub",
-                        seekGeneration: traceGeneration,
-                        itemOverride: player.currentItem,
-                        currentSecondsOverride: player.currentTime().seconds,
-                        extraFields: [("finished", "true")]
-                    )
+                    guard seekGeneration == self.scrubSeekGeneration else { return }
                     if self.shouldResumePlaybackAfterScrub {
                         self.shouldResumePlaybackAfterScrub = false
-                        self.debugModel?.logPlaybackDebugEventFromUI(
-                            "PLAY_REQUESTED",
-                            source: "scroll_scrub_resume",
-                            seekGeneration: traceGeneration,
-                            itemOverride: player.currentItem
-                        )
                         player.play()
                     }
-                    self.activeScrubTraceGeneration = nil
-                    self.pendingScrubTraceEndWorkItem = nil
                 }
-                self.pendingScrubTraceEndWorkItem = workItem
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.18, execute: workItem)
             }
         }
     }

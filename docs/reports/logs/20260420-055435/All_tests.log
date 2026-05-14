@@ -1,0 +1,37 @@
+[0/1] Planning build
+Building for debugging...
+[0/6] Write swift-version--58304C5D6DBC2206.txt
+[2/9] Emitting module DubbingEditor
+[3/9] Compiling DubbingEditor EditorViewModel.swift
+/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Sources/DubbingEditor/Models/EditorViewModel.swift:952:26: error: cannot find 'currentAudioMixPlanForDebug' in scope
+ 950 |         }
+ 951 | 
+ 952 |         guard let plan = currentAudioMixPlanForDebug() else {
+     |                          `- error: cannot find 'currentAudioMixPlanForDebug' in scope
+ 953 |             logPlaybackDebugEvent(
+ 954 |                 "AUDIO_MIX_PLAN",
+
+/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Sources/DubbingEditor/Models/EditorViewModel.swift:1198:9: error: cannot find 'resetPlaybackDebugStallTracking' in scope
+1196 |         pendingPlaybackResumeAfterRestore = resumePlaybackAfterRestore
+1197 |         resetSeekPlaybackState()
+1198 |         resetPlaybackDebugStallTracking()
+     |         `- error: cannot find 'resetPlaybackDebugStallTracking' in scope
+1199 | 
+1200 |         logPlaybackDebugEvent(
+
+/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Sources/DubbingEditor/Models/EditorViewModel.swift:1231:9: error: cannot find 'resetPlaybackDebugStallTracking' in scope
+1229 |         pendingPlaybackResumeAfterRestore = false
+1230 |         resetSeekPlaybackState()
+1231 |         resetPlaybackDebugStallTracking()
+     |         `- error: cannot find 'resetPlaybackDebugStallTracking' in scope
+1232 |         videoURL = nil
+1233 |         sourceExternalAudioURL = nil
+[4/9] Compiling DubbingEditor PlaybackPanelView.swift
+/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Sources/DubbingEditor/Views/PlaybackPanelView.swift:168:9: error: cannot find 'lastTimeObserverWallclock' in scope
+166 |             preferredTimescale: 600
+167 |         )
+168 |         lastTimeObserverWallclock = nil
+    |         `- error: cannot find 'lastTimeObserverWallclock' in scope
+169 | 
+170 |         timeObserverToken = model.player.addPeriodicTimeObserver(
+error: fatalError

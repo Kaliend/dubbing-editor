@@ -597,7 +597,9 @@ struct WordImportService {
             )
 
             let chosenTextIdx: Int?
-            if let beforeTextIdx, let afterTextIdx {
+            if speakerPrefersLeadingDialogueText(speaker) {
+                chosenTextIdx = beforeTextIdx ?? afterTextIdx
+            } else if let beforeTextIdx, let afterTextIdx {
                 let beforeDistance = idx - beforeTextIdx
                 let afterDistance = afterTextIdx - idx
                 chosenTextIdx = beforeDistance <= afterDistance ? beforeTextIdx : afterTextIdx
@@ -759,7 +761,7 @@ struct WordImportService {
     }
 
     private func trimLeadingPreamble(from drafts: [ImportedLineDraft]) -> [ImportedLineDraft] {
-        guard drafts.count > 6 else { return drafts }
+        guard drafts.count > 2 else { return drafts }
 
         if let anchoredByTimecode = findFirstDialogueAnchorIndexByTimecode(in: drafts) {
             return Array(drafts[anchoredByTimecode...])
@@ -887,6 +889,12 @@ struct WordImportService {
         let trimmed = normalizeWhitespace(value)
         guard !trimmed.isEmpty else { return false }
         return trimmed.unicodeScalars.allSatisfy(CharacterSet.decimalDigits.contains) && trimmed.count <= 6
+    }
+
+    private func speakerPrefersLeadingDialogueText(_ value: String) -> Bool {
+        let trimmed = normalizeWhitespace(value)
+        guard !trimmed.isEmpty else { return false }
+        return trimmed.range(of: #"#\d+"#, options: .regularExpression) != nil
     }
 
     private func isSpeakerLikeLabel(_ value: String) -> Bool {

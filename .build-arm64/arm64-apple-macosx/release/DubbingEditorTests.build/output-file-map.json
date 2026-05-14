@@ -2,7 +2,31 @@
   "": {
     "dependencies": "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditorTests.build/DubbingEditorTests.d",
     "object": "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditorTests.build/DubbingEditorTests.o",
-    "swift-dependencies": "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditorTests.build/master.swiftdeps"
+    "swift-dependencies": "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditorTests.build/primary.swiftdeps"
+  },
+  "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Tests/DubbingEditorTests/BugReportServiceTests.swift": {
+    "object": "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditorTests.build/BugReportServiceTests.swift.o",
+    "swiftmodule": "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditorTests.build/BugReportServiceTests~partial.swiftmodule",
+    "swift-dependencies": "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditorTests.build/BugReportServiceTests.swiftdeps",
+    "diagnostics": "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditorTests.build/BugReportServiceTests.dia"
+  },
+  "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Tests/DubbingEditorTests/BundleAppTests.swift": {
+    "object": "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditorTests.build/BundleAppTests.swift.o",
+    "swiftmodule": "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditorTests.build/BundleAppTests~partial.swiftmodule",
+    "swift-dependencies": "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditorTests.build/BundleAppTests.swiftdeps",
+    "diagnostics": "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditorTests.build/BundleAppTests.dia"
+  },
+  "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Tests/DubbingEditorTests/ChannelDerivedAudioServiceTests.swift": {
+    "object": "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditorTests.build/ChannelDerivedAudioServiceTests.swift.o",
+    "swiftmodule": "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditorTests.build/ChannelDerivedAudioServiceTests~partial.swiftmodule",
+    "swift-dependencies": "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditorTests.build/ChannelDerivedAudioServiceTests.swiftdeps",
+    "diagnostics": "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditorTests.build/ChannelDerivedAudioServiceTests.dia"
+  },
+  "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Tests/DubbingEditorTests/DialogueRowDraftControllerTests.swift": {
+    "object": "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditorTests.build/DialogueRowDraftControllerTests.swift.o",
+    "swiftmodule": "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditorTests.build/DialogueRowDraftControllerTests~partial.swiftmodule",
+    "swift-dependencies": "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditorTests.build/DialogueRowDraftControllerTests.swiftdeps",
+    "diagnostics": "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditorTests.build/DialogueRowDraftControllerTests.dia"
   },
   "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Tests/DubbingEditorTests/EditorPerformanceTests.swift": {
     "object": "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditorTests.build/EditorPerformanceTests.swift.o",
@@ -10,17 +34,59 @@
     "swift-dependencies": "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditorTests.build/EditorPerformanceTests.swiftdeps",
     "diagnostics": "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditorTests.build/EditorPerformanceTests.dia"
   },
+  "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Tests/DubbingEditorTests/EditorProjectionCoordinatorTests.swift": {
+    "object": "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditorTests.build/EditorProjectionCoordinatorTests.swift.o",
+    "swiftmodule": "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditorTests.build/EditorProjectionCoordinatorTests~partial.swiftmodule",
+    "swift-dependencies": "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditorTests.build/EditorProjectionCoordinatorTests.swiftdeps",
+    "diagnostics": "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditorTests.build/EditorProjectionCoordinatorTests.dia"
+  },
   "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Tests/DubbingEditorTests/EditorViewModelTests.swift": {
     "object": "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditorTests.build/EditorViewModelTests.swift.o",
     "swiftmodule": "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditorTests.build/EditorViewModelTests~partial.swiftmodule",
     "swift-dependencies": "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditorTests.build/EditorViewModelTests.swiftdeps",
     "diagnostics": "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditorTests.build/EditorViewModelTests.dia"
   },
+  "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Tests/DubbingEditorTests/NetflixExcelServiceTests.swift": {
+    "object": "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditorTests.build/NetflixExcelServiceTests.swift.o",
+    "swiftmodule": "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditorTests.build/NetflixExcelServiceTests~partial.swiftmodule",
+    "swift-dependencies": "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditorTests.build/NetflixExcelServiceTests.swiftdeps",
+    "diagnostics": "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditorTests.build/NetflixExcelServiceTests.dia"
+  },
+  "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Tests/DubbingEditorTests/PlaybackCompositionServiceTests.swift": {
+    "object": "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditorTests.build/PlaybackCompositionServiceTests.swift.o",
+    "swiftmodule": "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditorTests.build/PlaybackCompositionServiceTests~partial.swiftmodule",
+    "swift-dependencies": "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditorTests.build/PlaybackCompositionServiceTests.swiftdeps",
+    "diagnostics": "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditorTests.build/PlaybackCompositionServiceTests.dia"
+  },
+  "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Tests/DubbingEditorTests/PlaybackWaveformProjectionServiceTests.swift": {
+    "object": "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditorTests.build/PlaybackWaveformProjectionServiceTests.swift.o",
+    "swiftmodule": "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditorTests.build/PlaybackWaveformProjectionServiceTests~partial.swiftmodule",
+    "swift-dependencies": "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditorTests.build/PlaybackWaveformProjectionServiceTests.swiftdeps",
+    "diagnostics": "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditorTests.build/PlaybackWaveformProjectionServiceTests.dia"
+  },
   "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Tests/DubbingEditorTests/ProjectServiceTests.swift": {
     "object": "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditorTests.build/ProjectServiceTests.swift.o",
     "swiftmodule": "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditorTests.build/ProjectServiceTests~partial.swiftmodule",
     "swift-dependencies": "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditorTests.build/ProjectServiceTests.swiftdeps",
     "diagnostics": "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditorTests.build/ProjectServiceTests.dia"
+  },
+  "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Tests/DubbingEditorTests/ProjectWorkTrackerTests.swift": {
+    "object": "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditorTests.build/ProjectWorkTrackerTests.swift.o",
+    "swiftmodule": "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditorTests.build/ProjectWorkTrackerTests~partial.swiftmodule",
+    "swift-dependencies": "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditorTests.build/ProjectWorkTrackerTests.swiftdeps",
+    "diagnostics": "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditorTests.build/ProjectWorkTrackerTests.dia"
+  },
+  "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Tests/DubbingEditorTests/SpeakerAppearanceServiceTests.swift": {
+    "object": "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditorTests.build/SpeakerAppearanceServiceTests.swift.o",
+    "swiftmodule": "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditorTests.build/SpeakerAppearanceServiceTests~partial.swiftmodule",
+    "swift-dependencies": "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditorTests.build/SpeakerAppearanceServiceTests.swiftdeps",
+    "diagnostics": "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditorTests.build/SpeakerAppearanceServiceTests.dia"
+  },
+  "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Tests/DubbingEditorTests/SpeakerSuggestionOverlayTests.swift": {
+    "object": "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditorTests.build/SpeakerSuggestionOverlayTests.swift.o",
+    "swiftmodule": "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditorTests.build/SpeakerSuggestionOverlayTests~partial.swiftmodule",
+    "swift-dependencies": "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditorTests.build/SpeakerSuggestionOverlayTests.swiftdeps",
+    "diagnostics": "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditorTests.build/SpeakerSuggestionOverlayTests.dia"
   },
   "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/Tests/DubbingEditorTests/TimecodeServiceTests.swift": {
     "object": "/Users/philipkiulpekidis/Dropbox/Filmy/Aplikace/Uprava/.build-arm64/arm64-apple-macosx/release/DubbingEditorTests.build/TimecodeServiceTests.swift.o",

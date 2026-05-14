@@ -1,11 +1,27 @@
 import AVFoundation
 import Foundation
+import UniformTypeIdentifiers
 #if canImport(XCTest)
 import XCTest
 @testable import DubbingEditor
 
 @MainActor
 final class EditorViewModelTests: XCTestCase {
+    func testSupportedVideoImportContentTypesIncludeMPEGExtensions() {
+        let supportedIdentifiers = Set(EditorViewModel.supportedVideoImportContentTypes.map(\.identifier))
+
+        XCTAssertTrue(supportedIdentifiers.contains(UTType.mpeg4Movie.identifier))
+        XCTAssertTrue(supportedIdentifiers.contains(UTType.quickTimeMovie.identifier))
+        XCTAssertTrue(
+            supportedIdentifiers.contains(UTType(filenameExtension: "mpg")?.identifier ?? ""),
+            "Expected .mpg to be allowed in video import picker."
+        )
+        XCTAssertTrue(
+            supportedIdentifiers.contains(UTType(filenameExtension: "mpeg")?.identifier ?? ""),
+            "Expected .mpeg to be allowed in video import picker."
+        )
+    }
+
     func testInsertNewLineAfterSelectionInsertsAfterSelectedAndRenumbers() {
         let model = EditorViewModel()
         let line1 = DialogueLine(index: 7, speaker: "A", text: "Prvni", startTimecode: "00:00:00:00", endTimecode: "")
@@ -95,7 +111,7 @@ final class EditorViewModelTests: XCTestCase {
             from: model.timelineSeconds(fromPlaybackSeconds: 12.48),
             fps: model.fps
         )
-        let newID = model.insertNewLineAfterSelection()
+        let newID = model.insertNewLineAfterSelection(currentPlaybackSecondsOverride: 12.48)
 
         XCTAssertEqual(model.lines[1].id, newID)
         XCTAssertEqual(model.lines[1].startTimecode, expected)
@@ -117,15 +133,16 @@ final class EditorViewModelTests: XCTestCase {
 
     func testInsertNewLineMatchesCanonicalPlaybackTimecodePath() async {
         let model = EditorViewModel()
+        let playbackSeconds = 41.72
         model.lines = [
             DialogueLine(index: 1, speaker: "A", text: "One", startTimecode: "00:00:01:00", endTimecode: "")
         ]
         model.selectedLineID = model.lines[0].id
-        attachSeekableVideo(to: model, seekSeconds: 41.72)
+        attachSeekableVideo(to: model, seekSeconds: playbackSeconds)
         await waitForPlayerSeek()
 
-        let canonical = model.currentInsertionStartTimecode()
-        let newID = model.insertNewLineAfterSelection()
+        let canonical = model.currentInsertionStartTimecode(playbackSecondsOverride: playbackSeconds)
+        let newID = model.insertNewLineAfterSelection(currentPlaybackSecondsOverride: playbackSeconds)
 
         XCTAssertEqual(model.lines[1].id, newID)
         XCTAssertEqual(model.lines[1].startTimecode, canonical)
@@ -134,14 +151,16 @@ final class EditorViewModelTests: XCTestCase {
     func testInsertNewLinePreservesFrameSnappingAtTwentyFourFPS() async {
         let model = EditorViewModel()
         model.setFPSPreset(.fps24)
+        model.videoOffsetSeconds = 0
+        let playbackSeconds = 10 + (11.0 / 24.0)
         model.lines = [
             DialogueLine(index: 1, speaker: "A", text: "One", startTimecode: "00:00:01:00", endTimecode: "")
         ]
         model.selectedLineID = model.lines[0].id
-        attachSeekableVideo(to: model, seekSeconds: 10 + (11.0 / 24.0))
+        attachSeekableVideo(to: model, seekSeconds: playbackSeconds)
         await waitForPlayerSeek()
 
-        let newID = model.insertNewLineAfterSelection()
+        let newID = model.insertNewLineAfterSelection(currentPlaybackSecondsOverride: playbackSeconds)
 
         XCTAssertEqual(model.lines[1].id, newID)
         XCTAssertEqual(model.lines[1].startTimecode, "00:00:10:11")
@@ -177,7 +196,7 @@ final class EditorViewModelTests: XCTestCase {
         XCTAssertTrue(model.speakerColorOverridesByKey.isEmpty)
     }
 
-    func testSpeakerColorOverrideMatchingDefaultDoesNotPersistExplicitOverride() {
+    func testSpeakerColorOverrideMatchingDefaultDoesNotPersistExplicitOverride() throws {
         let model = EditorViewModel()
         let defaultPaletteID = try XCTUnwrap(
             SpeakerAppearanceService.defaultPaletteID(for: "TRINITY")
@@ -467,10 +486,23 @@ final class EditorViewModelTests: XCTestCase {
     func testPlaybackTimelineConversionsUseVideoOffset() {
         let model = EditorViewModel()
         model.videoOffsetSeconds = 2.5
+        model.videoDriftSecondsPerHour = 0
 
         XCTAssertEqual(model.playbackSeconds(fromTimelineSeconds: 10), 12.5, accuracy: 0.0001)
         XCTAssertEqual(model.timelineSeconds(fromPlaybackSeconds: 12.5), 10, accuracy: 0.0001)
         XCTAssertEqual(model.timelineSeconds(fromPlaybackSeconds: 1), 0, accuracy: 0.0001)
+    }
+
+    func testPlaybackTimelineConversionsUseVideoDrift() {
+        let model = EditorViewModel()
+        model.videoOffsetSeconds = 2.5
+        model.videoDriftSecondsPerHour = 4.5
+        defer {
+            model.videoDriftSecondsPerHour = 0
+        }
+
+        XCTAssertEqual(model.playbackSeconds(fromTimelineSeconds: 2_400), 2_405.5, accuracy: 0.0001)
+        XCTAssertEqual(model.timelineSeconds(fromPlaybackSeconds: 2_405.5), 2_400, accuracy: 0.0001)
     }
 
     func testApplyVideoOffsetParsesSecondsAndTimecode() {
@@ -481,6 +513,19 @@ final class EditorViewModelTests: XCTestCase {
 
         model.applyVideoOffset(rawValue: "-00:00:02:00")
         XCTAssertEqual(model.videoOffsetSeconds, -2, accuracy: 0.0001)
+    }
+
+    func testApplyVideoDriftParsesSecondsPerHour() {
+        let model = EditorViewModel()
+        defer {
+            model.videoDriftSecondsPerHour = 0
+        }
+
+        model.applyVideoDrift(rawValue: "+4,5")
+        XCTAssertEqual(model.videoDriftSecondsPerHour, 4.5, accuracy: 0.0001)
+
+        model.applyVideoDrift(rawValue: "")
+        XCTAssertEqual(model.videoDriftSecondsPerHour, 0, accuracy: 0.0001)
     }
 
     func testSetFPSPresetChangesProjectFPS() {

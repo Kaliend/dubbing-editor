@@ -11,6 +11,7 @@ struct AutosaveSnapshot: Codable {
     let sourceWordPath: String?
     let sourceVideoPath: String?
     let sourceExternalAudioPath: String?
+    let workedTimeSeconds: Double?
     let muteVideoAudio: Bool?
     let muteExternalAudio: Bool?
     let speakerColorOverridesByKey: [String: String]?
@@ -25,11 +26,12 @@ struct AutosaveSnapshot: Codable {
         sourceWordPath: String?,
         sourceVideoPath: String?,
         sourceExternalAudioPath: String? = nil,
+        workedTimeSeconds: Double? = nil,
         muteVideoAudio: Bool? = nil,
         muteExternalAudio: Bool? = nil,
         speakerColorOverridesByKey: [String: String]? = nil
     ) {
-        self.schemaVersion = 2
+        self.schemaVersion = 3
         self.savedAt = savedAt
         self.documentTitle = documentTitle
         self.fps = fps
@@ -39,6 +41,7 @@ struct AutosaveSnapshot: Codable {
         self.sourceWordPath = sourceWordPath
         self.sourceVideoPath = sourceVideoPath
         self.sourceExternalAudioPath = sourceExternalAudioPath
+        self.workedTimeSeconds = workedTimeSeconds
         self.muteVideoAudio = muteVideoAudio
         self.muteExternalAudio = muteExternalAudio
         self.speakerColorOverridesByKey = speakerColorOverridesByKey

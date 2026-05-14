@@ -71,8 +71,8 @@ final class EditorProjectionCoordinatorTests: XCTestCase {
             from: makeInput(
                 lines: [first, second],
                 showValidationIssues: true,
-                useViewportScopedIssues: true,
-                visibleLineIDs: [first.id]
+                visibleLineIDs: [first.id],
+                useViewportScopedIssues: true
             )
         )
 

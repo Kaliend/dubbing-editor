@@ -6,6 +6,7 @@ import SwiftUI
 @MainActor
 struct PlaybackPanelView: View {
     @ObservedObject var model: EditorViewModel
+    @ObservedObject private var detachedVideoWindowPresenter = DetachedVideoWindowPresenter.shared
     @State private var playheadProgress: Double = 0
     @State private var timeObserverToken: Any?
     @State private var isWaveformScrubbing = false
@@ -15,6 +16,10 @@ struct PlaybackPanelView: View {
     @AppStorage("shortcut_play_pause") private var shortcutPlayPause = "space"
     @AppStorage("shortcut_seek_backward") private var shortcutSeekBackward = "option+left"
     @AppStorage("shortcut_seek_forward") private var shortcutSeekForward = "option+right"
+
+    private var shouldSuspendEmbeddedPlaybackUI: Bool {
+        detachedVideoWindowPresenter.isPresented && isEditingText
+    }
 
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
@@ -31,8 +36,32 @@ struct PlaybackPanelView: View {
                                     .foregroundStyle(.white.opacity(0.7))
                             }
                         }
+                } else if detachedVideoWindowPresenter.isPresented {
+                    RoundedRectangle(cornerRadius: 12)
+                        .fill(Color.black.opacity(0.92))
+                        .overlay {
+                            VStack(spacing: 10) {
+                                Text("Video je otevrene v samostatnem okne")
+                                    .foregroundStyle(.white)
+                                HStack(spacing: 8) {
+                                    Button("Aktivovat video okno") {
+                                        detachedVideoWindowPresenter.show(
+                                            player: model.player,
+                                            hasLoadedVideo: model.videoURL != nil
+                                        )
+                                    }
+                                    .buttonStyle(.borderedProminent)
+
+                                    Button("Zavrit video okno") {
+                                        detachedVideoWindowPresenter.hide()
+                                    }
+                                    .buttonStyle(.bordered)
+                                }
+                            }
+                        }
                 } else {
-                    PlayerContainerView(player: model.player, model: model)
+                    PlayerContainerView(player: model.player)
+                        .equatable()
                         .clipShape(RoundedRectangle(cornerRadius: 12))
                 }
             }
@@ -41,7 +70,6 @@ struct PlaybackPanelView: View {
             HStack(spacing: 8) {
                 Button {
                     guard model.player.currentItem != nil else { return }
-                    model.logPlaybackDebugEvent("PLAY_REQUESTED", source: "direct_play_button")
                     model.player.play()
                 } label: {
                     Label {
@@ -54,7 +82,6 @@ struct PlaybackPanelView: View {
                 .help(shortcutHint("Play/Pause", shortcutPlayPause))
 
                 Button {
-                    model.logPlaybackDebugEvent("PAUSE_REQUESTED", source: "direct_pause_button")
                     model.player.pause()
                 } label: {
                     Label {
@@ -90,6 +117,20 @@ struct PlaybackPanelView: View {
                 .buttonStyle(.bordered)
                 .help(shortcutHint("Posun vpred", shortcutSeekForward))
 
+                Button {
+                    detachedVideoWindowPresenter.toggle(
+                        player: model.player,
+                        hasLoadedVideo: model.videoURL != nil
+                    )
+                } label: {
+                    Label(
+                        detachedVideoWindowPresenter.isPresented ? "Zavrit video okno" : "Video v okne",
+                        systemImage: detachedVideoWindowPresenter.isPresented ? "macwindow.badge.minus" : "macwindow"
+                    )
+                }
+                .buttonStyle(.bordered)
+                .disabled(model.videoURL == nil)
+
                 Spacer()
 
                 Text(currentPlaybackTimeText())
@@ -114,16 +155,13 @@ struct PlaybackPanelView: View {
                     }
                 }
 
-                if model.isDevModeEnabled {
-                    devMetricsPanel
-                }
-
                 waveformSection
             }
         }
         .padding(14)
         .onAppear {
             updateFullscreenStateFromKeyWindow()
+            detachedVideoWindowPresenter.refresh(player: model.player, hasLoadedVideo: model.videoURL != nil)
             installTimeObserver()
         }
         .onDisappear {
@@ -142,10 +180,14 @@ struct PlaybackPanelView: View {
         .onChange(of: model.isPlaybackActive) { _ in
             resetTimeObserver()
         }
+        .onChange(of: detachedVideoWindowPresenter.isPresented) { _ in
+            resetTimeObserver()
+        }
         .onChange(of: isWindowFullscreen) { _ in
             resetTimeObserver()
         }
         .onChange(of: model.videoURL) { _ in
+            detachedVideoWindowPresenter.refresh(player: model.player, hasLoadedVideo: model.videoURL != nil)
             if model.player.currentItem == nil {
                 playheadProgress = 0
             }
@@ -165,8 +207,9 @@ struct PlaybackPanelView: View {
     private func installTimeObserver() {
         guard timeObserverToken == nil else { return }
 
+        let intervalSeconds = playbackRefreshIntervalSeconds()
         let interval = CMTime(
-            seconds: playbackRefreshIntervalSeconds(),
+            seconds: intervalSeconds,
             preferredTimescale: 600
         )
 
@@ -194,19 +237,25 @@ struct PlaybackPanelView: View {
                     return
                 }
 
-                let nextProgress = min(1, seconds / duration)
-                let minDelta: Double
-                if isWindowFullscreen && model.isPlaybackActive {
-                    minDelta = isEditingText ? 0.008 : 0.0045
-                } else if isWindowFullscreen {
-                    minDelta = isEditingText ? 0.005 : 0.002
-                } else {
-                    minDelta = isEditingText ? 0.0035 : 0.0008
+                if !shouldSuspendEmbeddedPlaybackUI {
+                    let nextProgress = min(1, seconds / duration)
+                    let minDelta: Double
+                    if isWindowFullscreen && model.isPlaybackActive {
+                        minDelta = isEditingText ? 0.008 : 0.0045
+                    } else if isWindowFullscreen {
+                        minDelta = isEditingText ? 0.005 : 0.002
+                    } else {
+                        minDelta = isEditingText ? 0.0035 : 0.0008
+                    }
+                    if
+                        (abs(nextProgress - playheadProgress) > minDelta || nextProgress == 0 || nextProgress == 1)
+                    {
+                        playheadProgress = nextProgress
+                    }
                 }
-                if abs(nextProgress - playheadProgress) > minDelta || nextProgress == 0 || nextProgress == 1 {
-                    playheadProgress = nextProgress
+                if model.isLoopEnabled {
+                    model.handlePlaybackTick(currentSeconds: seconds)
                 }
-                model.handlePlaybackTick(currentSeconds: seconds)
             }
         }
     }
@@ -224,6 +273,10 @@ struct PlaybackPanelView: View {
     }
 
     private func playbackRefreshIntervalSeconds() -> Double {
+        if shouldSuspendEmbeddedPlaybackUI {
+            return model.isLoopEnabled ? 0.20 : 1.0
+        }
+
         if isWindowFullscreen {
             if model.isPlaybackActive {
                 if isEditingText {
@@ -387,73 +440,86 @@ struct PlaybackPanelView: View {
 
     @ViewBuilder
     private var waveformSection: some View {
-        let showExternal = !model.externalWaveform.isEmpty
-
-        if model.canControlStereoChannels {
-            let showLeft = !model.isLeftChannelMuted && !model.waveformLeft.isEmpty
-            let showRight = !model.isRightChannelMuted && !model.waveformRight.isEmpty
-
-            if !showLeft && !showRight && !showExternal {
-                RoundedRectangle(cornerRadius: 8)
-                    .fill(Color(nsColor: .windowBackgroundColor).opacity(0.35))
-                    .frame(height: 74)
-                    .overlay {
-                        Text(waveformEmptyStateText())
-                            .font(.caption)
-                            .foregroundStyle(.secondary)
-                    }
-            } else {
-                VStack(spacing: 6) {
-                    if showLeft {
-                        channelWaveformRow(label: "L", samples: model.waveformLeft)
-                    }
-                    if showRight {
-                        channelWaveformRow(label: "R", samples: model.waveformRight)
-                    }
-                    if showExternal {
-                        channelWaveformRow(label: "EXT", samples: model.externalWaveform)
-                    }
+        if shouldSuspendEmbeddedPlaybackUI {
+            RoundedRectangle(cornerRadius: 8)
+                .fill(Color(nsColor: .windowBackgroundColor).opacity(0.35))
+                .frame(height: 74)
+                .overlay {
+                    Text("Waveform je pri editaci pozastaveno. Pro plynuly fullscreen pouzij samostatne video okno.")
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                        .multilineTextAlignment(.center)
+                        .padding(.horizontal, 12)
                 }
-                .overlay(alignment: .topLeading) {
-                    if let label = selectedLineWaveformLabel() {
-                        Text(label)
-                            .font(.caption2.monospaced())
-                            .padding(.horizontal, 6)
-                            .padding(.vertical, 3)
-                            .background(Color.black.opacity(0.55), in: Capsule())
-                            .foregroundStyle(.white)
-                            .padding(6)
-                    }
-                }
-            }
         } else {
-            if model.waveform.isEmpty && !showExternal {
-                RoundedRectangle(cornerRadius: 8)
-                    .fill(Color(nsColor: .windowBackgroundColor).opacity(0.35))
-                    .frame(height: 74)
-                    .overlay {
-                        Text(waveformEmptyStateText())
-                            .font(.caption)
-                            .foregroundStyle(.secondary)
+            let showExternal = !model.externalWaveform.isEmpty
+
+            if model.canControlStereoChannels {
+                let showLeft = !model.isLeftChannelMuted && !model.waveformLeft.isEmpty
+                let showRight = !model.isRightChannelMuted && !model.waveformRight.isEmpty
+
+                if !showLeft && !showRight && !showExternal {
+                    RoundedRectangle(cornerRadius: 8)
+                        .fill(Color(nsColor: .windowBackgroundColor).opacity(0.35))
+                        .frame(height: 74)
+                        .overlay {
+                            Text(waveformEmptyStateText())
+                                .font(.caption)
+                                .foregroundStyle(.secondary)
+                        }
+                } else {
+                    VStack(spacing: 6) {
+                        if showLeft {
+                            channelWaveformRow(label: "L", samples: model.waveformLeft)
+                        }
+                        if showRight {
+                            channelWaveformRow(label: "R", samples: model.waveformRight)
+                        }
+                        if showExternal {
+                            channelWaveformRow(label: "EXT", samples: model.externalWaveform)
+                        }
                     }
-            } else {
-                VStack(spacing: 6) {
-                    if !model.waveform.isEmpty {
-                        channelWaveformRow(label: showExternal ? "VID" : nil, samples: model.waveform)
-                    }
-                    if showExternal {
-                        channelWaveformRow(label: "EXT", samples: model.externalWaveform)
+                    .overlay(alignment: .topLeading) {
+                        if let label = selectedLineWaveformLabel() {
+                            Text(label)
+                                .font(.caption2.monospaced())
+                                .padding(.horizontal, 6)
+                                .padding(.vertical, 3)
+                                .background(Color.black.opacity(0.55), in: Capsule())
+                                .foregroundStyle(.white)
+                                .padding(6)
+                        }
                     }
                 }
-                .overlay(alignment: .topLeading) {
-                    if let label = selectedLineWaveformLabel() {
-                        Text(label)
-                            .font(.caption2.monospaced())
-                            .padding(.horizontal, 6)
-                            .padding(.vertical, 3)
-                            .background(Color.black.opacity(0.55), in: Capsule())
-                            .foregroundStyle(.white)
-                            .padding(6)
+            } else {
+                if model.waveform.isEmpty && !showExternal {
+                    RoundedRectangle(cornerRadius: 8)
+                        .fill(Color(nsColor: .windowBackgroundColor).opacity(0.35))
+                        .frame(height: 74)
+                        .overlay {
+                            Text(waveformEmptyStateText())
+                                .font(.caption)
+                                .foregroundStyle(.secondary)
+                        }
+                } else {
+                    VStack(spacing: 6) {
+                        if !model.waveform.isEmpty {
+                            channelWaveformRow(label: showExternal ? "VID" : nil, samples: model.waveform)
+                        }
+                        if showExternal {
+                            channelWaveformRow(label: "EXT", samples: model.externalWaveform)
+                        }
+                    }
+                    .overlay(alignment: .topLeading) {
+                        if let label = selectedLineWaveformLabel() {
+                            Text(label)
+                                .font(.caption2.monospaced())
+                                .padding(.horizontal, 6)
+                                .padding(.vertical, 3)
+                                .background(Color.black.opacity(0.55), in: Capsule())
+                                .foregroundStyle(.white)
+                                .padding(6)
+                        }
                     }
                 }
             }
@@ -588,61 +654,4 @@ struct PlaybackPanelView: View {
         }
     }
 
-    private var devMetricsPanel: some View {
-        VStack(alignment: .leading, spacing: 2) {
-            Text("DEV MODE")
-                .font(.caption2.weight(.semibold))
-                .foregroundStyle(.orange)
-            Text("Video load: \(formatDuration(model.lastVideoLoadDuration))")
-                .font(.caption2.monospaced())
-                .foregroundStyle(.secondary)
-            Text("Waveform build: \(formatDuration(model.lastWaveformBuildDuration))")
-                .font(.caption2.monospaced())
-                .foregroundStyle(.secondary)
-            Text("Waveform source V/EXT: \(model.waveformSourceLabel() ?? "-") / \(model.externalWaveformSourceLabel() ?? "-")")
-                .font(.caption2.monospaced())
-                .foregroundStyle(.secondary)
-            Text("Samples V(M/L/R)/EXT: \(model.waveform.count)/\(model.waveformLeft.count)/\(model.waveformRight.count)/\(model.externalWaveform.count)")
-                .font(.caption2.monospaced())
-                .foregroundStyle(.secondary)
-            Text("Cache V/EXT: \(model.waveformCacheExists ? "yes" : "no") \(formatBytes(model.waveformCacheSizeBytes)) / \(model.externalWaveformCacheExists ? "yes" : "no") \(formatBytes(model.externalWaveformCacheSizeBytes))")
-                .font(.caption2.monospaced())
-                .foregroundStyle(.secondary)
-            Text("Click -> Focus: \(formatDurationMilliseconds(model.devInteractionMetrics.clickToFocusMilliseconds)) [\(model.devInteractionMetrics.clickToFocusLabel)]")
-                .font(.caption2.monospaced())
-                .foregroundStyle(.secondary)
-            Text("Commit -> LinesChanged: \(formatDurationMilliseconds(model.devInteractionMetrics.commitToLinesChangedMilliseconds)) [\(model.devInteractionMetrics.commitToLinesChangedLabel)]")
-                .font(.caption2.monospaced())
-                .foregroundStyle(.secondary)
-            Text("LinesChanged -> CacheDone: \(formatDurationMilliseconds(model.devInteractionMetrics.linesChangedToCacheDoneMilliseconds)) [\(model.devInteractionMetrics.linesChangedToCacheDoneLabel)]")
-                .font(.caption2.monospaced())
-                .foregroundStyle(.secondary)
-        }
-        .padding(8)
-        .background(
-            RoundedRectangle(cornerRadius: 8)
-                .fill(Color(nsColor: .controlBackgroundColor))
-        )
-    }
-
-    private func formatDuration(_ value: TimeInterval?) -> String {
-        guard let value else { return "-" }
-        if value < 1 {
-            return String(format: "%.0f ms", value * 1000)
-        }
-        return String(format: "%.2f s", value)
-    }
-
-    private func formatDurationMilliseconds(_ value: Double?) -> String {
-        guard let value else { return "-" }
-        return String(format: "%.0f ms", value)
-    }
-
-    private func formatBytes(_ value: UInt64?) -> String {
-        guard let value else { return "-" }
-        let formatter = ByteCountFormatter()
-        formatter.allowedUnits = [.useKB, .useMB]
-        formatter.countStyle = .file
-        return formatter.string(fromByteCount: Int64(value))
-    }
 }

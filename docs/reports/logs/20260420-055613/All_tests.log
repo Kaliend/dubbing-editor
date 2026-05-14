@@ -1,0 +1,450 @@
+[0/1] Planning build
+Building for debugging...
+[0/5] Write swift-version--58304C5D6DBC2206.txt
+[2/21] Compiling DubbingEditorTests SpeakerAppearanceServiceTests.swift
+[3/21] Compiling DubbingEditorTests TimecodeServiceTests.swift
+[4/21] Compiling DubbingEditorTests WordExportPipelineServiceTests.swift
+[5/22] Compiling DubbingEditorTests ProjectServiceTests.swift
+[6/22] Compiling DubbingEditorTests ProjectWorkTrackerTests.swift
+[7/22] Compiling DubbingEditorTests WordImportServiceTests.swift
+[8/22] Compiling DubbingEditorTests PlaybackCompositionServiceTests.swift
+[9/22] Compiling DubbingEditorTests PlaybackWaveformProjectionServiceTests.swift
+[10/22] Compiling DubbingEditorTests WordExportServiceTests.swift
+[11/22] Compiling DubbingEditorTests ChannelDerivedAudioServiceTests.swift
+[12/22] Compiling DubbingEditorTests DialogueRowDraftControllerTests.swift
+[13/22] Compiling DubbingEditorTests SpeakerSuggestionOverlayTests.swift
+[14/22] Compiling DubbingEditorTests BugReportServiceTests.swift
+[15/22] Compiling DubbingEditorTests BundleAppTests.swift
+[16/22] Emitting module DubbingEditorTests
+[17/22] Compiling DubbingEditorTests EditorViewModelTests.swift
+[18/22] Compiling DubbingEditorTests NetflixExcelServiceTests.swift
+[19/22] Compiling DubbingEditorTests EditorPerformanceTests.swift
+[20/22] Compiling DubbingEditorTests EditorProjectionCoordinatorTests.swift
+[20/22] Write Objects.LinkFileList
+[21/22] Linking DubbingEditorPackageTests
+Build complete! (1.38s)
+Test Suite 'All tests' started at 2026-04-20 05:56:22.595.
+Test Suite 'DubbingEditorPackageTests.xctest' started at 2026-04-20 05:56:22.596.
+Test Suite 'BugReportServiceTests' started at 2026-04-20 05:56:22.596.
+Test Case '-[DubbingEditorTests.BugReportServiceTests testCreateReportWritesExpectedBundleFiles]' started.
+Test Case '-[DubbingEditorTests.BugReportServiceTests testCreateReportWritesExpectedBundleFiles]' passed (0.007 seconds).
+Test Case '-[DubbingEditorTests.BugReportServiceTests testReportsRootURLUsesPreferredBaseDirectory]' started.
+Test Case '-[DubbingEditorTests.BugReportServiceTests testReportsRootURLUsesPreferredBaseDirectory]' passed (0.000 seconds).
+Test Suite 'BugReportServiceTests' passed at 2026-04-20 05:56:22.604.
+	 Executed 2 tests, with 0 failures (0 unexpected) in 0.007 (0.008) seconds
+Test Suite 'BundleAppTests' started at 2026-04-20 05:56:22.604.
+Test Case '-[DubbingEditorTests.BundleAppTests testAppBundleResolvesLocalizedAlertStrings]' started.
+Test Case '-[DubbingEditorTests.BundleAppTests testAppBundleResolvesLocalizedAlertStrings]' passed (0.001 seconds).
+Test Suite 'BundleAppTests' passed at 2026-04-20 05:56:22.605.
+	 Executed 1 test, with 0 failures (0 unexpected) in 0.001 (0.001) seconds
+Test Suite 'ChannelDerivedAudioServiceTests' started at 2026-04-20 05:56:22.605.
+Test Case '-[DubbingEditorTests.ChannelDerivedAudioServiceTests testCacheIdentityChangesWithVariantAndSourceFingerprint]' started.
+Test Case '-[DubbingEditorTests.ChannelDerivedAudioServiceTests testCacheIdentityChangesWithVariantAndSourceFingerprint]' passed (0.000 seconds).
+Test Case '-[DubbingEditorTests.ChannelDerivedAudioServiceTests testVideoAudioChannelVariantMapsMuteStatesToExpectedStem]' started.
+Test Case '-[DubbingEditorTests.ChannelDerivedAudioServiceTests testVideoAudioChannelVariantMapsMuteStatesToExpectedStem]' passed (0.000 seconds).
+Test Suite 'ChannelDerivedAudioServiceTests' passed at 2026-04-20 05:56:22.606.
+	 Executed 2 tests, with 0 failures (0 unexpected) in 0.000 (0.001) seconds
+Test Suite 'DialogueRowDraftControllerTests' started at 2026-04-20 05:56:22.606.
+Test Case '-[DubbingEditorTests.DialogueRowDraftControllerTests testCommitStartTimecodeNormalizesHiddenFramesDraft]' started.
+Test Case '-[DubbingEditorTests.DialogueRowDraftControllerTests testCommitStartTimecodeNormalizesHiddenFramesDraft]' passed (0.000 seconds).
+Test Case '-[DubbingEditorTests.DialogueRowDraftControllerTests testHideFramesRefreshUpdatesDisplayedTimecodeDrafts]' started.
+Test Case '-[DubbingEditorTests.DialogueRowDraftControllerTests testHideFramesRefreshUpdatesDisplayedTimecodeDrafts]' passed (0.000 seconds).
+Test Case '-[DubbingEditorTests.DialogueRowDraftControllerTests testResolvedDisplayedTimecodeIgnoresStaleCacheWhenHideFramesModeChanges]' started.
+Test Case '-[DubbingEditorTests.DialogueRowDraftControllerTests testResolvedDisplayedTimecodeIgnoresStaleCacheWhenHideFramesModeChanges]' passed (0.000 seconds).
+Test Case '-[DubbingEditorTests.DialogueRowDraftControllerTests testTextDraftSyncSkipsFocusedFieldButRefreshesAfterFocusLeaves]' started.
+Test Case '-[DubbingEditorTests.DialogueRowDraftControllerTests testTextDraftSyncSkipsFocusedFieldButRefreshesAfterFocusLeaves]' passed (0.000 seconds).
+Test Suite 'DialogueRowDraftControllerTests' passed at 2026-04-20 05:56:22.606.
+	 Executed 4 tests, with 0 failures (0 unexpected) in 0.001 (0.001) seconds
+Test Suite 'EditorPerformanceTests' started at 2026-04-20 05:56:22.606.
+Test Case '-[DubbingEditorTests.EditorPerformanceTests testFullProjectionRebuildOnTwoThousandLinesSmokePerformance]' started.
+Test Case '-[DubbingEditorTests.EditorPerformanceTests testFullProjectionRebuildOnTwoThousandLinesSmokePerformance]' passed (0.021 seconds).
+Test Case '-[DubbingEditorTests.EditorPerformanceTests testIncrementalSingleLineProjectionUpdateOnTwoThousandLinesSmokePerformance]' started.
+Test Case '-[DubbingEditorTests.EditorPerformanceTests testIncrementalSingleLineProjectionUpdateOnTwoThousandLinesSmokePerformance]' passed (0.025 seconds).
+Test Case '-[DubbingEditorTests.EditorPerformanceTests testIssueCountOnTwoThousandLinesSmokePerformance]' started.
+Test Case '-[DubbingEditorTests.EditorPerformanceTests testIssueCountOnTwoThousandLinesSmokePerformance]' passed (0.013 seconds).
+Test Case '-[DubbingEditorTests.EditorPerformanceTests testReplaceAllOnTwoThousandLinesSmokePerformance]' started.
+Test Case '-[DubbingEditorTests.EditorPerformanceTests testReplaceAllOnTwoThousandLinesSmokePerformance]' passed (0.011 seconds).
+Test Case '-[DubbingEditorTests.EditorPerformanceTests testSelectionTraversalOnTwoThousandLinesSmokePerformance]' started.
+Test Case '-[DubbingEditorTests.EditorPerformanceTests testSelectionTraversalOnTwoThousandLinesSmokePerformance]' passed (0.016 seconds).
+Test Case '-[DubbingEditorTests.EditorPerformanceTests testTimecodeParsingBatchSmokePerformance]' started.
+Test Case '-[DubbingEditorTests.EditorPerformanceTests testTimecodeParsingBatchSmokePerformance]' passed (0.129 seconds).
+Test Suite 'EditorPerformanceTests' passed at 2026-04-20 05:56:22.822.
+	 Executed 6 tests, with 0 failures (0 unexpected) in 0.215 (0.216) seconds
+Test Suite 'EditorProjectionCoordinatorTests' started at 2026-04-20 05:56:22.822.
+Test Case '-[DubbingEditorTests.EditorProjectionCoordinatorTests testRebuildAllComputesIssuesChronologyDisplayedAndSearch]' started.
+Test Case '-[DubbingEditorTests.EditorProjectionCoordinatorTests testRebuildAllComputesIssuesChronologyDisplayedAndSearch]' passed (0.000 seconds).
+Test Case '-[DubbingEditorTests.EditorProjectionCoordinatorTests testRebuildAllPreservesPreviousViewportIssuesOutsideEvaluationTarget]' started.
+Test Case '-[DubbingEditorTests.EditorProjectionCoordinatorTests testRebuildAllPreservesPreviousViewportIssuesOutsideEvaluationTarget]' passed (0.000 seconds).
+Test Case '-[DubbingEditorTests.EditorProjectionCoordinatorTests testRefreshSingleLineUpdatesIssuesAndSearchHaystack]' started.
+Test Case '-[DubbingEditorTests.EditorProjectionCoordinatorTests testRefreshSingleLineUpdatesIssuesAndSearchHaystack]' passed (0.000 seconds).
+Test Suite 'EditorProjectionCoordinatorTests' passed at 2026-04-20 05:56:22.823.
+	 Executed 3 tests, with 0 failures (0 unexpected) in 0.000 (0.001) seconds
+Test Suite 'EditorViewModelTests' started at 2026-04-20 05:56:22.823.
+Test Case '-[DubbingEditorTests.EditorViewModelTests testApplySpeakerAutocompleteSuggestionCommitsDirectlyToTargetLine]' started.
+Test Case '-[DubbingEditorTests.EditorViewModelTests testApplySpeakerAutocompleteSuggestionCommitsDirectlyToTargetLine]' passed (0.000 seconds).
+Test Case '-[DubbingEditorTests.EditorViewModelTests testApplyVideoOffsetParsesSecondsAndTimecode]' started.
+Test Case '-[DubbingEditorTests.EditorViewModelTests testApplyVideoOffsetParsesSecondsAndTimecode]' passed (0.002 seconds).
+Test Case '-[DubbingEditorTests.EditorViewModelTests testCaptureEndTimecodeAutoSwitchesToStartWhenEnabled]' started.
+Test Case '-[DubbingEditorTests.EditorViewModelTests testCaptureEndTimecodeAutoSwitchesToStartWhenEnabled]' passed (0.001 seconds).
+Test Case '-[DubbingEditorTests.EditorViewModelTests testCaptureEndTimecodeWithoutSelectionUsesFirstLine]' started.
+Test Case '-[DubbingEditorTests.EditorViewModelTests testCaptureEndTimecodeWithoutSelectionUsesFirstLine]' passed (0.000 seconds).
+Test Case '-[DubbingEditorTests.EditorViewModelTests testCaptureStartTimecodeForSelectedLineAdvancesSelection]' started.
+Test Case '-[DubbingEditorTests.EditorViewModelTests testCaptureStartTimecodeForSelectedLineAdvancesSelection]' passed (0.000 seconds).
+Test Case '-[DubbingEditorTests.EditorViewModelTests testCaptureStartTimecodeWithoutAdvanceAutoSwitchesToEndWhenEnabled]' started.
+Test Case '-[DubbingEditorTests.EditorViewModelTests testCaptureStartTimecodeWithoutAdvanceAutoSwitchesToEndWhenEnabled]' passed (0.000 seconds).
+Test Case '-[DubbingEditorTests.EditorViewModelTests testCaptureStartTimecodeWithoutAdvanceKeepsSelection]' started.
+Test Case '-[DubbingEditorTests.EditorViewModelTests testCaptureStartTimecodeWithoutAdvanceKeepsSelection]' passed (0.000 seconds).
+Test Case '-[DubbingEditorTests.EditorViewModelTests testChronologicalStartIssuesDetectsDescendingStartTimecodes]' started.
+Test Case '-[DubbingEditorTests.EditorViewModelTests testChronologicalStartIssuesDetectsDescendingStartTimecodes]' passed (0.000 seconds).
+Test Case '-[DubbingEditorTests.EditorViewModelTests testChronologicalStartIssuesSkipMissingStartTimecodes]' started.
+Test Case '-[DubbingEditorTests.EditorViewModelTests testChronologicalStartIssuesSkipMissingStartTimecodes]' passed (0.000 seconds).
+Test Case '-[DubbingEditorTests.EditorViewModelTests testDeleteSelectedLinesRemovesMultiSelectionAndRenumbers]' started.
+Test Case '-[DubbingEditorTests.EditorViewModelTests testDeleteSelectedLinesRemovesMultiSelectionAndRenumbers]' passed (0.001 seconds).
+Test Case '-[DubbingEditorTests.EditorViewModelTests testFillMissingStartTimecodesWithPreviousHourMinuteFillsEmptyRows]' started.
+Test Case '-[DubbingEditorTests.EditorViewModelTests testFillMissingStartTimecodesWithPreviousHourMinuteFillsEmptyRows]' passed (0.000 seconds).
+Test Case '-[DubbingEditorTests.EditorViewModelTests testFillMissingStartTimecodesWithPreviousHourMinuteNormalizesMinuteSecondInput]' started.
+Test Case '-[DubbingEditorTests.EditorViewModelTests testFillMissingStartTimecodesWithPreviousHourMinuteNormalizesMinuteSecondInput]' passed (0.000 seconds).
+Test Case '-[DubbingEditorTests.EditorViewModelTests testInsertNewLineAfterSelectionInsertsAfterSelectedAndRenumbers]' started.
+Test Case '-[DubbingEditorTests.EditorViewModelTests testInsertNewLineAfterSelectionInsertsAfterSelectedAndRenumbers]' passed (0.000 seconds).
+Test Case '-[DubbingEditorTests.EditorViewModelTests testInsertNewLineFallsBackToLatestValidPreviousTimecode]' started.
+Test Case '-[DubbingEditorTests.EditorViewModelTests testInsertNewLineFallsBackToLatestValidPreviousTimecode]' passed (0.000 seconds).
+Test Case '-[DubbingEditorTests.EditorViewModelTests testInsertNewLineMatchesCanonicalPlaybackTimecodePath]' started.
+Test Case '-[DubbingEditorTests.EditorViewModelTests testInsertNewLineMatchesCanonicalPlaybackTimecodePath]' passed (0.129 seconds).
+Test Case '-[DubbingEditorTests.EditorViewModelTests testInsertNewLinePreservesFrameSnappingAtTwentyFourFPS]' started.
+Test Case '-[DubbingEditorTests.EditorViewModelTests testInsertNewLinePreservesFrameSnappingAtTwentyFourFPS]' passed (0.130 seconds).
+Test Case '-[DubbingEditorTests.EditorViewModelTests testInsertNewLineWithLoadedVideoUsesCurrentPlaybackTimecode]' started.
+Test Case '-[DubbingEditorTests.EditorViewModelTests testInsertNewLineWithLoadedVideoUsesCurrentPlaybackTimecode]' passed (0.126 seconds).
+Test Case '-[DubbingEditorTests.EditorViewModelTests testInsertNewLineWithLoadedVideoUsesOffsetAwarePlaybackTimecode]' started.
+Test Case '-[DubbingEditorTests.EditorViewModelTests testInsertNewLineWithLoadedVideoUsesOffsetAwarePlaybackTimecode]' passed (0.128 seconds).
+Test Case '-[DubbingEditorTests.EditorViewModelTests testInsertNewLineWithoutLoadedVideoKeepsExistingFallbackMechanism]' started.
+Test Case '-[DubbingEditorTests.EditorViewModelTests testInsertNewLineWithoutLoadedVideoKeepsExistingFallbackMechanism]' passed (0.002 seconds).
+Test Case '-[DubbingEditorTests.EditorViewModelTests testInsertNewLineWithoutSelectionAppendsAtEnd]' started.
+Test Case '-[DubbingEditorTests.EditorViewModelTests testInsertNewLineWithoutSelectionAppendsAtEnd]' passed (0.002 seconds).
+Test Case '-[DubbingEditorTests.EditorViewModelTests testPlaybackTimelineConversionsUseVideoOffset]' started.
+Test Case '-[DubbingEditorTests.EditorViewModelTests testPlaybackTimelineConversionsUseVideoOffset]' passed (0.001 seconds).
+Test Case '-[DubbingEditorTests.EditorViewModelTests testPrefillDoesNothingWhenPreviousTimecodeMissing]' started.
+Test Case '-[DubbingEditorTests.EditorViewModelTests testPrefillDoesNothingWhenPreviousTimecodeMissing]' passed (0.001 seconds).
+Test Case '-[DubbingEditorTests.EditorViewModelTests testPrefillEmptyEndTimecodeUsesPreviousHourMinutePrefix]' started.
+Test Case '-[DubbingEditorTests.EditorViewModelTests testPrefillEmptyEndTimecodeUsesPreviousHourMinutePrefix]' passed (0.001 seconds).
+Test Case '-[DubbingEditorTests.EditorViewModelTests testPrefillEmptyStartTimecodeNormalizesPreviousMinuteSecondInput]' started.
+Test Case '-[DubbingEditorTests.EditorViewModelTests testPrefillEmptyStartTimecodeNormalizesPreviousMinuteSecondInput]' passed (0.001 seconds).
+Test Case '-[DubbingEditorTests.EditorViewModelTests testPrefillEmptyStartTimecodeUsesPreviousHourMinutePrefix]' started.
+Test Case '-[DubbingEditorTests.EditorViewModelTests testPrefillEmptyStartTimecodeUsesPreviousHourMinutePrefix]' passed (0.001 seconds).
+Test Case '-[DubbingEditorTests.EditorViewModelTests testPrefillEmptyStartTimecodeUsesPreviousPrefixWithoutSeconds]' started.
+Test Case '-[DubbingEditorTests.EditorViewModelTests testPrefillEmptyStartTimecodeUsesPreviousPrefixWithoutSeconds]' passed (0.001 seconds).
+Test Case '-[DubbingEditorTests.EditorViewModelTests testQualityIssuesFlagsInvalidTimecodeWhenEnabled]' started.
+Test Case '-[DubbingEditorTests.EditorViewModelTests testQualityIssuesFlagsInvalidTimecodeWhenEnabled]' passed (0.001 seconds).
+Test Case '-[DubbingEditorTests.EditorViewModelTests testQualityIssuesIncludesOnlyConfiguredValidationTypes]' started.
+Test Case '-[DubbingEditorTests.EditorViewModelTests testQualityIssuesIncludesOnlyConfiguredValidationTypes]' passed (0.000 seconds).
+Test Case '-[DubbingEditorTests.EditorViewModelTests testSelectNextLineMissingTimecodeForActiveTargetWraps]' started.
+Test Case '-[DubbingEditorTests.EditorViewModelTests testSelectNextLineMissingTimecodeForActiveTargetWraps]' passed (0.001 seconds).
+Test Case '-[DubbingEditorTests.EditorViewModelTests testSetFPSPresetChangesProjectFPS]' started.
+Test Case '-[DubbingEditorTests.EditorViewModelTests testSetFPSPresetChangesProjectFPS]' passed (0.001 seconds).
+Test Case '-[DubbingEditorTests.EditorViewModelTests testShiftExtendSelectionCreatesContiguousRange]' started.
+Test Case '-[DubbingEditorTests.EditorViewModelTests testShiftExtendSelectionCreatesContiguousRange]' passed (0.000 seconds).
+Test Case '-[DubbingEditorTests.EditorViewModelTests testSpeakerColorOverrideMatchingDefaultDoesNotPersistExplicitOverride]' started.
+Test Case '-[DubbingEditorTests.EditorViewModelTests testSpeakerColorOverrideMatchingDefaultDoesNotPersistExplicitOverride]' passed (0.000 seconds).
+Test Case '-[DubbingEditorTests.EditorViewModelTests testSpeakerColorOverrideUsesNormalizedSpeakerKeyAndCanReset]' started.
+Test Case '-[DubbingEditorTests.EditorViewModelTests testSpeakerColorOverrideUsesNormalizedSpeakerKeyAndCanReset]' passed (0.000 seconds).
+Test Case '-[DubbingEditorTests.EditorViewModelTests testSpeakerStatisticsRefreshAsynchronouslyAfterLinesChange]' started.
+Test Case '-[DubbingEditorTests.EditorViewModelTests testSpeakerStatisticsRefreshAsynchronouslyAfterLinesChange]' passed (0.535 seconds).
+Test Suite 'EditorViewModelTests' passed at 2026-04-20 05:56:23.894.
+	 Executed 34 tests, with 0 failures (0 unexpected) in 1.069 (1.072) seconds
+Test Suite 'NetflixExcelServiceTests' started at 2026-04-20 05:56:23.894.
+Test Case '-[DubbingEditorTests.NetflixExcelServiceTests testBuildExportDraftFormatsTimecodesAndSkipsEmptyRows]' started.
+Test Case '-[DubbingEditorTests.NetflixExcelServiceTests testBuildExportDraftFormatsTimecodesAndSkipsEmptyRows]' passed (0.002 seconds).
+Test Case '-[DubbingEditorTests.NetflixExcelServiceTests testExportXLSXCreatesDialogueListWorksheet]' started.
+Test Case '-[DubbingEditorTests.NetflixExcelServiceTests testExportXLSXCreatesDialogueListWorksheet]' passed (0.206 seconds).
+Test Case '-[DubbingEditorTests.NetflixExcelServiceTests testParseImportPackageMapsNetflixColumnsByHeaderName]' started.
+Test Case '-[DubbingEditorTests.NetflixExcelServiceTests testParseImportPackageMapsNetflixColumnsByHeaderName]' passed (0.007 seconds).
+Test Case '-[DubbingEditorTests.NetflixExcelServiceTests testParseImportPackageThrowsWhenRequiredHeadersAreMissing]' started.
+Test Case '-[DubbingEditorTests.NetflixExcelServiceTests testParseImportPackageThrowsWhenRequiredHeadersAreMissing]' passed (0.001 seconds).
+Test Suite 'NetflixExcelServiceTests' passed at 2026-04-20 05:56:24.112.
+	 Executed 4 tests, with 0 failures (0 unexpected) in 0.216 (0.218) seconds
+Test Suite 'PlaybackCompositionServiceTests' started at 2026-04-20 05:56:24.112.
+Test Case '-[DubbingEditorTests.PlaybackCompositionServiceTests testAudioMixPlanCanMuteVideoTrackWithoutTap]' started.
+Test Case '-[DubbingEditorTests.PlaybackCompositionServiceTests testAudioMixPlanCanMuteVideoTrackWithoutTap]' passed (0.000 seconds).
+Test Case '-[DubbingEditorTests.PlaybackCompositionServiceTests testAudioMixPlanKeepsOnlyTrackMuteResponsibilities]' started.
+Test Case '-[DubbingEditorTests.PlaybackCompositionServiceTests testAudioMixPlanKeepsOnlyTrackMuteResponsibilities]' passed (0.000 seconds).
+Test Case '-[DubbingEditorTests.PlaybackCompositionServiceTests testAudioMixPlanUsesNoMixWhenNothingIsMuted]' started.
+Test Case '-[DubbingEditorTests.PlaybackCompositionServiceTests testAudioMixPlanUsesNoMixWhenNothingIsMuted]' passed (0.000 seconds).
+Test Suite 'PlaybackCompositionServiceTests' passed at 2026-04-20 05:56:24.113.
+	 Executed 3 tests, with 0 failures (0 unexpected) in 0.001 (0.001) seconds
+Test Suite 'PlaybackWaveformProjectionServiceTests' started at 2026-04-20 05:56:24.114.
+Test Case '-[DubbingEditorTests.PlaybackWaveformProjectionServiceTests testProjectToTimelinePadsTrailingSilenceWhenExternalAudioIsShorter]' started.
+Test Case '-[DubbingEditorTests.PlaybackWaveformProjectionServiceTests testProjectToTimelinePadsTrailingSilenceWhenExternalAudioIsShorter]' passed (0.000 seconds).
+Test Case '-[DubbingEditorTests.PlaybackWaveformProjectionServiceTests testProjectToTimelineReturnsOriginalSamplesWhenDurationsMatch]' started.
+Test Case '-[DubbingEditorTests.PlaybackWaveformProjectionServiceTests testProjectToTimelineReturnsOriginalSamplesWhenDurationsMatch]' passed (0.000 seconds).
+Test Case '-[DubbingEditorTests.PlaybackWaveformProjectionServiceTests testProjectToTimelineTruncatesAndStretchesWhenExternalAudioIsLonger]' started.
+Test Case '-[DubbingEditorTests.PlaybackWaveformProjectionServiceTests testProjectToTimelineTruncatesAndStretchesWhenExternalAudioIsLonger]' passed (0.000 seconds).
+Test Suite 'PlaybackWaveformProjectionServiceTests' passed at 2026-04-20 05:56:24.114.
+	 Executed 3 tests, with 0 failures (0 unexpected) in 0.001 (0.001) seconds
+Test Suite 'ProjectServiceTests' started at 2026-04-20 05:56:24.114.
+Test Case '-[DubbingEditorTests.ProjectServiceTests testLoadLegacyViewSettingsDefaultsNewValidationFlagsToTrue]' started.
+Test Case '-[DubbingEditorTests.ProjectServiceTests testLoadLegacyViewSettingsDefaultsNewValidationFlagsToTrue]' passed (0.002 seconds).
+Test Case '-[DubbingEditorTests.ProjectServiceTests testLoadV1ProjectWithoutSettings]' started.
+Test Case '-[DubbingEditorTests.ProjectServiceTests testLoadV1ProjectWithoutSettings]' passed (0.001 seconds).
+Test Case '-[DubbingEditorTests.ProjectServiceTests testSaveAndLoadV6PreservesSettingsAndSpeakerColorOverrides]' started.
+Test Case '-[DubbingEditorTests.ProjectServiceTests testSaveAndLoadV6PreservesSettingsAndSpeakerColorOverrides]' passed (0.006 seconds).
+Test Suite 'ProjectServiceTests' passed at 2026-04-20 05:56:24.123.
+	 Executed 3 tests, with 0 failures (0 unexpected) in 0.008 (0.009) seconds
+Test Suite 'ProjectWorkTrackerTests' started at 2026-04-20 05:56:24.123.
+Test Case '-[DubbingEditorTests.ProjectWorkTrackerTests testRestorePersistedSecondsResetsTransientSessionState]' started.
+Test Case '-[DubbingEditorTests.ProjectWorkTrackerTests testRestorePersistedSecondsResetsTransientSessionState]' passed (0.000 seconds).
+Test Case '-[DubbingEditorTests.ProjectWorkTrackerTests testTrackerCountsOnlyWhileWindowIsActiveAndActivityIsFresh]' started.
+Test Case '-[DubbingEditorTests.ProjectWorkTrackerTests testTrackerCountsOnlyWhileWindowIsActiveAndActivityIsFresh]' passed (0.000 seconds).
+Test Case '-[DubbingEditorTests.ProjectWorkTrackerTests testTrackerPausesImmediatelyWhenWindowResignsActive]' started.
+Test Case '-[DubbingEditorTests.ProjectWorkTrackerTests testTrackerPausesImmediatelyWhenWindowResignsActive]' passed (0.000 seconds).
+Test Suite 'ProjectWorkTrackerTests' passed at 2026-04-20 05:56:24.124.
+	 Executed 3 tests, with 0 failures (0 unexpected) in 0.001 (0.001) seconds
+Test Suite 'SpeakerAppearanceServiceTests' started at 2026-04-20 05:56:24.124.
+Test Case '-[DubbingEditorTests.SpeakerAppearanceServiceTests testDefaultPaletteAssignmentIsDeterministic]' started.
+Test Case '-[DubbingEditorTests.SpeakerAppearanceServiceTests testDefaultPaletteAssignmentIsDeterministic]' passed (0.000 seconds).
+Test Case '-[DubbingEditorTests.SpeakerAppearanceServiceTests testNormalizedSpeakerKeyCollapsesWhitespaceAndUppercases]' started.
+Test Case '-[DubbingEditorTests.SpeakerAppearanceServiceTests testNormalizedSpeakerKeyCollapsesWhitespaceAndUppercases]' passed (0.000 seconds).
+Test Case '-[DubbingEditorTests.SpeakerAppearanceServiceTests testResolvedAppearancePrefersOverride]' started.
+Test Case '-[DubbingEditorTests.SpeakerAppearanceServiceTests testResolvedAppearancePrefersOverride]' passed (0.000 seconds).
+Test Suite 'SpeakerAppearanceServiceTests' passed at 2026-04-20 05:56:24.125.
+	 Executed 3 tests, with 0 failures (0 unexpected) in 0.001 (0.001) seconds
+Test Suite 'SpeakerSuggestionOverlayTests' started at 2026-04-20 05:56:24.125.
+Test Case '-[DubbingEditorTests.SpeakerSuggestionOverlayTests testDismissKeepsPopupClosedUntilQueryChanges]' started.
+Test Case '-[DubbingEditorTests.SpeakerSuggestionOverlayTests testDismissKeepsPopupClosedUntilQueryChanges]' passed (0.000 seconds).
+Test Case '-[DubbingEditorTests.SpeakerSuggestionOverlayTests testMoveDownFromNilSelectsFirstSuggestion]' started.
+Test Case '-[DubbingEditorTests.SpeakerSuggestionOverlayTests testMoveDownFromNilSelectsFirstSuggestion]' passed (0.000 seconds).
+Test Case '-[DubbingEditorTests.SpeakerSuggestionOverlayTests testMoveUpFromNilSelectsLastSuggestion]' started.
+Test Case '-[DubbingEditorTests.SpeakerSuggestionOverlayTests testMoveUpFromNilSelectsLastSuggestion]' passed (0.000 seconds).
+Test Case '-[DubbingEditorTests.SpeakerSuggestionOverlayTests testOverlayUsesScrollingListAboveVisibleRowLimit]' started.
+Test Case '-[DubbingEditorTests.SpeakerSuggestionOverlayTests testOverlayUsesScrollingListAboveVisibleRowLimit]' passed (0.000 seconds).
+Test Case '-[DubbingEditorTests.SpeakerSuggestionOverlayTests testOverlayUsesStaticListAtOrBelowVisibleRowLimit]' started.
+Test Case '-[DubbingEditorTests.SpeakerSuggestionOverlayTests testOverlayUsesStaticListAtOrBelowVisibleRowLimit]' passed (0.000 seconds).
+Test Case '-[DubbingEditorTests.SpeakerSuggestionOverlayTests testQueryChangeResetsSelectedIndex]' started.
+Test Case '-[DubbingEditorTests.SpeakerSuggestionOverlayTests testQueryChangeResetsSelectedIndex]' passed (0.000 seconds).
+Test Case '-[DubbingEditorTests.SpeakerSuggestionOverlayTests testSuggestionForCommitFallsBackToFirstSuggestion]' started.
+Test Case '-[DubbingEditorTests.SpeakerSuggestionOverlayTests testSuggestionForCommitFallsBackToFirstSuggestion]' passed (0.000 seconds).
+Test Case '-[DubbingEditorTests.SpeakerSuggestionOverlayTests testSuggestionForCommitPrefersExplicitIndex]' started.
+Test Case '-[DubbingEditorTests.SpeakerSuggestionOverlayTests testSuggestionForCommitPrefersExplicitIndex]' passed (0.000 seconds).
+Test Suite 'SpeakerSuggestionOverlayTests' passed at 2026-04-20 05:56:24.127.
+	 Executed 8 tests, with 0 failures (0 unexpected) in 0.001 (0.002) seconds
+Test Suite 'TimecodeServiceTests' started at 2026-04-20 05:56:24.127.
+Test Case '-[DubbingEditorTests.TimecodeServiceTests testDisplayTimecodeDropsFramesWithoutChangingVisibleFormat]' started.
+Test Case '-[DubbingEditorTests.TimecodeServiceTests testDisplayTimecodeDropsFramesWithoutChangingVisibleFormat]' passed (0.000 seconds).
+Test Case '-[DubbingEditorTests.TimecodeServiceTests testOffsetParsesSignedSeconds]' started.
+Test Case '-[DubbingEditorTests.TimecodeServiceTests testOffsetParsesSignedSeconds]' passed (0.000 seconds).
+Test Case '-[DubbingEditorTests.TimecodeServiceTests testOffsetParsesSignedTimecode]' started.
+Test Case '-[DubbingEditorTests.TimecodeServiceTests testOffsetParsesSignedTimecode]' passed (0.000 seconds).
+Test Case '-[DubbingEditorTests.TimecodeServiceTests testOffsetRejectsInvalidValues]' started.
+Test Case '-[DubbingEditorTests.TimecodeServiceTests testOffsetRejectsInvalidValues]' passed (0.000 seconds).
+Test Case '-[DubbingEditorTests.TimecodeServiceTests testSecondsParsesClockTimecode]' started.
+Test Case '-[DubbingEditorTests.TimecodeServiceTests testSecondsParsesClockTimecode]' passed (0.000 seconds).
+Test Case '-[DubbingEditorTests.TimecodeServiceTests testSecondsParsesFrameTimecode]' started.
+Test Case '-[DubbingEditorTests.TimecodeServiceTests testSecondsParsesFrameTimecode]' passed (0.000 seconds).
+Test Case '-[DubbingEditorTests.TimecodeServiceTests testSecondsParsesMillisecondTimecode]' started.
+Test Case '-[DubbingEditorTests.TimecodeServiceTests testSecondsParsesMillisecondTimecode]' passed (0.000 seconds).
+Test Case '-[DubbingEditorTests.TimecodeServiceTests testSecondsParsesMillisecondTimecodeWithComma]' started.
+Test Case '-[DubbingEditorTests.TimecodeServiceTests testSecondsParsesMillisecondTimecodeWithComma]' passed (0.000 seconds).
+Test Case '-[DubbingEditorTests.TimecodeServiceTests testSecondsParsesMinuteSecondTimecode]' started.
+Test Case '-[DubbingEditorTests.TimecodeServiceTests testSecondsParsesMinuteSecondTimecode]' passed (0.000 seconds).
+Test Case '-[DubbingEditorTests.TimecodeServiceTests testTimecodeFromSecondsClampsToZero]' started.
+Test Case '-[DubbingEditorTests.TimecodeServiceTests testTimecodeFromSecondsClampsToZero]' passed (0.000 seconds).
+Test Case '-[DubbingEditorTests.TimecodeServiceTests testTimecodeFromSecondsIncludesFrames]' started.
+Test Case '-[DubbingEditorTests.TimecodeServiceTests testTimecodeFromSecondsIncludesFrames]' passed (0.000 seconds).
+Test Case '-[DubbingEditorTests.TimecodeServiceTests testTimecodeWithoutFramesDropsFrameComponent]' started.
+Test Case '-[DubbingEditorTests.TimecodeServiceTests testTimecodeWithoutFramesDropsFrameComponent]' passed (0.000 seconds).
+Test Suite 'TimecodeServiceTests' passed at 2026-04-20 05:56:24.129.
+	 Executed 12 tests, with 0 failures (0 unexpected) in 0.002 (0.002) seconds
+Test Suite 'WordExportPipelineServiceTests' started at 2026-04-20 05:56:24.129.
+Test Case '-[DubbingEditorTests.WordExportPipelineServiceTests testBuildDraftCanUseEndTimecodeSource]' started.
+Test Case '-[DubbingEditorTests.WordExportPipelineServiceTests testBuildDraftCanUseEndTimecodeSource]' passed (0.000 seconds).
+Test Case '-[DubbingEditorTests.WordExportPipelineServiceTests testBuildDraftKeepsSpeakerOnlyRows]' started.
+Test Case '-[DubbingEditorTests.WordExportPipelineServiceTests testBuildDraftKeepsSpeakerOnlyRows]' passed (0.000 seconds).
+Test Case '-[DubbingEditorTests.WordExportPipelineServiceTests testBuildDraftMapsRowsToSpeakerTimecodeTextOrder]' started.
+Test Case '-[DubbingEditorTests.WordExportPipelineServiceTests testBuildDraftMapsRowsToSpeakerTimecodeTextOrder]' passed (0.000 seconds).
+Test Case '-[DubbingEditorTests.WordExportPipelineServiceTests testBuildDraftSkipsCompletelyEmptyRowsByDefault]' started.
+Test Case '-[DubbingEditorTests.WordExportPipelineServiceTests testBuildDraftSkipsCompletelyEmptyRowsByDefault]' passed (0.000 seconds).
+Test Case '-[DubbingEditorTests.WordExportPipelineServiceTests testTimecodeFormattingFallsBackToRawForInvalidTimecode]' started.
+Test Case '-[DubbingEditorTests.WordExportPipelineServiceTests testTimecodeFormattingFallsBackToRawForInvalidTimecode]' passed (0.000 seconds).
+Test Case '-[DubbingEditorTests.WordExportPipelineServiceTests testTimecodeFormattingHonorsSelectedComponents]' started.
+Test Case '-[DubbingEditorTests.WordExportPipelineServiceTests testTimecodeFormattingHonorsSelectedComponents]' passed (0.000 seconds).
+Test Suite 'WordExportPipelineServiceTests' passed at 2026-04-20 05:56:24.131.
+	 Executed 6 tests, with 0 failures (0 unexpected) in 0.001 (0.001) seconds
+Test Suite 'WordExportServiceTests' started at 2026-04-20 05:56:24.131.
+Test Case '-[DubbingEditorTests.WordExportServiceTests testExportDocxCreatesOutputFile]' started.
+Test Case '-[DubbingEditorTests.WordExportServiceTests testExportDocxCreatesOutputFile]' passed (0.030 seconds).
+Test Case '-[DubbingEditorTests.WordExportServiceTests testExportDocxFailsForEmptyDraft]' started.
+Test Case '-[DubbingEditorTests.WordExportServiceTests testExportDocxFailsForEmptyDraft]' passed (0.000 seconds).
+Test Case '-[DubbingEditorTests.WordExportServiceTests testExportDocxIyunoContainsWordTable]' started.
+Test Case '-[DubbingEditorTests.WordExportServiceTests testExportDocxIyunoContainsWordTable]' passed (0.025 seconds).
+Test Case '-[DubbingEditorTests.WordExportServiceTests testMakeIyunoDocumentXMLContainsTableRows]' started.
+Test Case '-[DubbingEditorTests.WordExportServiceTests testMakeIyunoDocumentXMLContainsTableRows]' passed (0.001 seconds).
+Test Case '-[DubbingEditorTests.WordExportServiceTests testMakePlainTextDocumentUsesTabSeparatedRowsAndTrailingNewline]' started.
+Test Case '-[DubbingEditorTests.WordExportServiceTests testMakePlainTextDocumentUsesTabSeparatedRowsAndTrailingNewline]' passed (0.000 seconds).
+Test Suite 'WordExportServiceTests' passed at 2026-04-20 05:56:24.187.
+	 Executed 5 tests, with 0 failures (0 unexpected) in 0.056 (0.057) seconds
+Test Suite 'WordImportServiceTests' started at 2026-04-20 05:56:24.187.
+Test Case '-[DubbingEditorTests.WordImportServiceTests testFormatDetectorDetectsClassicTabsProfile]' started.
+Test Case '-[DubbingEditorTests.WordImportServiceTests testFormatDetectorDetectsClassicTabsProfile]' passed (0.000 seconds).
+Test Case '-[DubbingEditorTests.WordImportServiceTests testFormatDetectorDetectsIyunoTableProfile]' started.
+Test Case '-[DubbingEditorTests.WordImportServiceTests testFormatDetectorDetectsIyunoTableProfile]' passed (0.000 seconds).
+Test Case '-[DubbingEditorTests.WordImportServiceTests testFormatDetectorFallsBackToUnknown]' started.
+Test Case '-[DubbingEditorTests.WordImportServiceTests testFormatDetectorFallsBackToUnknown]' passed (0.000 seconds).
+Test Case '-[DubbingEditorTests.WordImportServiceTests testImportClassicIncludesRowsWithoutSpeaker]' started.
+Test Case '-[DubbingEditorTests.WordImportServiceTests testImportClassicIncludesRowsWithoutSpeaker]' passed (0.000 seconds).
+Test Case '-[DubbingEditorTests.WordImportServiceTests testImportClassicSkipsLeadingPreambleRows]' started.
+Test Case '-[DubbingEditorTests.WordImportServiceTests testImportClassicSkipsLeadingPreambleRows]' passed (0.001 seconds).
+Test Case '-[DubbingEditorTests.WordImportServiceTests testImportIyunoDoesNotDropDialogueContainingKonecWord]' started.
+Test Case '-[DubbingEditorTests.WordImportServiceTests testImportIyunoDoesNotDropDialogueContainingKonecWord]' passed (0.000 seconds).
+Test Case '-[DubbingEditorTests.WordImportServiceTests testImportIyunoIncludesRowsWithoutTimecodeAndWithoutSpeaker]' started.
+Test Case '-[DubbingEditorTests.WordImportServiceTests testImportIyunoIncludesRowsWithoutTimecodeAndWithoutSpeaker]' passed (0.001 seconds).
+Test Case '-[DubbingEditorTests.WordImportServiceTests testImportIyunoParagraphSkipsLeadingMetadata]' started.
+Test Case '-[DubbingEditorTests.WordImportServiceTests testImportIyunoParagraphSkipsLeadingMetadata]' passed (0.001 seconds).
+Test Case '-[DubbingEditorTests.WordImportServiceTests testImportIyunoParagraphTreatsHashSpeakerAsSpeaker]' started.
+Test Case '-[DubbingEditorTests.WordImportServiceTests testImportIyunoParagraphTreatsHashSpeakerAsSpeaker]' passed (0.001 seconds).
+Test Case '-[DubbingEditorTests.WordImportServiceTests testImportIyunoParagraphTreatsInsertLabelAsSpeaker]' started.
+Test Case '-[DubbingEditorTests.WordImportServiceTests testImportIyunoParagraphTreatsInsertLabelAsSpeaker]' passed (0.000 seconds).
+Test Case '-[DubbingEditorTests.WordImportServiceTests testInspectPipelineUsesDetectorResult]' started.
+Test Case '-[DubbingEditorTests.WordImportServiceTests testInspectPipelineUsesDetectorResult]' passed (0.000 seconds).
+Test Suite 'WordImportServiceTests' passed at 2026-04-20 05:56:24.193.
+	 Executed 11 tests, with 0 failures (0 unexpected) in 0.005 (0.005) seconds
+Test Suite 'DubbingEditorPackageTests.xctest' passed at 2026-04-20 05:56:24.193.
+	 Executed 113 tests, with 0 failures (0 unexpected) in 1.587 (1.597) seconds
+Test Suite 'All tests' passed at 2026-04-20 05:56:24.193.
+	 Executed 113 tests, with 0 failures (0 unexpected) in 1.587 (1.597) seconds
+=== STRUCTURE DEBUG ===
+timestamp=2026-04-20T03:56:22.828Z
+event=deleteLines(withIDs:)
+count.before=4
+count.after=2
+delta=-2
+before.selected=#3 [716BD766] spk='C' tc='' txt='Three'
+before.highlighted=<nil>
+before.anchor=<nil>
+before.selectedLineIDs=#2 [C6490014] spk='B' tc='' txt='Two' | #3 [716BD766] spk='C' tc='' txt='Three'
+after.selected=#2 [1CF360CB] spk='D' tc='' txt='Four'
+after.highlighted=#2 [1CF360CB] spk='D' tc='' txt='Four'
+after.anchor=#2 [1CF360CB] spk='D' tc='' txt='Four'
+after.selectedLineIDs=#2 [1CF360CB] spk='D' tc='' txt='Four'
+details=deletedCount=2 targets=#2 [C6490014] spk='B' tc='' txt='Two' | #3 [716BD766] spk='C' tc='' txt='Three'
+=== STRUCTURE DEBUG ===
+timestamp=2026-04-20T03:56:22.829Z
+event=insertNewLineAfterSelection
+count.before=3
+count.after=4
+delta=1
+before.selected=#8 [153AEC1F] spk='B' tc='00:00:10:00' txt='Druha'
+before.highlighted=<nil>
+before.anchor=<nil>
+before.selectedLineIDs=
+after.selected=#3 [8DA1BC0A] spk='' tc='00:00:15:00' txt='<empty>'
+after.highlighted=#3 [8DA1BC0A] spk='' tc='00:00:15:00' txt='<empty>'
+after.anchor=#3 [8DA1BC0A] spk='' tc='00:00:15:00' txt='<empty>'
+after.selectedLineIDs=#3 [8DA1BC0A] spk='' tc='00:00:15:00' txt='<empty>'
+details=inserted=#3 [8DA1BC0A] spk='' tc='00:00:15:00' txt='<empty>'
+=== STRUCTURE DEBUG ===
+timestamp=2026-04-20T03:56:22.830Z
+event=insertNewLineAfterSelection
+count.before=2
+count.after=3
+delta=1
+before.selected=#2 [FF843719] spk='B' tc='' txt='Two'
+before.highlighted=<nil>
+before.anchor=<nil>
+before.selectedLineIDs=
+after.selected=#3 [63AF47AF] spk='' tc='00:00:17:00' txt='<empty>'
+after.highlighted=#3 [63AF47AF] spk='' tc='00:00:17:00' txt='<empty>'
+after.anchor=#3 [63AF47AF] spk='' tc='00:00:17:00' txt='<empty>'
+after.selectedLineIDs=#3 [63AF47AF] spk='' tc='00:00:17:00' txt='<empty>'
+details=inserted=#3 [63AF47AF] spk='' tc='00:00:17:00' txt='<empty>'
+=== STRUCTURE DEBUG ===
+timestamp=2026-04-20T03:56:22.959Z
+event=insertNewLineAfterSelection
+count.before=1
+count.after=2
+delta=1
+before.selected=#1 [466FE3AE] spk='A' tc='00:00:01:00' txt='One'
+before.highlighted=<nil>
+before.anchor=<nil>
+before.selectedLineIDs=
+after.selected=#2 [2687C02D] spk='' tc='00:00:43:17' txt='<empty>'
+after.highlighted=#2 [2687C02D] spk='' tc='00:00:43:17' txt='<empty>'
+after.anchor=#2 [2687C02D] spk='' tc='00:00:43:17' txt='<empty>'
+after.selectedLineIDs=#2 [2687C02D] spk='' tc='00:00:43:17' txt='<empty>'
+details=inserted=#2 [2687C02D] spk='' tc='00:00:43:17' txt='<empty>'
+=== STRUCTURE DEBUG ===
+timestamp=2026-04-20T03:56:23.088Z
+event=insertNewLineAfterSelection
+count.before=1
+count.after=2
+delta=1
+before.selected=#1 [369E1A32] spk='A' tc='00:00:01:00' txt='One'
+before.highlighted=<nil>
+before.anchor=<nil>
+before.selectedLineIDs=
+after.selected=#2 [B1E5F5B5] spk='' tc='00:00:10:11' txt='<empty>'
+after.highlighted=#2 [B1E5F5B5] spk='' tc='00:00:10:11' txt='<empty>'
+after.anchor=#2 [B1E5F5B5] spk='' tc='00:00:10:11' txt='<empty>'
+after.selectedLineIDs=#2 [B1E5F5B5] spk='' tc='00:00:10:11' txt='<empty>'
+details=inserted=#2 [B1E5F5B5] spk='' tc='00:00:10:11' txt='<empty>'
+=== STRUCTURE DEBUG ===
+timestamp=2026-04-20T03:56:23.213Z
+event=insertNewLineAfterSelection
+count.before=1
+count.after=2
+delta=1
+before.selected=#1 [06D9056E] spk='A' tc='00:00:03:00' txt='One'
+before.highlighted=<nil>
+before.anchor=<nil>
+before.selectedLineIDs=
+after.selected=#2 [C385478A] spk='' tc='00:00:00:00' txt='<empty>'
+after.highlighted=#2 [C385478A] spk='' tc='00:00:00:00' txt='<empty>'
+after.anchor=#2 [C385478A] spk='' tc='00:00:00:00' txt='<empty>'
+after.selectedLineIDs=#2 [C385478A] spk='' tc='00:00:00:00' txt='<empty>'
+details=inserted=#2 [C385478A] spk='' tc='00:00:00:00' txt='<empty>'
+=== STRUCTURE DEBUG ===
+timestamp=2026-04-20T03:56:23.341Z
+event=insertNewLineAfterSelection
+count.before=1
+count.after=2
+delta=1
+before.selected=#1 [42466D5F] spk='A' tc='00:00:03:00' txt='One'
+before.highlighted=<nil>
+before.anchor=<nil>
+before.selectedLineIDs=
+after.selected=#2 [A81C3F3A] spk='' tc='00:00:11:05' txt='<empty>'
+after.highlighted=#2 [A81C3F3A] spk='' tc='00:00:11:05' txt='<empty>'
+after.anchor=#2 [A81C3F3A] spk='' tc='00:00:11:05' txt='<empty>'
+after.selectedLineIDs=#2 [A81C3F3A] spk='' tc='00:00:11:05' txt='<empty>'
+details=inserted=#2 [A81C3F3A] spk='' tc='00:00:11:05' txt='<empty>'
+=== STRUCTURE DEBUG ===
+timestamp=2026-04-20T03:56:23.344Z
+event=insertNewLineAfterSelection
+count.before=2
+count.after=3
+delta=1
+before.selected=#2 [212FD54F] spk='B' tc='' txt='Two'
+before.highlighted=<nil>
+before.anchor=<nil>
+before.selectedLineIDs=
+after.selected=#3 [EF00BD21] spk='' tc='00:00:17:00' txt='<empty>'
+after.highlighted=#3 [EF00BD21] spk='' tc='00:00:17:00' txt='<empty>'
+after.anchor=#3 [EF00BD21] spk='' tc='00:00:17:00' txt='<empty>'
+after.selectedLineIDs=#3 [EF00BD21] spk='' tc='00:00:17:00' txt='<empty>'
+details=inserted=#3 [EF00BD21] spk='' tc='00:00:17:00' txt='<empty>'
+=== STRUCTURE DEBUG ===
+timestamp=2026-04-20T03:56:23.346Z
+event=insertNewLineAfterSelection
+count.before=2
+count.after=3
+delta=1
+before.selected=<nil>
+before.highlighted=<nil>
+before.anchor=<nil>
+before.selectedLineIDs=
+after.selected=#3 [FE4AFA77] spk='' tc='00:00:14:00' txt='<empty>'
+after.highlighted=#3 [FE4AFA77] spk='' tc='00:00:14:00' txt='<empty>'
+after.anchor=#3 [FE4AFA77] spk='' tc='00:00:14:00' txt='<empty>'
+after.selectedLineIDs=#3 [FE4AFA77] spk='' tc='00:00:14:00' txt='<empty>'
+details=inserted=#3 [FE4AFA77] spk='' tc='00:00:14:00' txt='<empty>'
+◇ Test run started.
+↳ Testing Library Version: 1743
+↳ Target Platform: arm64e-apple-macos14.0
+✔ Test run with 0 tests in 0 suites passed after 0.001 seconds.

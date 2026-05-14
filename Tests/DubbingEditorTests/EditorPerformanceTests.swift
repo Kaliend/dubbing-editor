@@ -76,7 +76,7 @@ final class EditorPerformanceTests: XCTestCase {
                 lines: originalLines,
                 findQuery: "desai",
                 showValidationIssues: true,
-                showOnlyIssues: true
+                showOnlyIssues: false
             )
         )
 
@@ -88,7 +88,7 @@ final class EditorPerformanceTests: XCTestCase {
                 lines: updatedLines,
                 findQuery: "desai",
                 showValidationIssues: true,
-                showOnlyIssues: true
+                showOnlyIssues: false
             )
         )
         coordinator.rebuildDisplayedIndicesAndIssueCount(
@@ -97,7 +97,7 @@ final class EditorPerformanceTests: XCTestCase {
                 lines: updatedLines,
                 findQuery: "desai",
                 showValidationIssues: true,
-                showOnlyIssues: true
+                showOnlyIssues: false
             )
         )
         coordinator.rebuildSearch(
@@ -106,7 +106,7 @@ final class EditorPerformanceTests: XCTestCase {
                 lines: updatedLines,
                 findQuery: "desai",
                 showValidationIssues: true,
-                showOnlyIssues: true
+                showOnlyIssues: false
             )
         )
         let elapsed = CFAbsoluteTimeGetCurrent() - started
@@ -140,8 +140,6 @@ final class EditorPerformanceTests: XCTestCase {
         (1...count).map { idx in
             let second = idx % 3_000
             let start = String(format: "00:%02d:%02d:00", (second / 60) % 60, second % 60)
-            let endSecond = min(second + 2, 3_599)
-            let end = String(format: "00:%02d:%02d:00", (endSecond / 60) % 60, endSecond % 60)
 
             return DialogueLine(
                 id: idx == 1 ? (firstLineID ?? UUID()) : UUID(),
@@ -149,7 +147,7 @@ final class EditorPerformanceTests: XCTestCase {
                 speaker: idx.isMultiple(of: 2) ? "VERONIKA" : "TOMAS",
                 text: "Takže replika \(idx) Takze test vykonu pro hledani a nahrazeni.",
                 startTimecode: start,
-                endTimecode: end
+                endTimecode: ""
             )
         }
     }

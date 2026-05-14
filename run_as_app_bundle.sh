@@ -39,12 +39,30 @@ MACOS_DIR="$CONTENTS_DIR/MacOS"
 RESOURCES_DIR="$CONTENTS_DIR/Resources"
 PLIST_PATH="$CONTENTS_DIR/Info.plist"
 BINARY_PATH="$ROOT_DIR/.build/$BUILD_CONFIG/$APP_NAME"
+RESOURCE_SEARCH_ROOT="$ROOT_DIR/.build"
+
+copy_resource_bundles() {
+    local destination_dir="$1"
+    local search_root="$2"
+    local copied=0
+
+    while IFS= read -r -d '' bundle_path; do
+        cp -R "$bundle_path" "$destination_dir/"
+        copied=1
+    done < <(find "$search_root" -type d -name "${APP_NAME}_*.bundle" -print0)
+
+    if [[ $copied -eq 0 ]]; then
+        echo "Missing resource bundle for $APP_NAME under $search_root" >&2
+        exit 1
+    fi
+}
 
 rm -rf "$APP_BUNDLE"
 mkdir -p "$MACOS_DIR" "$RESOURCES_DIR"
 
 cp "$BINARY_PATH" "$MACOS_DIR/$APP_NAME"
 cp "$ICON_PATH" "$RESOURCES_DIR/AppIcon.icns"
+copy_resource_bundles "$RESOURCES_DIR" "$RESOURCE_SEARCH_ROOT"
 
 cat > "$PLIST_PATH" <<'PLIST'
 <?xml version="1.0" encoding="UTF-8"?>
@@ -52,7 +70,7 @@ cat > "$PLIST_PATH" <<'PLIST'
 <plist version="1.0">
 <dict>
     <key>CFBundleDevelopmentRegion</key>
-    <string>en</string>
+    <string>cs</string>
     <key>CFBundleExecutable</key>
     <string>DubbingEditor</string>
     <key>CFBundleIconFile</key>
@@ -61,6 +79,11 @@ cat > "$PLIST_PATH" <<'PLIST'
     <string>local.dubbingeditor.bundle</string>
     <key>CFBundleInfoDictionaryVersion</key>
     <string>6.0</string>
+    <key>CFBundleLocalizations</key>
+    <array>
+        <string>cs</string>
+        <string>en</string>
+    </array>
     <key>CFBundleName</key>
     <string>DubbingEditor</string>
     <key>CFBundlePackageType</key>

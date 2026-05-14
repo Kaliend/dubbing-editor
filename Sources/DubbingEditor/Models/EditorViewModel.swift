@@ -154,6 +154,26 @@ final class EditorViewModel: ObservableObject {
         let externalAudioTrackID: CMPersistentTrackID?
     }
 
+    private enum PlaybackSignpostKind {
+        case replayRequest
+        case playbackSeek
+        case playbackPlay
+        case playbackPause
+
+        var signpostName: StaticString {
+            switch self {
+            case .replayRequest:
+                return "ReplayRequest"
+            case .playbackSeek:
+                return "PlaybackSeek"
+            case .playbackPlay:
+                return "PlaybackPlayCall"
+            case .playbackPause:
+                return "PlaybackPauseCall"
+            }
+        }
+    }
+
     private static let lightModeDefaultsKey = "performance_light_mode"
     private static let devModeDefaultsKey = "developer_mode_enabled"
     private static let hideTimecodeFramesDefaultsKey = "view_hide_timecode_frames"
@@ -166,6 +186,7 @@ final class EditorViewModel: ObservableObject {
     private static let playbackSeekStepDefaultsKey = "playback_seek_step_seconds"
     private static let replayPrerollEnabledDefaultsKey = "replay_preroll_enabled"
     private static let videoOffsetDefaultsKey = "video_offset_seconds"
+    private static let videoDriftSecondsPerHourDefaultsKey = "video_drift_seconds_per_hour"
     private static let muteLeftChannelDefaultsKey = "audio_mute_left_channel"
     private static let muteRightChannelDefaultsKey = "audio_mute_right_channel"
     private static let replicaTextFontSizeDefaultsKey = "replica_text_font_size_pt"
@@ -185,11 +206,20 @@ final class EditorViewModel: ObservableObject {
     private static let maxPlaybackSeekStepSeconds: Double = 60
     private static let minVideoOffsetSeconds: Double = -86_400
     private static let maxVideoOffsetSeconds: Double = 86_400
+    private static let minVideoDriftSecondsPerHour: Double = -600
+    private static let maxVideoDriftSecondsPerHour: Double = 600
     private static let minSupportedFPS: Double = 1
     private static let maxSupportedFPS: Double = 240
     private static let fpsPresetSnapTolerance: Double = 0.05
     private static let maxRecentProjectsCount = 12
     private static let replicaClipboardType = NSPasteboard.PasteboardType("local.dubbingeditor.replicas.json")
+    static let supportedVideoImportContentTypes: [UTType] = [
+        .mpeg4Movie,
+        .quickTimeMovie,
+        UTType(filenameExtension: "mpg"),
+        UTType(filenameExtension: "mpeg"),
+        UTType(filenameExtension: "mpe")
+    ].compactMap { $0 }
     private static let backspaceDebugLogURL = URL(fileURLWithPath: "/tmp/dubbingeditor-backspace-debug.log")
     private static let backspaceDebugAltLogURL = URL(fileURLWithPath: NSTemporaryDirectory(), isDirectory: true)
         .appendingPathComponent("dubbingeditor-backspace-debug.log")
@@ -339,6 +369,17 @@ final class EditorViewModel: ObservableObject {
             UserDefaults.standard.set(sanitized, forKey: Self.videoOffsetDefaultsKey)
         }
     }
+    @Published var videoDriftSecondsPerHour: Double {
+        didSet {
+            let sanitized = Self.sanitizeVideoDriftSecondsPerHour(videoDriftSecondsPerHour)
+            if sanitized != videoDriftSecondsPerHour {
+                videoDriftSecondsPerHour = sanitized
+                return
+            }
+            guard sanitized != oldValue else { return }
+            UserDefaults.standard.set(sanitized, forKey: Self.videoDriftSecondsPerHourDefaultsKey)
+        }
+    }
     @Published var isLeftChannelMuted: Bool {
         didSet {
             guard isLeftChannelMuted != oldValue else { return }
@@ -384,6 +425,7 @@ final class EditorViewModel: ObservableObject {
     private var autosaveTask: Task<Void, Never>?
     private var waveformTask: Task<Void, Never>?
     private var projectIOTask: Task<Void, Never>?
+    private var projectWorkSession: ProjectWorkSession?
     private var activeProjectOperationID: UUID?
     private var isLoopSeekInFlight = false
     private var isApplyingHistoryState = false
@@ -401,6 +443,10 @@ final class EditorViewModel: ObservableObject {
     private var didCheckAutosaveRecovery = false
     private var playerItemStatusObservation: NSKeyValueObservation?
     private var playerTimeControlObservation: NSKeyValueObservation?
+    private var playerWaitingReasonObservation: NSKeyValueObservation?
+    private var playerItemBufferEmptyObservation: NSKeyValueObservation?
+    private var playerItemBufferFullObservation: NSKeyValueObservation?
+    private var playerItemLikelyToKeepUpObservation: NSKeyValueObservation?
     private var audioMixTask: Task<Void, Never>?
     private var audioChannelDetectionTask: Task<Void, Never>?
     private var videoFPSDetectionTask: Task<Void, Never>?
@@ -479,6 +525,8 @@ final class EditorViewModel: ObservableObject {
         }
         let storedVideoOffset = UserDefaults.standard.double(forKey: Self.videoOffsetDefaultsKey)
         videoOffsetSeconds = Self.sanitizeVideoOffsetSeconds(storedVideoOffset)
+        let storedVideoDrift = UserDefaults.standard.double(forKey: Self.videoDriftSecondsPerHourDefaultsKey)
+        videoDriftSecondsPerHour = Self.sanitizeVideoDriftSecondsPerHour(storedVideoDrift)
         isLeftChannelMuted = UserDefaults.standard.bool(forKey: Self.muteLeftChannelDefaultsKey)
         isRightChannelMuted = UserDefaults.standard.bool(forKey: Self.muteRightChannelDefaultsKey)
         if UserDefaults.standard.object(forKey: Self.replicaTextFontSizeDefaultsKey) == nil {
@@ -501,7 +549,43 @@ final class EditorViewModel: ObservableObject {
         videoFPSDetectionTask?.cancel()
         playbackSourceTask?.cancel()
         playerItemStatusObservation?.invalidate()
+        playerItemBufferEmptyObservation?.invalidate()
+        playerItemBufferFullObservation?.invalidate()
+        playerItemLikelyToKeepUpObservation?.invalidate()
         playerTimeControlObservation?.invalidate()
+        playerWaitingReasonObservation?.invalidate()
+    }
+
+    private func applyImportedTranscript(
+        lines importedLines: [DialogueLine],
+        sourceURL: URL
+    ) {
+        lines = importedLines
+        applySpeakerColorOverrides(nil)
+        rebuildSpeakerDatabase(from: importedLines)
+        documentTitle = sourceURL.deletingPathExtension().lastPathComponent
+        sourceWordURL = sourceURL
+        currentProjectURL = nil
+
+        if let first = importedLines.first {
+            selectedLineID = first.id
+            selectedLineIDs = [first.id]
+            selectionAnchorLineID = first.id
+            highlightedLineID = first.id
+        } else {
+            selectedLineID = nil
+            selectedLineIDs = []
+            selectionAnchorLineID = nil
+            highlightedLineID = nil
+        }
+
+        pendingRestoreLineID = selectedLineID
+        editingLineID = nil
+        isLoopEnabled = false
+        projectWorkSession?.resetPersistedSeconds(hasTrackedContext: true)
+        resetHistory(with: lines)
+        markProjectDirty()
+        scheduleAutosave()
     }
 
     func importWord(from url: URL) {
@@ -518,31 +602,7 @@ final class EditorViewModel: ObservableObject {
                 await MainActor.run { [weak self] in
                     guard let self else { return }
                     self.isImportingWord = false
-                    self.lines = result.lines
-                    self.applySpeakerColorOverrides(nil)
-                    self.rebuildSpeakerDatabase(from: result.lines)
-                    self.documentTitle = url.deletingPathExtension().lastPathComponent
-                    self.sourceWordURL = url
-                    self.currentProjectURL = nil
-
-                    if let first = result.lines.first {
-                        self.selectedLineID = first.id
-                        self.selectedLineIDs = [first.id]
-                        self.selectionAnchorLineID = first.id
-                        self.highlightedLineID = first.id
-                    } else {
-                        self.selectedLineID = nil
-                        self.selectedLineIDs = []
-                        self.selectionAnchorLineID = nil
-                        self.highlightedLineID = nil
-                    }
-
-                    self.pendingRestoreLineID = self.selectedLineID
-                    self.editingLineID = nil
-                    self.isLoopEnabled = false
-                    self.resetHistory(with: self.lines)
-                    self.markProjectDirty()
-                    self.scheduleAutosave()
+                    self.applyImportedTranscript(lines: result.lines, sourceURL: url)
 
                     let convertedPrefix = result.convertedFromLegacyDoc
                         ? String(localized: "alert.doc_converted_prefix", bundle: .appBundle)
@@ -566,9 +626,52 @@ final class EditorViewModel: ObservableObject {
         }
     }
 
+    func importNetflixExcel(from url: URL) {
+        importTask?.cancel()
+        isImportingWord = true
+        alertMessage = nil
+        let importFPS = Self.sanitizedFPS(fps)
+
+        importTask = Task.detached(priority: .userInitiated) { [url] in
+            do {
+                let result = try NetflixExcelService().importLines(sourceURL: url, fps: importFPS)
+                try Task.checkCancellation()
+
+                await MainActor.run { [weak self] in
+                    guard let self else { return }
+                    self.isImportingWord = false
+                    self.applyImportedTranscript(lines: result.lines, sourceURL: url)
+
+                    let skippedInfo = result.skippedRowCount > 0
+                        ? String(format: String(localized: "alert.import_skipped_rows", bundle: .appBundle), result.skippedRowCount)
+                        : ""
+                    self.alertMessage = String(
+                        format: String(localized: "alert.import_excel_done", bundle: .appBundle),
+                        result.lines.count,
+                        skippedInfo
+                    )
+                }
+            } catch is CancellationError {
+                await MainActor.run { [weak self] in
+                    self?.isImportingWord = false
+                }
+            } catch {
+                await MainActor.run { [weak self] in
+                    guard let self else { return }
+                    self.isImportingWord = false
+                    self.alertMessage = String(
+                        format: String(localized: "alert.import_excel_failed", bundle: .appBundle),
+                        error.localizedDescription
+                    )
+                }
+            }
+        }
+    }
+
     func importVideo(from url: URL) {
         loadVideo(from: url)
         currentProjectURL = nil
+        projectWorkSession?.setHasTrackedContext(hasTrackedProjectContext)
         markProjectDirty()
         scheduleAutosave()
     }
@@ -588,6 +691,7 @@ final class EditorViewModel: ObservableObject {
             alertPrefix: String(localized: "alert.external_audio_import_failed", bundle: .appBundle)
         )
         currentProjectURL = nil
+        projectWorkSession?.setHasTrackedContext(hasTrackedProjectContext)
         markProjectDirty()
         scheduleAutosave()
     }
@@ -660,6 +764,16 @@ final class EditorViewModel: ObservableObject {
         scheduleAutosave(immediate: true)
     }
 
+    func attachProjectWorkSession(_ session: ProjectWorkSession) {
+        projectWorkSession = session
+        session.onTrackedWorkDidAccumulate = { [weak self] in
+            guard let self else { return }
+            self.markProjectDirty()
+            self.scheduleAutosave()
+        }
+        session.setHasTrackedContext(hasTrackedProjectContext)
+    }
+
     func handleAppWillTerminate() {
         autosaveTask?.cancel()
         waveformTask?.cancel()
@@ -712,30 +826,6 @@ final class EditorViewModel: ObservableObject {
         }
     }
 
-    func playbackDebugSnapshot(
-        itemOverride: AVPlayerItem? = nil,
-        currentSecondsOverride: Double? = nil,
-        audioMixPlanOverride: PlaybackCompositionService.AudioMixPlan? = nil
-    ) -> PlaybackDebugSnapshot {
-        let item = itemOverride ?? player.currentItem
-        let plan = audioMixPlanOverride ?? currentAudioMixPlanForDebug()
-        return PlaybackDebugSnapshot(
-            item: playbackDebugItemIdentifier(item),
-            timeControlStatus: playbackDebugTimeControlStatus(player.timeControlStatus),
-            currentSeconds: formatPlaybackSecondsForDebug(currentSecondsOverride ?? player.currentTime().seconds),
-            audioMix: item?.audioMix == nil ? "nil" : "nonNil",
-            videoMuted: playbackDebugBoolean(isVideoAudioMuted),
-            externalMuted: playbackDebugBoolean(isExternalAudioMuted),
-            muteL: playbackDebugBoolean(isLeftChannelMuted),
-            muteR: playbackDebugBoolean(isRightChannelMuted),
-            hasExternalAudio: playbackDebugBoolean(playbackSourceState?.externalAudioTrackID != nil),
-            tapActive: playbackDebugBoolean(plan?.applyStereoChannelMuteToVideoTrack == true),
-            tapForcedOff: playbackDebugBoolean(plan?.tapForcedOff == true),
-            videoTrackID: formatTrackIDForDebug(playbackSourceState?.videoAudioTrackID),
-            externalTrackID: formatTrackIDForDebug(playbackSourceState?.externalAudioTrackID)
-        )
-    }
-
     func logPlaybackDebugEvent(
         _ event: String,
         source: String,
@@ -745,30 +835,13 @@ final class EditorViewModel: ObservableObject {
         audioMixPlanOverride: PlaybackCompositionService.AudioMixPlan? = nil,
         extraFields: [(String, String?)] = []
     ) {
-        PlaybackDebugLogger.append(
-            enabled: isDevModeEnabled,
-            event: event,
-            source: source,
-            seekGeneration: seekGeneration ?? currentSeekGenerationForDebug(),
-            snapshot: playbackDebugSnapshot(
-                itemOverride: itemOverride,
-                currentSecondsOverride: currentSecondsOverride,
-                audioMixPlanOverride: audioMixPlanOverride
-            ),
-            extraFields: extraFields
-        )
-    }
-
-    nonisolated func playbackDebugSnapshotForUI(
-        itemOverride: AVPlayerItem? = nil,
-        currentSecondsOverride: Double? = nil
-    ) -> PlaybackDebugSnapshot {
-        MainActor.assumeIsolated {
-            playbackDebugSnapshot(
-                itemOverride: itemOverride,
-                currentSecondsOverride: currentSecondsOverride
-            )
-        }
+        _ = event
+        _ = source
+        _ = seekGeneration
+        _ = itemOverride
+        _ = currentSecondsOverride
+        _ = audioMixPlanOverride
+        _ = extraFields
     }
 
     nonisolated func logPlaybackDebugEventFromUI(
@@ -779,37 +852,64 @@ final class EditorViewModel: ObservableObject {
         currentSecondsOverride: Double? = nil,
         extraFields: [(String, String?)] = []
     ) {
-        MainActor.assumeIsolated {
-            logPlaybackDebugEvent(
-                event,
-                source: source,
-                seekGeneration: seekGeneration,
-                itemOverride: itemOverride,
-                currentSecondsOverride: currentSecondsOverride,
-                extraFields: extraFields
-            )
-        }
+        _ = event
+        _ = source
+        _ = seekGeneration
+        _ = itemOverride
+        _ = currentSecondsOverride
+        _ = extraFields
     }
 
     private func currentAudioMixPlanForDebug() -> PlaybackCompositionService.AudioMixPlan? {
-        guard let playbackSourceState else { return nil }
-        return PlaybackCompositionService.makeAudioMixPlan(
-            videoAudioTrackID: playbackSourceState.videoAudioTrackID,
-            externalAudioTrackID: playbackSourceState.externalAudioTrackID,
-            isVideoAudioMuted: isVideoAudioMuted,
-            isExternalAudioMuted: isExternalAudioMuted,
-            muteLeftChannel: isLeftChannelMuted,
-            muteRightChannel: isRightChannelMuted
-        )
+        nil
     }
 
-    private func currentSeekGenerationForDebug() -> UInt64? {
-        activeSeekGeneration == 0 ? nil : activeSeekGeneration
+    private func resetPlaybackDebugStallTracking() {}
+
+    private func emitPlaybackSignpostEvent(
+        _ kind: PlaybackSignpostKind,
+        fields: [(String, String)]
+    ) {
+        _ = kind
+        _ = fields
+    }
+
+    private func beginSeekSignpost(
+        source: String,
+        seekGeneration: UInt64,
+        targetSeconds: Double,
+        intent: SeekIntent,
+        resumeAfterSeek: Bool
+    ) {
+        _ = source
+        _ = seekGeneration
+        _ = targetSeconds
+        _ = intent
+        _ = resumeAfterSeek
+    }
+
+    private func endSeekSignpost(
+        source: String,
+        seekGeneration: UInt64,
+        finished: Bool,
+        shouldResumePlayback: Bool,
+        currentSeconds: Double
+    ) {
+        _ = source
+        _ = seekGeneration
+        _ = finished
+        _ = shouldResumePlayback
+        _ = currentSeconds
     }
 
     private func formatPlaybackSecondsForDebug(_ seconds: Double?) -> String? {
         guard let seconds, seconds.isFinite else { return nil }
         return String(format: "%.3f", seconds)
+    }
+
+    private func playbackSignpostLineSummary(_ line: DialogueLine) -> String {
+        let speaker = line.speaker.trimmingCharacters(in: .whitespacesAndNewlines)
+        return "#\(line.index)[\(line.id.uuidString.prefix(8))] spk='\(speaker)'"
     }
 
     private func formatTrackIDForDebug(_ trackID: CMPersistentTrackID?) -> String? {
@@ -837,6 +937,15 @@ final class EditorViewModel: ObservableObject {
         @unknown default:
             return "unknown"
         }
+    }
+
+    private func playbackDebugWaitingReason(_ reason: AVPlayer.WaitingReason?) -> String? {
+        reason?.rawValue
+    }
+
+    private func playbackDebugCurrentItemStatus(_ item: AVPlayerItem?) -> String? {
+        guard let item else { return nil }
+        return playbackDebugItemStatus(item.status)
     }
 
     private func playbackDebugItemStatus(_ status: AVPlayerItem.Status) -> String {
@@ -986,8 +1095,7 @@ final class EditorViewModel: ObservableObject {
     ) {
         playbackSourceTask?.cancel()
         audioMixTask?.cancel()
-        playerItemStatusObservation?.invalidate()
-        playerItemStatusObservation = nil
+        invalidatePlayerItemDebugObservations()
         videoLoadStartedAt = Date()
         lastVideoLoadDuration = nil
 
@@ -1000,6 +1108,18 @@ final class EditorViewModel: ObservableObject {
         let resumePlaybackAfterRestore = preserveCurrentPlaybackPosition && player.timeControlStatus == .playing
         let requestedVideoAudioVariant = videoAudioVariant ?? currentRequestedVideoAudioVariant()
         isPreparingChannelDerivedAudio = tracksChannelPreparationState && requestedVideoAudioVariant.requiresDerivedStem
+        logPlaybackDebugEvent(
+            "PLAYBACK_SOURCE_REBUILD_BEGIN",
+            source: "playback_source_request",
+            extraFields: [
+                ("videoAudioVariant", requestedVideoAudioVariant.rawValue),
+                ("preservePlaybackPosition", playbackDebugBoolean(preserveCurrentPlaybackPosition)),
+                ("resumeAfterRestore", playbackDebugBoolean(resumePlaybackAfterRestore)),
+                ("queueWaveformRebuild", playbackDebugBoolean(queueWaveformRebuild)),
+                ("fallbackWithoutExternalAudio", playbackDebugBoolean(fallbackWithoutExternalAudio)),
+                ("externalAudioRequested", playbackDebugBoolean(externalAudioURL != nil))
+            ]
+        )
 
         playbackSourceTask = Task { [weak self] in
             guard let self else { return }
@@ -1027,6 +1147,11 @@ final class EditorViewModel: ObservableObject {
                         resumePlaybackAfterRestore: resumePlaybackAfterRestore,
                         queueWaveformRebuild: queueWaveformRebuild
                     )
+                    self.logPlaybackDebugEvent(
+                        "PLAYBACK_SOURCE_REBUILD_END",
+                        source: "playback_source_request",
+                        extraFields: [("result", "success")]
+                    )
                 }
             } catch is CancellationError {
                 return
@@ -1036,6 +1161,14 @@ final class EditorViewModel: ObservableObject {
                     self.videoLoadStartedAt = nil
                     self.pendingPlaybackResumeAfterRestore = false
                     onFailure?()
+                    self.logPlaybackDebugEvent(
+                        "PLAYBACK_SOURCE_REBUILD_END",
+                        source: "playback_source_request",
+                        extraFields: [
+                            ("result", "failure"),
+                            ("error", (error as? LocalizedError)?.errorDescription ?? error.localizedDescription)
+                        ]
+                    )
                     self.alertMessage = "\(alertPrefix): \((error as? LocalizedError)?.errorDescription ?? error.localizedDescription)"
                 }
             }
@@ -1079,12 +1212,7 @@ final class EditorViewModel: ObservableObject {
     ) {
         let item = AVPlayerItem(asset: buildResult.composition)
         configurePlayerItemForSmoothPlayback(item)
-        playerItemStatusObservation = item.observe(\.status, options: [.initial, .new]) { [weak self] observedItem, _ in
-            Task { @MainActor in
-                guard let self else { return }
-                self.handleVideoItemStatusChange(observedItem)
-            }
-        }
+        installPlayerItemDebugObservations(for: item)
 
         self.videoURL = videoURL
         sourceExternalAudioURL = externalAudioURL
@@ -1096,6 +1224,7 @@ final class EditorViewModel: ObservableObject {
         pendingPlaybackRestoreTimelineSeconds = restoreTimelineSeconds
         pendingPlaybackResumeAfterRestore = resumePlaybackAfterRestore
         resetSeekPlaybackState()
+        resetPlaybackDebugStallTracking()
 
         logPlaybackDebugEvent(
             "PLAYER_ITEM_REPLACED",
@@ -1122,13 +1251,13 @@ final class EditorViewModel: ObservableObject {
         audioMixTask?.cancel()
         audioChannelDetectionTask?.cancel()
         videoFPSDetectionTask?.cancel()
-        playerItemStatusObservation?.invalidate()
-        playerItemStatusObservation = nil
+        invalidatePlayerItemDebugObservations()
         isPreparingChannelDerivedAudio = false
         videoLoadStartedAt = nil
         pendingPlaybackRestoreTimelineSeconds = nil
         pendingPlaybackResumeAfterRestore = false
         resetSeekPlaybackState()
+        resetPlaybackDebugStallTracking()
         videoURL = nil
         sourceExternalAudioURL = nil
         playbackSourceState = nil
@@ -1647,18 +1776,18 @@ final class EditorViewModel: ObservableObject {
         guard let index = indexOfLine(withID: lineID) else {
             return
         }
-        if let timecode = currentInsertionStartTimecode() {
-            lines[index].startTimecode = timecode
-        }
+        let timecode = currentInsertionStartTimecode()
+            ?? defaultPlaybackTimecodeString(hideFrames: false)
+        lines[index].startTimecode = timecode
     }
 
     func setEndFromCurrentTime(lineID: DialogueLine.ID) {
         guard let index = indexOfLine(withID: lineID) else {
             return
         }
-        if let timecode = currentPlaybackTimecodeString(hideFrames: false) {
-            lines[index].endTimecode = timecode
-        }
+        let timecode = currentPlaybackTimecodeString(hideFrames: false)
+            ?? defaultPlaybackTimecodeString(hideFrames: false)
+        lines[index].endTimecode = timecode
     }
 
     @discardableResult
@@ -1969,23 +2098,29 @@ final class EditorViewModel: ObservableObject {
 
     private func autoStartTimecodeForInsertedLine(in currentLines: [DialogueLine], insertionIndex: Int) -> String {
         guard !currentLines.isEmpty else {
-            return "00:00:"
+            return defaultPlaybackTimecodeString(hideFrames: false)
         }
 
         let previousIndex = min(max(0, insertionIndex - 1), currentLines.count - 1)
+        if let advanced = advancedInsertionTimecode(from: currentLines[previousIndex].startTimecode) {
+            return advanced
+        }
         if let prefix = hourMinutePrefix(from: currentLines[previousIndex].startTimecode) {
             return prefix
         }
 
         var scanIndex = previousIndex - 1
         while scanIndex >= 0 {
+            if let advanced = advancedInsertionTimecode(from: currentLines[scanIndex].startTimecode) {
+                return advanced
+            }
             if let prefix = hourMinutePrefix(from: currentLines[scanIndex].startTimecode) {
                 return prefix
             }
             scanIndex -= 1
         }
 
-        return "00:00:"
+        return defaultPlaybackTimecodeString(hideFrames: false)
     }
 
     func seekToCurrentSelection() {
@@ -2036,25 +2171,7 @@ final class EditorViewModel: ObservableObject {
         }
 
         if sanitizedSelectedIDs.count > 1 {
-            if
-                let selectedIsValid,
-                sanitizedSelectedIDs.contains(selectedIsValid),
-                let anchor = selectionAnchorLineID,
-                validIDs.contains(anchor),
-                anchor != selectedIsValid
-            {
-                return sanitizedSelectedIDs
-            }
-
-            if let selectedIsValid, sanitizedSelectedIDs.contains(selectedIsValid) {
-                return [selectedIsValid]
-            }
-            if let highlightedIsValid, sanitizedSelectedIDs.contains(highlightedIsValid) {
-                return [highlightedIsValid]
-            }
-            if let firstID = firstLineIDInCurrentOrder(from: sanitizedSelectedIDs) {
-                return [firstID]
-            }
+            return sanitizedSelectedIDs
         }
 
         if let selectedIsValid {
@@ -2107,6 +2224,42 @@ final class EditorViewModel: ObservableObject {
             alertMessage = String(format: String(localized: "alert.export_docx_done", bundle: .appBundle), draft.profile.displayName, draft.rows.count)
         } catch {
             alertMessage = String(format: String(localized: "alert.export_docx_failed", bundle: .appBundle), error.localizedDescription)
+        }
+    }
+
+    func requestExportNetflixExcelFlow() {
+        guard !lines.isEmpty else {
+            alertMessage = String(localized: "alert.nothing_to_export_no_lines", bundle: .appBundle)
+            return
+        }
+
+        let service = NetflixExcelService()
+        let draft = service.buildExportDraft(from: lines, fps: fps)
+        guard !draft.rows.isEmpty else {
+            alertMessage = String(localized: "alert.nothing_to_export_empty_lines", bundle: .appBundle)
+            return
+        }
+
+        let panel = NSSavePanel()
+        panel.allowedContentTypes = [UTType(filenameExtension: "xlsx")].compactMap { $0 }
+        panel.canCreateDirectories = true
+        panel.nameFieldStringValue = defaultNetflixExcelExportFilename()
+
+        guard panel.runModal() == .OK, let url = panel.url else {
+            return
+        }
+
+        do {
+            try service.exportXLSX(draft: draft, to: url)
+            alertMessage = String(
+                format: String(localized: "alert.export_excel_done", bundle: .appBundle),
+                draft.rows.count
+            )
+        } catch {
+            alertMessage = String(
+                format: String(localized: "alert.export_excel_failed", bundle: .appBundle),
+                error.localizedDescription
+            )
         }
     }
 
@@ -2273,6 +2426,10 @@ final class EditorViewModel: ObservableObject {
         return "\(documentTitle)\(suffix).docx"
     }
 
+    private func defaultNetflixExcelExportFilename() -> String {
+        "\(documentTitle)-netflix.xlsx"
+    }
+
     func promptExportSpeakerStatisticsCSV() {
         let panel = NSSavePanel()
         panel.allowedContentTypes = [UTType.commaSeparatedText]
@@ -2356,6 +2513,7 @@ final class EditorViewModel: ObservableObject {
                     guard self.activeProjectOperationID == operationID else { return }
                     self.currentProjectURL = destinationURL
                     self.addRecentProjectURL(destinationURL)
+                    self.projectWorkSession?.setHasTrackedContext(self.hasTrackedProjectContext)
                 }
             } catch {
                 await MainActor.run { [weak self] in
@@ -2382,6 +2540,7 @@ final class EditorViewModel: ObservableObject {
                     self.currentProjectURL = sourceURL
                     self.documentTitle = project.documentTitle
                     self.addRecentProjectURL(sourceURL)
+                    self.projectWorkSession?.setHasTrackedContext(self.hasTrackedProjectContext)
                     self.scheduleAutosave()
                 }
             } catch {
@@ -2408,12 +2567,22 @@ final class EditorViewModel: ObservableObject {
         }
     }
 
-    func promptImportVideo() {
+    func promptImportNetflixExcel() {
         let panel = NSOpenPanel()
         panel.allowedContentTypes = [
-            .mpeg4Movie,
-            .quickTimeMovie
-        ]
+            UTType(filenameExtension: "xlsx")
+        ].compactMap { $0 }
+        panel.allowsMultipleSelection = false
+        panel.canChooseDirectories = false
+
+        if panel.runModal() == .OK, let url = panel.url {
+            importNetflixExcel(from: url)
+        }
+    }
+
+    func promptImportVideo() {
+        let panel = NSOpenPanel()
+        panel.allowedContentTypes = Self.supportedVideoImportContentTypes
         panel.allowsMultipleSelection = false
         panel.canChooseDirectories = false
 
@@ -2588,6 +2757,31 @@ final class EditorViewModel: ObservableObject {
         seekToTimeline(seconds: selectedStart, source: "video_offset_apply")
     }
 
+    func applyVideoDrift(rawValue: String) {
+        let trimmed = rawValue.trimmingCharacters(in: .whitespacesAndNewlines)
+        if trimmed.isEmpty {
+            videoDriftSecondsPerHour = 0
+            return
+        }
+
+        let normalized = trimmed.replacingOccurrences(of: ",", with: ".")
+        guard let drift = Double(normalized), drift.isFinite else {
+            alertMessage = String(localized: "alert.invalid_video_drift", bundle: .appBundle)
+            return
+        }
+
+        videoDriftSecondsPerHour = drift
+
+        guard
+            let selectedLineID,
+            let selectedIndex = indexOfLine(withID: selectedLineID),
+            let selectedStart = TimecodeService.seconds(from: lines[selectedIndex].startTimecode, fps: fps)
+        else {
+            return
+        }
+        seekToTimeline(seconds: selectedStart, source: "video_drift_apply")
+    }
+
     func recordDevClickToFocus(milliseconds: Double, label: String) {
         guard isDevModeEnabled else { return }
         devInteractionMetrics.clickToFocusMilliseconds = milliseconds
@@ -2716,6 +2910,41 @@ final class EditorViewModel: ObservableObject {
         let analysis = Self.analyzeSpeakers(in: sourceLines ?? lines)
         speakerDatabase = analysis.statistics
         missingSpeakerCount = analysis.missingSpeakerCount
+    }
+
+    private func rebuildSpeakerDatabaseInBackground(from sourceLines: [DialogueLine]) {
+        speakerDatabaseRebuildTask?.cancel()
+        speakerDatabaseRebuildRevision &+= 1
+
+        guard !sourceLines.isEmpty else {
+            speakerDatabaseRebuildTask = nil
+            speakerDatabaseNeedsRefresh = false
+            speakerDatabase = []
+            missingSpeakerCount = 0
+            return
+        }
+
+        speakerDatabaseNeedsRefresh = true
+        speakerDatabase = []
+        missingSpeakerCount = 0
+
+        let revision = speakerDatabaseRebuildRevision
+        speakerDatabaseRebuildTask = Task { [weak self, sourceLines, revision] in
+            let analysis = await Task.detached(priority: .utility) {
+                Self.analyzeSpeakers(in: sourceLines)
+            }.value
+
+            guard !Task.isCancelled else { return }
+
+            await MainActor.run {
+                guard let self else { return }
+                guard revision == self.speakerDatabaseRebuildRevision else { return }
+                self.speakerDatabaseNeedsRefresh = false
+                self.speakerDatabase = analysis.statistics
+                self.missingSpeakerCount = analysis.missingSpeakerCount
+                self.speakerDatabaseRebuildTask = nil
+            }
+        }
     }
 
     private func scheduleSpeakerDatabaseRebuild() {
@@ -3342,14 +3571,39 @@ final class EditorViewModel: ObservableObject {
         let current = player.currentTime().seconds
         let isNearStart = current.isFinite && abs(current - replayStartPlaybackSeconds) <= 0.08
         let isPlaying = player.timeControlStatus == .playing
+        emitPlaybackSignpostEvent(
+            .replayRequest,
+            fields: [
+                ("line", playbackSignpostLineSummary(line)),
+                ("isNearStart", playbackDebugBoolean(isNearStart)),
+                ("isPlaying", playbackDebugBoolean(isPlaying)),
+                ("currentSeconds", formatPlaybackSecondsForDebug(current) ?? "<nil>"),
+                ("replayStartSeconds", formatPlaybackSecondsForDebug(replayStartPlaybackSeconds) ?? "<nil>")
+            ]
+        )
 
         if isNearStart && !isPlaying {
             logPlaybackDebugEvent("PLAY_REQUESTED", source: "replay")
+            emitPlaybackSignpostEvent(
+                .playbackPlay,
+                fields: [
+                    ("source", "replay"),
+                    ("mode", "immediate"),
+                    ("currentSeconds", formatPlaybackSecondsForDebug(current) ?? "<nil>")
+                ]
+            )
             player.play()
             return
         }
 
         logPlaybackDebugEvent("PAUSE_REQUESTED", source: "replay")
+        emitPlaybackSignpostEvent(
+            .playbackPause,
+            fields: [
+                ("source", "replay"),
+                ("currentSeconds", formatPlaybackSecondsForDebug(current) ?? "<nil>")
+            ]
+        )
         player.pause()
         seek(to: replayStartPlaybackSeconds, source: "replay")
     }
@@ -3475,6 +3729,13 @@ final class EditorViewModel: ObservableObject {
         if resumeAfterSeek || carryForwardResume {
             resumePlaybackAfterSeekGeneration = seekGeneration
         }
+        beginSeekSignpost(
+            source: source,
+            seekGeneration: seekGeneration,
+            targetSeconds: max(0, seconds),
+            intent: intent,
+            resumeAfterSeek: resumeAfterSeek || carryForwardResume
+        )
         logPlaybackDebugEvent(
             "SEEK_BEGIN",
             source: source,
@@ -3515,11 +3776,26 @@ final class EditorViewModel: ObservableObject {
                         ("willResumePlayback", self.playbackDebugBoolean(shouldResumePlayback))
                     ]
                 )
+                self.endSeekSignpost(
+                    source: source,
+                    seekGeneration: seekGeneration,
+                    finished: finished,
+                    shouldResumePlayback: shouldResumePlayback,
+                    currentSeconds: self.player.currentTime().seconds
+                )
 
                 completion?(finished)
 
                 if shouldResumePlayback {
                     self.logPlaybackDebugEvent("PLAY_REQUESTED", source: "\(source)_resume", seekGeneration: seekGeneration)
+                    self.emitPlaybackSignpostEvent(
+                        .playbackPlay,
+                        fields: [
+                            ("source", "\(source)_resume"),
+                            ("seekGeneration", String(seekGeneration)),
+                            ("currentSeconds", self.formatPlaybackSecondsForDebug(self.player.currentTime().seconds) ?? "<nil>")
+                        ]
+                    )
                     self.player.play()
                 }
             }
@@ -3586,6 +3862,7 @@ final class EditorViewModel: ObservableObject {
 
     private func installPlayerStateObservation() {
         playerTimeControlObservation?.invalidate()
+        playerWaitingReasonObservation?.invalidate()
         playerTimeControlObservation = player.observe(
             \.timeControlStatus,
             options: [.initial, .new]
@@ -3594,8 +3871,114 @@ final class EditorViewModel: ObservableObject {
                 guard let self else { return }
                 self.isPlaybackActive = player.timeControlStatus == .playing
                 self.logPlaybackDebugEvent("PLAYER_TIME_CONTROL_CHANGED", source: "kvo")
+                self.evaluatePlaybackDebugStallState(trigger: "time_control_kvo")
             }
         }
+        playerWaitingReasonObservation = player.observe(
+            \.reasonForWaitingToPlay,
+            options: [.initial, .new]
+        ) { [weak self] player, _ in
+            Task { @MainActor [weak self] in
+                guard let self else { return }
+                self.logPlaybackDebugEvent(
+                    "PLAYER_WAITING_REASON_CHANGED",
+                    source: "kvo",
+                    extraFields: [("waitingReason", self.playbackDebugWaitingReason(player.reasonForWaitingToPlay))]
+                )
+                self.evaluatePlaybackDebugStallState(trigger: "waiting_reason_kvo")
+            }
+        }
+    }
+
+    private func installPlayerItemDebugObservations(for item: AVPlayerItem) {
+        invalidatePlayerItemDebugObservations()
+        playerItemStatusObservation = item.observe(\.status, options: [.initial, .new]) { [weak self] observedItem, _ in
+            Task { @MainActor in
+                guard let self else { return }
+                self.handleVideoItemStatusChange(observedItem)
+                self.evaluatePlaybackDebugStallState(trigger: "item_status_kvo")
+            }
+        }
+        playerItemBufferEmptyObservation = item.observe(\.isPlaybackBufferEmpty, options: [.initial, .new]) { [weak self] observedItem, _ in
+            Task { @MainActor in
+                guard let self else { return }
+                self.logPlaybackDebugEvent(
+                    "PLAYER_ITEM_BUFFER_STATE_CHANGED",
+                    source: "item_kvo",
+                    itemOverride: observedItem,
+                    extraFields: [
+                        ("trigger", "buffer_empty"),
+                        ("bufferEmpty", self.playbackDebugBoolean(observedItem.isPlaybackBufferEmpty)),
+                        ("bufferFull", self.playbackDebugBoolean(observedItem.isPlaybackBufferFull)),
+                        ("likelyToKeepUp", self.playbackDebugBoolean(observedItem.isPlaybackLikelyToKeepUp))
+                    ]
+                )
+                self.evaluatePlaybackDebugStallState(trigger: "buffer_empty_kvo")
+            }
+        }
+        playerItemBufferFullObservation = item.observe(\.isPlaybackBufferFull, options: [.new]) { [weak self] observedItem, _ in
+            Task { @MainActor in
+                guard let self else { return }
+                self.logPlaybackDebugEvent(
+                    "PLAYER_ITEM_BUFFER_STATE_CHANGED",
+                    source: "item_kvo",
+                    itemOverride: observedItem,
+                    extraFields: [
+                        ("trigger", "buffer_full"),
+                        ("bufferEmpty", self.playbackDebugBoolean(observedItem.isPlaybackBufferEmpty)),
+                        ("bufferFull", self.playbackDebugBoolean(observedItem.isPlaybackBufferFull)),
+                        ("likelyToKeepUp", self.playbackDebugBoolean(observedItem.isPlaybackLikelyToKeepUp))
+                    ]
+                )
+                self.evaluatePlaybackDebugStallState(trigger: "buffer_full_kvo")
+            }
+        }
+        playerItemLikelyToKeepUpObservation = item.observe(\.isPlaybackLikelyToKeepUp, options: [.new]) { [weak self] observedItem, _ in
+            Task { @MainActor in
+                guard let self else { return }
+                self.logPlaybackDebugEvent(
+                    "PLAYER_ITEM_BUFFER_STATE_CHANGED",
+                    source: "item_kvo",
+                    itemOverride: observedItem,
+                    extraFields: [
+                        ("trigger", "likely_to_keep_up"),
+                        ("bufferEmpty", self.playbackDebugBoolean(observedItem.isPlaybackBufferEmpty)),
+                        ("bufferFull", self.playbackDebugBoolean(observedItem.isPlaybackBufferFull)),
+                        ("likelyToKeepUp", self.playbackDebugBoolean(observedItem.isPlaybackLikelyToKeepUp))
+                    ]
+                )
+                self.evaluatePlaybackDebugStallState(trigger: "likely_to_keep_up_kvo")
+            }
+        }
+    }
+
+    private func invalidatePlayerItemDebugObservations() {
+        playerItemStatusObservation?.invalidate()
+        playerItemStatusObservation = nil
+        playerItemBufferEmptyObservation?.invalidate()
+        playerItemBufferEmptyObservation = nil
+        playerItemBufferFullObservation?.invalidate()
+        playerItemBufferFullObservation = nil
+        playerItemLikelyToKeepUpObservation?.invalidate()
+        playerItemLikelyToKeepUpObservation = nil
+    }
+
+    private func updatePlaybackDebugInstrumentationState() {
+        // Playback investigation cleanup: keep Developer Mode for editor diagnostics,
+        // but remove the temporary playback hitch/stall monitors.
+    }
+
+    private func evaluateMainThreadHitch() {
+        // Intentionally left blank after playback investigation cleanup.
+    }
+
+    private func evaluatePlaybackDebugStallState(trigger: String) {
+        _ = trigger
+    }
+
+    private func endPlaybackDebugStallIfNeeded(trigger: String, result: String) {
+        _ = trigger
+        _ = result
     }
 
     private static func sanitizePlaybackSeekStepSeconds(_ value: Double) -> Double {
@@ -3615,6 +3998,17 @@ final class EditorViewModel: ObservableObject {
         return max(minVideoOffsetSeconds, min(maxVideoOffsetSeconds, value))
     }
 
+    private static func sanitizeVideoDriftSecondsPerHour(_ value: Double) -> Double {
+        guard value.isFinite else {
+            return 0
+        }
+        return max(minVideoDriftSecondsPerHour, min(maxVideoDriftSecondsPerHour, value))
+    }
+
+    private var videoDriftPlaybackScale: Double {
+        max(0.001, 1 + videoDriftSecondsPerHour / 3600)
+    }
+
     private static func sanitizeReplicaTextFontSize(_ value: Double) -> Double {
         guard value.isFinite else {
             return defaultReplicaTextFontSize
@@ -3624,12 +4018,12 @@ final class EditorViewModel: ObservableObject {
 
     func playbackSeconds(fromTimelineSeconds seconds: Double) -> Double {
         let timeline = max(0, seconds.isFinite ? seconds : 0)
-        return max(0, timeline + videoOffsetSeconds)
+        return max(0, timeline * videoDriftPlaybackScale + videoOffsetSeconds)
     }
 
     func timelineSeconds(fromPlaybackSeconds seconds: Double) -> Double {
         let playback = max(0, seconds.isFinite ? seconds : 0)
-        return max(0, playback - videoOffsetSeconds)
+        return max(0, (playback - videoOffsetSeconds) / videoDriftPlaybackScale)
     }
 
     func currentInsertionStartTimecode(playbackSecondsOverride: Double? = nil) -> String? {
@@ -3637,6 +4031,20 @@ final class EditorViewModel: ObservableObject {
             hideFrames: false,
             playbackSecondsOverride: playbackSecondsOverride
         )
+    }
+
+    private func defaultPlaybackTimecodeString(hideFrames: Bool) -> String {
+        if hideFrames {
+            return TimecodeService.timecodeWithoutFrames(from: 0)
+        }
+        return TimecodeService.timecode(from: 0, fps: fps)
+    }
+
+    private func advancedInsertionTimecode(from rawTimecode: String) -> String? {
+        guard let seconds = TimecodeService.seconds(from: rawTimecode, fps: fps) else {
+            return nil
+        }
+        return TimecodeService.timecode(from: seconds + 5, fps: fps)
     }
 
     private func currentLoopRange() -> ClosedRange<Double>? {
@@ -3850,7 +4258,7 @@ final class EditorViewModel: ObservableObject {
         documentTitle = project.documentTitle
         fps = Self.sanitizedFPS(project.fps)
         lines = project.lines
-        rebuildSpeakerDatabase(from: project.lines)
+        rebuildSpeakerDatabaseInBackground(from: project.lines)
 
         if let savedSelection = project.selectedLineID, indexOfLine(withID: savedSelection) != nil {
             selectedLineID = savedSelection
@@ -3911,6 +4319,7 @@ final class EditorViewModel: ObservableObject {
 
         resetHistory(with: lines)
         markAutosaveStateAsClean()
+        projectWorkSession?.restorePersistedSeconds(project.workedTimeSeconds, hasTrackedContext: hasTrackedProjectContext)
     }
 
     private func apply(snapshot: AutosaveSnapshot) {
@@ -3918,7 +4327,7 @@ final class EditorViewModel: ObservableObject {
         documentTitle = snapshot.documentTitle
         fps = Self.sanitizedFPS(snapshot.fps)
         lines = snapshot.lines
-        rebuildSpeakerDatabase(from: snapshot.lines)
+        rebuildSpeakerDatabaseInBackground(from: snapshot.lines)
 
         if let savedSelection = snapshot.selectedLineID, indexOfLine(withID: savedSelection) != nil {
             selectedLineID = savedSelection
@@ -3985,6 +4394,7 @@ final class EditorViewModel: ObservableObject {
         resetHistory(with: lines)
         markAutosaveStateAsClean()
         lastAutosaveDate = snapshot.savedAt
+        projectWorkSession?.restorePersistedSeconds(snapshot.workedTimeSeconds, hasTrackedContext: hasTrackedProjectContext)
     }
 
     private func scheduleAutosave(immediate: Bool = false) {
@@ -4045,6 +4455,7 @@ final class EditorViewModel: ObservableObject {
             sourceWordPath: sourceWordURL?.path,
             sourceVideoPath: videoURL?.path,
             sourceExternalAudioPath: sourceExternalAudioURL?.path,
+            workedTimeSeconds: currentTrackedProjectWorkSeconds(),
             muteVideoAudio: isVideoAudioMuted,
             muteExternalAudio: isExternalAudioMuted,
             speakerColorOverridesByKey: speakerColorOverridesByKey.isEmpty ? nil : speakerColorOverridesByKey
@@ -4059,6 +4470,7 @@ final class EditorViewModel: ObservableObject {
             selectedLineID: selectedLineID,
             highlightedLineID: highlightedLineID,
             playbackPositionSeconds: currentTimelinePlaybackSeconds(),
+            workedTimeSeconds: currentTrackedProjectWorkSeconds(),
             sourceWordPath: sourceWordURL?.path,
             sourceVideoPath: videoURL?.path,
             sourceExternalAudioPath: sourceExternalAudioURL?.path,
@@ -4152,6 +4564,19 @@ final class EditorViewModel: ObservableObject {
         lastAutosavedRevision = autosaveRevision
     }
 
+    var hasTrackedProjectContext: Bool {
+        currentProjectURL != nil ||
+            sourceWordURL != nil ||
+            videoURL != nil ||
+            !lines.isEmpty
+    }
+
+    private func currentTrackedProjectWorkSeconds(at now: Date = Date()) -> Double? {
+        guard let projectWorkSession else { return nil }
+        let seconds = projectWorkSession.currentTrackedSeconds(at: now)
+        return seconds > 0 ? seconds : (hasTrackedProjectContext ? 0 : nil)
+    }
+
     private func buildProjectSettingsSnapshot() -> DubbingProjectSettings {
         DubbingProjectSettings(
             shortcuts: currentShortcutSettings(),
@@ -4169,6 +4594,7 @@ final class EditorViewModel: ObservableObject {
             playbackSeekStepSeconds: playbackSeekStepSeconds,
             isReplayPrerollEnabled: isReplayPrerollEnabled,
             videoOffsetSeconds: videoOffsetSeconds,
+            videoDriftSecondsPerHour: videoDriftSecondsPerHour,
             muteLeftChannel: isLeftChannelMuted,
             muteRightChannel: isRightChannelMuted,
             muteVideoAudio: isVideoAudioMuted,
@@ -4319,6 +4745,9 @@ final class EditorViewModel: ObservableObject {
         if let videoOffsetSeconds = projectSettings.videoOffsetSeconds {
             self.videoOffsetSeconds = videoOffsetSeconds
         }
+        if let videoDriftSecondsPerHour = projectSettings.videoDriftSecondsPerHour {
+            self.videoDriftSecondsPerHour = videoDriftSecondsPerHour
+        }
         if let muteLeftChannel = projectSettings.muteLeftChannel {
             isLeftChannelMuted = muteLeftChannel
         }
@@ -4355,10 +4784,26 @@ final class EditorViewModel: ObservableObject {
         forceRebuild: Bool
     ) async {
         isBuildingWaveform = true
+        logPlaybackDebugEvent(
+            "WAVEFORM_BUILD_BEGIN",
+            source: "waveform",
+            extraFields: [
+                ("forceRebuild", playbackDebugBoolean(forceRebuild)),
+                ("hasExternalAudio", playbackDebugBoolean(externalAudioURL != nil))
+            ]
+        )
         waveformLoadSource = nil
         externalWaveformLoadSource = nil
         let startedAt = Date()
-        defer { isBuildingWaveform = false }
+        defer {
+            let duration = Date().timeIntervalSince(startedAt)
+            logPlaybackDebugEvent(
+                "WAVEFORM_BUILD_END",
+                source: "waveform",
+                extraFields: [("durationMs", String(Int((duration * 1000).rounded())))]
+            )
+            isBuildingWaveform = false
+        }
 
         let sampleCount = isLightModeEnabled ? 60_000 : 240_000
         var firstErrorMessage: String?
@@ -4694,7 +5139,18 @@ final class EditorViewModel: ObservableObject {
 
     private static func closestFPSPreset(for value: Double) -> FPSPreset? {
         let sanitized = sanitizedFPS(value)
-        return FPSPreset.allCases.first { abs($0.value - sanitized) <= fpsPresetSnapTolerance }
+        return FPSPreset.allCases
+            .map { preset in
+                (preset: preset, distance: abs(preset.value - sanitized))
+            }
+            .filter { $0.distance <= fpsPresetSnapTolerance }
+            .min { lhs, rhs in
+                if abs(lhs.distance - rhs.distance) <= 0.000_001 {
+                    return lhs.preset.value < rhs.preset.value
+                }
+                return lhs.distance < rhs.distance
+            }?
+            .preset
     }
 
     private static func normalizedDetectedFPS(_ value: Double) -> Double {
